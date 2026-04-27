@@ -1,16 +1,16 @@
 import { Link, NavLink } from "react-router-dom";
-import { ShoppingBag, Leaf } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.jpeg";
 
 export const SiteHeader = () => {
   const { count, setOpen } = useCart();
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="container-narrow flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Leaf className="h-5 w-5 text-moss" strokeWidth={1.5} />
-          <span className="font-display text-2xl tracking-wide text-moss-deep">Verda</span>
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
+      <div className="container-narrow flex h-20 items-center justify-between">
+        <Link to="/" className="flex items-center gap-3" aria-label="Healthy Life Essentials & Wellness Herbals — Home">
+          <img src={logo} alt="Healthy Life Essentials & Wellness Herbals logo" className="h-12 w-auto md:h-14" />
         </Link>
         <nav className="hidden items-center gap-8 text-sm md:flex">
           {[
