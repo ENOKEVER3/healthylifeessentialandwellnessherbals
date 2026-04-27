@@ -3,7 +3,10 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import { Minus, Plus, ArrowLeft, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductReviews } from "@/components/ProductReviews";
+import { Stars } from "@/components/Stars";
 import { getProduct, products } from "@/data/products";
+import { getReviewSummary } from "@/data/reviews";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
@@ -16,6 +19,7 @@ const ProductDetail = () => {
   if (!product) return <Navigate to="/shop" replace />;
 
   const others = products.filter((p) => p.id !== product.id).slice(0, 3);
+  const summary = getReviewSummary(product.slug);
 
   return (
     <main className="container-narrow py-12 md:py-16">
@@ -40,6 +44,16 @@ const ProductDetail = () => {
             {product.name}
           </h1>
           <p className="mt-3 text-lg text-muted-foreground">{product.tagline}</p>
+          {summary.count > 0 && (
+            <a
+              href="#reviews"
+              className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-moss"
+            >
+              <Stars value={summary.average} />
+              <span className="tabular-nums">{summary.average.toFixed(1)}</span>
+              <span className="opacity-70">· {summary.count} reviews</span>
+            </a>
+          )}
           <p className="mt-6 font-display text-3xl text-moss-deep">${product.price}</p>
 
           <p className="mt-7 text-base leading-relaxed text-foreground/80">{product.description}</p>
@@ -91,6 +105,10 @@ const ProductDetail = () => {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div id="reviews">
+        <ProductReviews slug={product.slug} />
       </div>
 
       <section className="mt-28">
