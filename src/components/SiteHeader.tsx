@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/logo.png";
 
 export const SiteHeader = () => {
   const { count, setOpen } = useCart();

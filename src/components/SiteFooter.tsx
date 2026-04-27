@@ -1,4 +1,4 @@
-import logo from "@/assets/logo.jpeg";
+import logo from "@/assets/logo.png";
 
 export const SiteFooter = () => (
   <footer className="mt-24 border-t border-border/60 bg-cream/40">
