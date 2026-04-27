@@ -82,16 +82,16 @@ const Checkout = () => {
               <span className="text-muted-foreground">Inbox · {snapshot.date}</span>
             </div>
             <div className="border-b border-border bg-background px-6 py-4 text-sm">
-              <p><span className="text-muted-foreground">From:</span> Verda Apothecary &lt;orders@verda.co&gt;</p>
+              <p><span className="text-muted-foreground">From:</span> Healthy Life Essentials &lt;orders@healthylifeessentials.co&gt;</p>
               <p><span className="text-muted-foreground">To:</span> {snapshot.email}</p>
-              <p><span className="text-muted-foreground">Subject:</span> Your Verda order {snapshot.orderNumber} is confirmed</p>
+              <p><span className="text-muted-foreground">Subject:</span> Your order {snapshot.orderNumber} is confirmed</p>
             </div>
 
             {/* Email body */}
             <div className="bg-background px-7 py-10 md:px-10 md:py-12">
               <div className="mb-6 flex items-center gap-2">
                 <Leaf className="h-4 w-4 text-moss" strokeWidth={1.5} />
-                <span className="font-display text-xl tracking-wide text-moss-deep">Verda</span>
+                <span className="font-display text-xl tracking-wide text-moss-deep">Healthy Life Essentials & Wellness Herbals</span>
               </div>
               <h2 className="font-display text-3xl text-moss-deep">Thank you, {snapshot.name}.</h2>
               <p className="mt-3 text-sm leading-relaxed text-foreground/80">
@@ -141,11 +141,11 @@ const Checkout = () => {
 
               <p className="mt-10 text-sm leading-relaxed text-foreground/80">
                 With gratitude,<br />
-                <span className="font-display text-base text-moss-deep">Iona & the Verda team</span>
+                <span className="font-display text-base text-moss-deep">The Healthy Life Essentials team</span>
               </p>
 
               <p className="mt-8 border-t border-border pt-5 text-[11px] leading-relaxed text-muted-foreground">
-                Verda Apothecary · Made by hand in the foothills.<br />
+                Healthy Life Essentials & Wellness Herbals · Made with care.<br />
                 This is a demo email preview — no real message has been sent.
               </p>
             </div>

@@ -9,9 +9,9 @@ const About = () => (
           A practice of patience, written in plants.
         </h1>
         <p className="mt-8 text-lg leading-relaxed text-muted-foreground">
-          Verda began as a row of glass jars on a kitchen windowsill. A decade later,
-          we still formulate every remedy by hand — distilling, decanting, and labeling
-          in the same small studio above the garden.
+          Healthy Life Essentials & Wellness Herbals began as a row of glass jars on a kitchen
+          windowsill. Today, we still formulate every remedy by hand — distilling, decanting,
+          and labeling in the same small studio above the garden.
         </p>
       </div>
     </section>
