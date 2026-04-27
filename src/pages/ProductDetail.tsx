@@ -3,7 +3,10 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import { Minus, Plus, ArrowLeft, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductReviews } from "@/components/ProductReviews";
+import { Stars } from "@/components/Stars";
 import { getProduct, products } from "@/data/products";
+import { getReviewSummary } from "@/data/reviews";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
