@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductReviews } from "@/components/ProductReviews";
 import { Stars } from "@/components/Stars";
-import { getProduct, products } from "@/data/products";
+import { formatNGN, getProduct, products } from "@/data/products";
 import { getReviewSummary } from "@/data/reviews";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
@@ -54,7 +54,12 @@ const ProductDetail = () => {
               <span className="opacity-70">· {summary.count} reviews</span>
             </a>
           )}
-          <p className="mt-6 font-display text-3xl text-moss-deep">${product.price}</p>
+          <p className="mt-6 flex items-baseline gap-3">
+            <span className="font-display text-3xl text-moss-deep">{formatNGN(product.price)}</span>
+            {product.oldPrice && (
+              <span className="text-base text-muted-foreground line-through">{formatNGN(product.oldPrice)}</span>
+            )}
+          </p>
 
           <p className="mt-7 text-base leading-relaxed text-foreground/80">{product.description}</p>
 
@@ -101,7 +106,7 @@ const ProductDetail = () => {
               }}
               className="flex-1 bg-moss text-primary-foreground hover:bg-moss-deep"
             >
-              Add to basket — ${product.price * qty}
+              Add to basket — {formatNGN(product.price * qty)}
             </Button>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { Minus, Plus, X, ShoppingBag } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
+import { formatNGN } from "@/data/products";
 
 export const CartDrawer = () => {
   const { isOpen, setOpen, detailedItems, subtotal, setQty, remove, count } = useCart();
@@ -73,7 +74,7 @@ export const CartDrawer = () => {
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
-                      <p className="font-display text-base text-moss-deep">${lineTotal}</p>
+                      <p className="font-display text-base text-moss-deep">{formatNGN(lineTotal)}</p>
                     </div>
                   </div>
                 </div>
@@ -83,9 +84,9 @@ export const CartDrawer = () => {
             <SheetFooter className="border-t border-border pt-5 sm:flex-col sm:space-x-0">
               <div className="mb-4 flex items-baseline justify-between">
                 <span className="text-sm uppercase tracking-[0.18em] text-muted-foreground">Subtotal</span>
-                <span className="font-display text-2xl text-moss-deep">${subtotal}</span>
+                <span className="font-display text-2xl text-moss-deep">{formatNGN(subtotal)}</span>
               </div>
-              <p className="mb-4 text-xs text-muted-foreground">Shipping calculated at checkout. Complimentary over $60.</p>
+              <p className="mb-4 text-xs text-muted-foreground">Shipping calculated at checkout. Complimentary over NGN 50,000.</p>
               <Button asChild size="lg" className="w-full bg-moss text-primary-foreground hover:bg-moss-deep">
                 <Link to="/checkout" onClick={() => setOpen(false)}>Proceed to checkout</Link>
               </Button>
