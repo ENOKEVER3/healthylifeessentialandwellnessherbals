@@ -1,11 +1,13 @@
+import logo from "@/assets/logo.jpeg";
+
 export const SiteFooter = () => (
   <footer className="mt-24 border-t border-border/60 bg-cream/40">
     <div className="container-narrow grid gap-10 py-14 md:grid-cols-4">
       <div className="md:col-span-2">
-        <p className="font-display text-2xl text-moss-deep">Verda</p>
-        <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-          Small-batch herbal remedies, hand-formulated in the foothills. Wild-grown,
-          slowly made, and shipped in compostable packaging.
+        <img src={logo} alt="Healthy Life Essentials & Wellness Herbals" className="h-14 w-auto" />
+        <p className="mt-4 max-w-sm text-sm text-muted-foreground">
+          Small-batch herbal remedies, hand-formulated for everyday wellness.
+          Plant-grown, slowly made, and shipped in compostable packaging.
         </p>
       </div>
       <div>
@@ -22,7 +24,7 @@ export const SiteFooter = () => (
       </div>
     </div>
     <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-      © {new Date().getFullYear()} Verda Apothecary. Made with intention.
+      © {new Date().getFullYear()} Healthy Life Essentials & Wellness Herbals. Made with intention.
     </div>
   </footer>
 );
