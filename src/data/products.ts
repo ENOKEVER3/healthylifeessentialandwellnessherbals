@@ -1,10 +1,14 @@
-import darkThighs from "@/assets/p-dark-thighs.jpg";
+import darkThighsKit from "@/assets/p-dark-thighs-kit.jpeg";
 import wartsKit from "@/assets/p-warts-kit.jpg";
-import feminineTea from "@/assets/p-feminine-tea.jpg";
-import wombTea from "@/assets/p-womb-tea.jpg";
-import spearmint from "@/assets/p-spearmint.jpg";
-import infectionTea from "@/assets/p-infection-tea.jpg";
-import infectionCaps from "@/assets/p-infection-caps.jpg";
+import hormonalTea from "@/assets/p-hormonal-imbalance-tea.jpeg";
+import hormonalTeabags from "@/assets/p-hormonal-imbalance-teabags.jpeg";
+import spearmintCaps from "@/assets/p-spearmint-capsule.jpeg";
+import pidKit from "@/assets/p-pid-kit.jpeg";
+import rheumatismTea from "@/assets/p-rheumatism-tea.jpeg";
+import diabetesTea from "@/assets/p-diabetes-tea.jpeg";
+import hypertensionTea from "@/assets/p-hypertension-tea.jpeg";
+import cookieCleanser from "@/assets/p-cookie-cleanser.jpeg";
+import infectionCaps from "@/assets/p-infection-flusher-caps.jpeg";
 import boric from "@/assets/p-boric.jpg";
 import libido from "@/assets/p-libido.jpg";
 import flusherLiquid from "@/assets/p-flusher-liquid.jpg";
@@ -16,10 +20,10 @@ export type Product = {
   slug: string;
   name: string;
   tagline: string;
-  price: number;       // current NGN price
-  oldPrice?: number;   // strike-through NGN price
-  category: string;    // sub-category label
-  group: ProductGroup; // top-level shop group
+  price: number;
+  oldPrice?: number;
+  category: string;
+  group: ProductGroup;
   image: string;
   ingredients: string[];
   description: string;
@@ -29,21 +33,161 @@ export type Product = {
 export const products: Product[] = [
   {
     id: "1",
-    slug: "dark-thighs-kit",
-    name: "Dark Thighs Kit",
-    tagline: "Exfoliate · brighten · soothe",
-    price: 15000,
-    oldPrice: 20000,
-    category: "Body Care",
-    group: "Skin Care",
-    image: darkThighs,
-    ingredients: ["Exfoliating herbal serum", "Botanical cleansing bar", "Plant butters"],
+    slug: "hormonal-imbalance-tea",
+    name: "Hormonal Imbalance Tea",
+    tagline: "Cycle · fertility · PMS relief",
+    price: 18000,
+    oldPrice: 22000,
+    category: "Teas",
+    group: "Herbals",
+    image: hormonalTea,
+    ingredients: ["Chasteberry", "Red raspberry leaf", "Dong quai", "Ginger root"],
     description:
-      "A complete after-shave and bumps removal kit formulated to gently brighten dark inner thighs, underarms and bikini area. Plant-based actives soften pigmentation and calm shaving irritation without harshness.",
-    ritual: "Cleanse with the bar in the shower, pat dry, and massage 4–5 drops of the serum into the area morning and night.",
+      "A 500g pouch of our signature herbal blend that helps regulate the menstrual cycle, ease cramps and PMS, support fertility and ovulation, and naturally balance estrogen and progesterone.",
+    ritual: "Add 1 spoon to hot water with pap or as tea once daily. Use consistently for best results.",
   },
   {
     id: "2",
+    slug: "hormonal-imbalance-teabags",
+    name: "Hormonal Imbalance Teabags",
+    tagline: "Convenient hormone support",
+    price: 13000,
+    oldPrice: 15000,
+    category: "Teas",
+    group: "Herbals",
+    image: hormonalTeabags,
+    ingredients: ["Chasteberry", "Raspberry leaf", "Dong quai", "Ginger"],
+    description:
+      "The same trusted Hormonal Imbalance formula in pre-portioned teabags — for easy daily support of menstrual regularity, fertility, and hormonal harmony.",
+    ritual: "Steep 1 teabag in hot water for 6–8 minutes. Drink once daily.",
+  },
+  {
+    id: "3",
+    slug: "spearmint-hormone-balanced-capsule",
+    name: "Spearmint Hormone Balanced Capsule",
+    tagline: "PCOS · acne · facial hair",
+    price: 15000,
+    oldPrice: 18000,
+    category: "Capsules",
+    group: "Supplements",
+    image: spearmintCaps,
+    ingredients: ["Concentrated wild spearmint extract"],
+    description:
+      "60 herbal capsules formulated to support PCOS, eliminate hormonal acne, reduce androgens and hirsutism, regulate the menstrual cycle and mood, and improve digestion. Antioxidant and anti-inflammatory.",
+    ritual: "Take 2 capsules in the morning and 2 at night with water.",
+  },
+  {
+    id: "4",
+    slug: "pid-treatment-kit",
+    name: "PID Pelvic Inflammatory Disease Treatment Kit",
+    tagline: "Complete 4-step protocol",
+    price: 65000,
+    oldPrice: 75000,
+    category: "Wellness Kits",
+    group: "Herbals",
+    image: pidKit,
+    ingredients: [
+      "Feminine Wellness Tea",
+      "Herbal Infection Flusher Capsules",
+      "Herbal Infection Flusher Drink (1.2L)",
+      "Boric Acid Vaginal Suppositories",
+    ],
+    description:
+      "A complete doctor-formulated kit for Pelvic Inflammatory Disease — combines our wellness tea, detoxifying capsules, flusher drink, and boric acid suppositories for full-spectrum reproductive cleansing and recovery.",
+    ritual: "Follow the included protocol card. Full cycle is 21–28 days.",
+  },
+  {
+    id: "5",
+    slug: "anti-rheumatism-arthritis-tea",
+    name: "Anti-Rheumatism & Arthritis Support Tea",
+    tagline: "Joint · circulation · relief",
+    price: 14000,
+    oldPrice: 16000,
+    category: "Teas",
+    group: "Herbals",
+    image: rheumatismTea,
+    ingredients: ["Spearmint", "Turmeric", "Ginger", "Devil's claw"],
+    description:
+      "30 teabags (40g) of an organic herbal blend supporting rheumatism and arthritis care, healthy joints, and easy blood flow.",
+    ritual: "Boil 1 teabag in a cup of hot water for 5 min, allow to cool. Take 2 teabags daily — first thing in the morning and last thing at night.",
+  },
+  {
+    id: "6",
+    slug: "anti-diabetes-herbal-tea",
+    name: "Anti-Diabetes Herbal Tea",
+    tagline: "Blood sugar · insulin support",
+    price: 14000,
+    oldPrice: 16000,
+    category: "Teas",
+    group: "Herbals",
+    image: diabetesTea,
+    ingredients: ["Bitter leaf", "Moringa", "Cinnamon", "Spearmint"],
+    description:
+      "30 teabags (40g) supporting healthy blood sugar regulation, enhancing insulin action, and ameliorating insulin resistance through gentle daily use.",
+    ritual: "Boil 1 teabag in a cup of hot water for 5 min. Drink 2 teabags daily — morning and night.",
+  },
+  {
+    id: "7",
+    slug: "anti-hypertension-regulating-tea",
+    name: "Anti-Hypertension Regulating Tea",
+    tagline: "Blood pressure balance",
+    price: 14000,
+    oldPrice: 16000,
+    category: "Teas",
+    group: "Herbals",
+    image: hypertensionTea,
+    ingredients: ["Hibiscus", "Olive leaf", "Hawthorn", "Garlic extract"],
+    description:
+      "30 teabags (40g) that help lower high blood pressure to a normal range, normalize blood pressure, and reduce the risks and complications of hypertension.",
+    ritual: "Boil 1 teabag in a cup of hot water for 5 min. Take 2 teabags daily, morning and night.",
+  },
+  {
+    id: "8",
+    slug: "cookie-cleanser-feminine-wash",
+    name: "Cookie Cleanser Feminine Wash",
+    tagline: "pH-balanced · plant-based",
+    price: 9000,
+    oldPrice: 11000,
+    category: "Feminine Care",
+    group: "Skin Care",
+    image: cookieCleanser,
+    ingredients: ["Plant-based foaming base", "Soothing botanical extracts"],
+    description:
+      "150ml non-irritating, pH-balanced foaming wash for the vulva. Vegan and made for daily gentle feminine cleansing.",
+    ritual: "Pump a small amount onto wet skin externally, lather, rinse thoroughly. Use daily.",
+  },
+  {
+    id: "9",
+    slug: "herbal-infection-flusher-capsules",
+    name: "Herbal Infection Flusher & Detoxifying Capsules",
+    tagline: "For both genders",
+    price: 18000,
+    oldPrice: 22000,
+    category: "Capsules",
+    group: "Supplements",
+    image: infectionCaps,
+    ingredients: ["Bitter leaf", "Goldenseal", "Echinacea", "Garlic extract"],
+    description:
+      "60 vegan capsules that flush chronic infections, candida, UTIs and STIs while supporting full-body detox. Suitable for men and women.",
+    ritual: "Take 2 capsules twice daily after meals with a full glass of water for 14–21 days.",
+  },
+  {
+    id: "10",
+    slug: "dark-thighs-kit",
+    name: "Dark Thigh, After Shave & Bumps Removal Kit",
+    tagline: "Exfoliate · brighten · soothe",
+    price: 16000,
+    oldPrice: 20000,
+    category: "Body Care",
+    group: "Skin Care",
+    image: darkThighsKit,
+    ingredients: ["Exfoliating Herbal Soap (100ml)", "Dark Area Kitty Oil (50ml)"],
+    description:
+      "A two-step kit for dark inner thighs, dark armpits, dark butt, ingrown hairs and discoloration. Clears razor bumps, prevents ingrowns, and brightens dark marks. For both masculine and feminine care.",
+    ritual: "Cleanse with the herbal soap in the shower, pat dry, then massage 4–5 drops of Dark Area Kitty Oil into the area morning and night.",
+  },
+  {
+    id: "11",
     slug: "genital-warts-herpes-kit",
     name: "Genital Warts & Herpes Kit",
     tagline: "Herbal antiviral support",
@@ -54,86 +198,11 @@ export const products: Product[] = [
     image: wartsKit,
     ingredients: ["Antiviral herbal capsules", "Topical botanical solution", "Immune-support blend"],
     description:
-      "A discreet, doctor-formulated kit that pairs internal antiviral herbal capsules with a topical botanical solution to support the body’s response to genital warts and herpes outbreaks.",
+      "Discreet kit pairing internal antiviral herbal capsules with a topical botanical solution to support the body's response to genital warts and herpes outbreaks.",
     ritual: "Take capsules twice daily after meals and apply the topical solution morning and night for the recommended cycle.",
   },
   {
-    id: "3",
-    slug: "feminine-wellness-tea",
-    name: "Feminine Wellness Tea",
-    tagline: "Cycle · mood · balance",
-    price: 13000,
-    oldPrice: 15000,
-    category: "Teas",
-    group: "Herbals",
-    image: feminineTea,
-    ingredients: ["Raspberry leaf", "Chasteberry", "Rose petals", "Nettle"],
-    description:
-      "A soft floral blend crafted for everyday feminine balance — supports a comfortable cycle, steadier moods, and a sense of calm through the month.",
-    ritual: "Steep one tablespoon in 250ml of just-off-boiling water for 7 minutes. Sip warm, once or twice daily.",
-  },
-  {
-    id: "4",
-    slug: "womb-cleanse-tea",
-    name: "Womb Cleanse Tea",
-    tagline: "PCOS · fertility · postpartum",
-    price: 35000,
-    oldPrice: 40000,
-    category: "Teas",
-    group: "Herbals",
-    image: wombTea,
-    ingredients: ["Red clover", "Dong quai", "Mugwort", "Ginger root"],
-    description:
-      "A deep botanical infusion that supports womb cleansing, hormonal balance, ovulation, period regulation, and postpartum recovery. Gentle enough for daily use.",
-    ritual: "Steep one tablespoon in hot water for 8–10 minutes. Drink in the morning on an empty stomach for best results.",
-  },
-  {
-    id: "5",
-    slug: "spearmint-hormone-balance-tea",
-    name: "Spearmint Hormone Balance Tea",
-    tagline: "Hormones · skin · facial hair",
-    price: 12000,
-    oldPrice: 15000,
-    category: "Teas",
-    group: "Herbals",
-    image: spearmint,
-    ingredients: ["Wild spearmint leaves"],
-    description:
-      "A bright, single-origin spearmint infusion long used to help balance androgens, calm hormonal acne, and reduce unwanted facial hair growth.",
-    ritual: "Steep one tablespoon in hot water for 6 minutes. Two cups daily over several weeks for noticeable results.",
-  },
-  {
-    id: "6",
-    slug: "infection-flusher-tea",
-    name: "Infection Flusher Tea",
-    tagline: "Detox · anti-infection",
-    price: 15000,
-    oldPrice: 20000,
-    category: "Teas",
-    group: "Herbals",
-    image: infectionTea,
-    ingredients: ["Bitter leaf", "Dandelion", "Goldenseal", "Burdock"],
-    description:
-      "A potent herbal tea that supports the body in flushing out chronic infections, candida, UTIs, and STIs. Cleansing, mineral-rich, and gently detoxifying.",
-    ritual: "Steep one tablespoon in hot water for 8 minutes. Drink twice daily for a 14–21 day cycle.",
-  },
-  {
-    id: "7",
-    slug: "infection-flusher-capsule",
-    name: "Infection Flusher Capsules",
-    tagline: "Travel-friendly cleanse",
-    price: 12000,
-    oldPrice: 15000,
-    category: "Capsules",
-    group: "Supplements",
-    image: infectionCaps,
-    ingredients: ["Concentrated bitter leaf", "Goldenseal", "Echinacea", "Garlic extract"],
-    description:
-      "The same trusted infection-flushing formula in convenient vegetarian capsules — ideal for travel or for those who prefer not to brew tea.",
-    ritual: "Take 2 capsules twice daily after meals with a full glass of water for 14–21 days.",
-  },
-  {
-    id: "8",
+    id: "12",
     slug: "medical-grade-boric-acid",
     name: "Medical Grade Boric Acid",
     tagline: "Vaginal pH support",
@@ -148,7 +217,7 @@ export const products: Product[] = [
     ritual: "Insert one capsule vaginally at bedtime for up to 7 nights. Do not take orally.",
   },
   {
-    id: "9",
+    id: "13",
     slug: "libido-moisture-boost",
     name: "Libido & Moisture Boost",
     tagline: "Desire · natural lubrication",
@@ -163,9 +232,9 @@ export const products: Product[] = [
     ritual: "Take 2 capsules daily with food. Best taken consistently for 4–6 weeks.",
   },
   {
-    id: "10",
+    id: "14",
     slug: "herbal-infection-flusher-liquid",
-    name: "Herbal Infection Flusher (Liquid)",
+    name: "Herbal Infection Flusher Drink",
     tagline: "Ready-to-drink cleanse",
     price: 12000,
     oldPrice: 15000,
@@ -174,7 +243,7 @@ export const products: Product[] = [
     image: flusherLiquid,
     ingredients: ["Brewed herbal concentrate", "Honey", "Spring water"],
     description:
-      "A ready-to-drink bottled tonic of our infection-flusher herbs — convenient, fast-acting, and gentle on the stomach.",
+      "A ready-to-drink bottled tonic of our infection-flusher herbs — convenient, fast-acting, and gentle on the stomach. For both genders.",
     ritual: "Shake well. Take 30ml in the morning and 30ml at night for 14 days.",
   },
 ];
