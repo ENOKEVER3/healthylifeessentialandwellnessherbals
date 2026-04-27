@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext";
-import type { Product } from "@/data/products";
+import { formatNGN, type Product } from "@/data/products";
 
 type SnapshotLine = { product: Product; quantity: number; lineTotal: number };
 type Snapshot = {
@@ -24,7 +24,7 @@ const Checkout = () => {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const navigate = useNavigate();
 
-  const shipping = subtotal >= 60 || subtotal === 0 ? 0 : 6;
+  const shipping = subtotal >= 50000 || subtotal === 0 ? 0 : 2500;
   const total = subtotal + shipping;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -120,22 +120,22 @@ const Checkout = () => {
                     <div className="flex flex-1 flex-col">
                       <p className="font-display text-base leading-tight text-moss-deep">{product.name}</p>
                       <p className="text-xs text-muted-foreground">{product.category}</p>
-                      <p className="mt-auto text-xs text-muted-foreground">Qty {quantity} · ${product.price} each</p>
+                      <p className="mt-auto text-xs text-muted-foreground">Qty {quantity} · {formatNGN(product.price)} each</p>
                     </div>
-                    <p className="font-display text-base text-moss-deep">${lineTotal}</p>
+                    <p className="font-display text-base text-moss-deep">{formatNGN(lineTotal)}</p>
                   </li>
                 ))}
               </ul>
 
               <dl className="mt-6 space-y-1.5 border-t border-border pt-5 text-sm">
-                <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>${snapshot.subtotal}</dd></div>
+                <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>{formatNGN(snapshot.subtotal)}</dd></div>
                 <div className="flex justify-between">
                   <dt className="text-muted-foreground">Shipping</dt>
-                  <dd>{snapshot.shipping === 0 ? "Free" : `$${snapshot.shipping}`}</dd>
+                  <dd>{snapshot.shipping === 0 ? "Free" : formatNGN(snapshot.shipping)}</dd>
                 </div>
                 <div className="mt-2 flex items-baseline justify-between border-t border-border pt-3">
                   <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Total</dt>
-                  <dd className="font-display text-2xl text-moss-deep">${snapshot.total}</dd>
+                  <dd className="font-display text-2xl text-moss-deep">{formatNGN(snapshot.total)}</dd>
                 </div>
               </dl>
 
@@ -223,7 +223,7 @@ const Checkout = () => {
             size="lg"
             className="w-full bg-moss text-primary-foreground hover:bg-moss-deep"
           >
-            Confirm order — ${total}
+            Confirm order — {formatNGN(total)}
           </Button>
         </form>
 
@@ -242,20 +242,20 @@ const Checkout = () => {
                   <p className="font-display text-base leading-tight text-moss-deep">{product.name}</p>
                   <p className="text-xs text-muted-foreground">{product.category}</p>
                 </div>
-                <p className="font-display text-base text-moss-deep">${lineTotal}</p>
+                <p className="font-display text-base text-moss-deep">{formatNGN(lineTotal)}</p>
               </li>
             ))}
           </ul>
           <dl className="space-y-2 py-5 text-sm">
-            <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>${subtotal}</dd></div>
+            <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>{formatNGN(subtotal)}</dd></div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Shipping</dt>
-              <dd>{shipping === 0 ? "Free" : `$${shipping}`}</dd>
+              <dd>{shipping === 0 ? "Free" : formatNGN(shipping)}</dd>
             </div>
           </dl>
           <div className="flex items-baseline justify-between border-t border-border pt-4">
             <span className="text-sm uppercase tracking-[0.18em] text-muted-foreground">Total</span>
-            <span className="font-display text-3xl text-moss-deep">${total}</span>
+            <span className="font-display text-3xl text-moss-deep">{formatNGN(total)}</span>
           </div>
         </aside>
       </div>

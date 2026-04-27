@@ -1,17 +1,25 @@
-import tincture from "@/assets/product-tincture.jpg";
-import tea from "@/assets/product-tea.jpg";
-import balm from "@/assets/product-balm.jpg";
-import oil from "@/assets/product-oil.jpg";
-import honey from "@/assets/product-honey.jpg";
-import smudge from "@/assets/product-smudge.jpg";
+import darkThighs from "@/assets/p-dark-thighs.jpg";
+import wartsKit from "@/assets/p-warts-kit.jpg";
+import feminineTea from "@/assets/p-feminine-tea.jpg";
+import wombTea from "@/assets/p-womb-tea.jpg";
+import spearmint from "@/assets/p-spearmint.jpg";
+import infectionTea from "@/assets/p-infection-tea.jpg";
+import infectionCaps from "@/assets/p-infection-caps.jpg";
+import boric from "@/assets/p-boric.jpg";
+import libido from "@/assets/p-libido.jpg";
+import flusherLiquid from "@/assets/p-flusher-liquid.jpg";
+
+export type ProductGroup = "Supplements" | "Skin Care" | "Herbals";
 
 export type Product = {
   id: string;
   slug: string;
   name: string;
   tagline: string;
-  price: number;
-  category: string;
+  price: number;       // current NGN price
+  oldPrice?: number;   // strike-through NGN price
+  category: string;    // sub-category label
+  group: ProductGroup; // top-level shop group
   image: string;
   ingredients: string[];
   description: string;
@@ -21,82 +29,159 @@ export type Product = {
 export const products: Product[] = [
   {
     id: "1",
-    slug: "rosemary-tincture",
-    name: "Rosemary Clarity Tincture",
-    tagline: "Focus & circulation",
-    price: 28,
-    category: "Tinctures",
-    image: tincture,
-    ingredients: ["Wild rosemary", "Organic cane spirit", "Spring water"],
+    slug: "dark-thighs-kit",
+    name: "Dark Thighs Kit",
+    tagline: "Exfoliate · brighten · soothe",
+    price: 15000,
+    oldPrice: 20000,
+    category: "Body Care",
+    group: "Skin Care",
+    image: darkThighs,
+    ingredients: ["Exfoliating herbal serum", "Botanical cleansing bar", "Plant butters"],
     description:
-      "A small-batch tincture distilled from sun-grown rosemary harvested at dawn. Earthy, resinous, and grounding — designed to sharpen the mind and warm the body.",
-    ritual: "Place 15 drops under the tongue in the morning, or stir into still water before deep work.",
+      "A complete after-shave and bumps removal kit formulated to gently brighten dark inner thighs, underarms and bikini area. Plant-based actives soften pigmentation and calm shaving irritation without harshness.",
+    ritual: "Cleanse with the bar in the shower, pat dry, and massage 4–5 drops of the serum into the area morning and night.",
   },
   {
     id: "2",
-    slug: "chamomile-tea",
-    name: "Wild Chamomile Loose-Leaf",
-    tagline: "Evening calm",
-    price: 18,
-    category: "Teas",
-    image: tea,
-    ingredients: ["Hand-picked chamomile flowers", "Lemon balm", "Linden"],
+    slug: "genital-warts-herpes-kit",
+    name: "Genital Warts & Herpes Kit",
+    tagline: "Herbal antiviral support",
+    price: 30000,
+    oldPrice: 35000,
+    category: "Wellness Kits",
+    group: "Herbals",
+    image: wartsKit,
+    ingredients: ["Antiviral herbal capsules", "Topical botanical solution", "Immune-support blend"],
     description:
-      "A whisper-soft infusion of chamomile blossoms, lemon balm, and linden — an evening ritual to slow the breath and soften the day.",
-    ritual: "Steep one tablespoon in 250ml of just-off-boiling water for 6 minutes. Sip slowly.",
+      "A discreet, doctor-formulated kit that pairs internal antiviral herbal capsules with a topical botanical solution to support the body’s response to genital warts and herpes outbreaks.",
+    ritual: "Take capsules twice daily after meals and apply the topical solution morning and night for the recommended cycle.",
   },
   {
     id: "3",
-    slug: "eucalyptus-balm",
-    name: "Eucalyptus Restorative Balm",
-    tagline: "Breath & muscle",
-    price: 24,
-    category: "Balms",
-    image: balm,
-    ingredients: ["Beeswax", "Eucalyptus essential oil", "Shea butter", "Olive oil"],
+    slug: "feminine-wellness-tea",
+    name: "Feminine Wellness Tea",
+    tagline: "Cycle · mood · balance",
+    price: 13000,
+    oldPrice: 15000,
+    category: "Teas",
+    group: "Herbals",
+    image: feminineTea,
+    ingredients: ["Raspberry leaf", "Chasteberry", "Rose petals", "Nettle"],
     description:
-      "A clean-burning balm of eucalyptus and shea — melts on contact to open the chest and ease tired shoulders.",
-    ritual: "Warm a small amount between palms and massage into the chest, temples, or wrists.",
+      "A soft floral blend crafted for everyday feminine balance — supports a comfortable cycle, steadier moods, and a sense of calm through the month.",
+    ritual: "Steep one tablespoon in 250ml of just-off-boiling water for 7 minutes. Sip warm, once or twice daily.",
   },
   {
     id: "4",
-    slug: "lavender-oil",
-    name: "Lavender Stillness Oil",
-    tagline: "Sleep & skin",
-    price: 32,
-    category: "Oils",
-    image: oil,
-    ingredients: ["Cold-pressed lavender", "Jojoba", "Sweet almond"],
+    slug: "womb-cleanse-tea",
+    name: "Womb Cleanse Tea",
+    tagline: "PCOS · fertility · postpartum",
+    price: 35000,
+    oldPrice: 40000,
+    category: "Teas",
+    group: "Herbals",
+    image: wombTea,
+    ingredients: ["Red clover", "Dong quai", "Mugwort", "Ginger root"],
     description:
-      "Steam-distilled lavender suspended in jojoba and sweet almond. Drift-soft, faintly sweet, and unmistakably calming.",
-    ritual: "Massage two drops into the soles of the feet before sleep, or smooth over freshly cleansed skin.",
+      "A deep botanical infusion that supports womb cleansing, hormonal balance, ovulation, period regulation, and postpartum recovery. Gentle enough for daily use.",
+    ritual: "Steep one tablespoon in hot water for 8–10 minutes. Drink in the morning on an empty stomach for best results.",
   },
   {
     id: "5",
-    slug: "wildflower-honey",
-    name: "Wildflower Apothecary Honey",
-    tagline: "Throat & immunity",
-    price: 22,
-    category: "Honey",
-    image: honey,
-    ingredients: ["Raw wildflower honey", "Propolis", "Echinacea infusion"],
+    slug: "spearmint-hormone-balance-tea",
+    name: "Spearmint Hormone Balance Tea",
+    tagline: "Hormones · skin · facial hair",
+    price: 12000,
+    oldPrice: 15000,
+    category: "Teas",
+    group: "Herbals",
+    image: spearmint,
+    ingredients: ["Wild spearmint leaves"],
     description:
-      "Raw honey infused with propolis and echinacea — a spoonful when the seasons turn and the throat feels tender.",
-    ritual: "Take one teaspoon at the first sign of a cold, or stir into warm (not hot) tea.",
+      "A bright, single-origin spearmint infusion long used to help balance androgens, calm hormonal acne, and reduce unwanted facial hair growth.",
+    ritual: "Steep one tablespoon in hot water for 6 minutes. Two cups daily over several weeks for noticeable results.",
   },
   {
     id: "6",
-    slug: "sage-bundle",
-    name: "Garden Sage Bundle",
-    tagline: "Space & intention",
-    price: 14,
-    category: "Smoke",
-    image: smudge,
-    ingredients: ["Sun-dried garden sage", "Hemp twine"],
+    slug: "infection-flusher-tea",
+    name: "Infection Flusher Tea",
+    tagline: "Detox · anti-infection",
+    price: 15000,
+    oldPrice: 20000,
+    category: "Teas",
+    group: "Herbals",
+    image: infectionTea,
+    ingredients: ["Bitter leaf", "Dandelion", "Goldenseal", "Burdock"],
     description:
-      "A hand-tied bundle of garden sage, dried slowly in the rafters. A quiet ritual to clear a room and mark a beginning.",
-    ritual: "Light the tip, let the flame catch, then blow out so the smoke curls upward. Move room to room with intention.",
+      "A potent herbal tea that supports the body in flushing out chronic infections, candida, UTIs, and STIs. Cleansing, mineral-rich, and gently detoxifying.",
+    ritual: "Steep one tablespoon in hot water for 8 minutes. Drink twice daily for a 14–21 day cycle.",
+  },
+  {
+    id: "7",
+    slug: "infection-flusher-capsule",
+    name: "Infection Flusher Capsules",
+    tagline: "Travel-friendly cleanse",
+    price: 12000,
+    oldPrice: 15000,
+    category: "Capsules",
+    group: "Supplements",
+    image: infectionCaps,
+    ingredients: ["Concentrated bitter leaf", "Goldenseal", "Echinacea", "Garlic extract"],
+    description:
+      "The same trusted infection-flushing formula in convenient vegetarian capsules — ideal for travel or for those who prefer not to brew tea.",
+    ritual: "Take 2 capsules twice daily after meals with a full glass of water for 14–21 days.",
+  },
+  {
+    id: "8",
+    slug: "medical-grade-boric-acid",
+    name: "Medical Grade Boric Acid",
+    tagline: "Vaginal pH support",
+    price: 6500,
+    oldPrice: 7000,
+    category: "Capsules",
+    group: "Supplements",
+    image: boric,
+    ingredients: ["USP-grade boric acid", "Vegetable capsule"],
+    description:
+      "Medical grade boric acid suppositories used to restore healthy vaginal pH, reduce odour, and address recurrent BV and yeast infections.",
+    ritual: "Insert one capsule vaginally at bedtime for up to 7 nights. Do not take orally.",
+  },
+  {
+    id: "9",
+    slug: "libido-moisture-boost",
+    name: "Libido & Moisture Boost",
+    tagline: "Desire · natural lubrication",
+    price: 10000,
+    oldPrice: 12000,
+    category: "Capsules",
+    group: "Supplements",
+    image: libido,
+    ingredients: ["Maca root", "Sea moss", "Fenugreek", "Ashwagandha"],
+    description:
+      "An adaptogenic herbal supplement that gently restores libido, increases natural lubrication, and supports vaginal tissue health and overall vitality.",
+    ritual: "Take 2 capsules daily with food. Best taken consistently for 4–6 weeks.",
+  },
+  {
+    id: "10",
+    slug: "herbal-infection-flusher-liquid",
+    name: "Herbal Infection Flusher (Liquid)",
+    tagline: "Ready-to-drink cleanse",
+    price: 12000,
+    oldPrice: 15000,
+    category: "Tonics",
+    group: "Herbals",
+    image: flusherLiquid,
+    ingredients: ["Brewed herbal concentrate", "Honey", "Spring water"],
+    description:
+      "A ready-to-drink bottled tonic of our infection-flusher herbs — convenient, fast-acting, and gentle on the stomach.",
+    ritual: "Shake well. Take 30ml in the morning and 30ml at night for 14 days.",
   },
 ];
+
+export const productGroups: ProductGroup[] = ["Supplements", "Skin Care", "Herbals"];
+
+export const formatNGN = (n: number) =>
+  `NGN ${n.toLocaleString("en-NG")}`;
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
