@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { products, productGroups } from "@/data/products";
 import hero from "@/assets/hero-herbs.jpg";
-import hero2 from "@/assets/hero-2.webp";
+import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
 import hero4 from "@/assets/hero-4.jpg";
-import hero5 from "@/assets/hero-5.webp";
+import hero5 from "@/assets/hero-5.jpg";
 import ceoPortrait from "@/assets/ceo-portrait.jpeg";
 
 const heroSlides = [
