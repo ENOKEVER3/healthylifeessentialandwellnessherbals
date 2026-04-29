@@ -99,13 +99,12 @@ const Consultation = () => {
   return (
     <main className="container-narrow py-16 md:py-24">
       <header className="max-w-2xl">
-        <p className="text-xs uppercase tracking-[0.28em] text-ochre">Medical Consultation</p>
+        <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_eyebrow")}</p>
         <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">
-          Speak privately with Dr. Oluwatomisin's team.
+          {t("consult_title")}
         </h1>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-          Share your health intake confidentially. We'll review your information and reach out
-          with a personalized natural protocol — typically within 24 hours.
+          {t("consult_subtitle")}
         </p>
       </header>
 
