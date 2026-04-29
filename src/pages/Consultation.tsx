@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { countryCodes, flagFor } from "@/data/countryCodes";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
@@ -31,6 +32,8 @@ const Consultation = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState<{ name: string; ref: string } | null>(null);
   const [preferredTime, setPreferredTime] = useState("");
+  const [dialCode, setDialCode] = useState("+234");
+  const [phoneLocal, setPhoneLocal] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
