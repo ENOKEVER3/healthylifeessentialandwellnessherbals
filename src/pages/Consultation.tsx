@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { countryCodes, flagFor } from "@/data/countryCodes";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
