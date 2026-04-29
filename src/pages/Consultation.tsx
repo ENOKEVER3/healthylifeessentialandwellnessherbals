@@ -120,7 +120,32 @@ const Consultation = () => {
             </div>
             <div>
               <Label htmlFor="phone">Phone / WhatsApp</Label>
-              <Input id="phone" name="phone" required className="mt-1.5" placeholder="+234..." />
+              <div className="mt-1.5 flex gap-2">
+                <Select value={dialCode} onValueChange={setDialCode}>
+                  <SelectTrigger className="w-[140px] shrink-0" aria-label="Country code">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {countryCodes.map((c) => (
+                      <SelectItem key={c.iso} value={c.dial}>
+                        <span className="mr-2 text-base leading-none">{flagFor(c.iso)}</span>
+                        <span className="font-medium">{c.dial}</span>
+                        <span className="ml-2 text-muted-foreground">{c.name}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  id="phone"
+                  name="phone"
+                  required
+                  value={phoneLocal}
+                  onChange={(e) => setPhoneLocal(e.target.value)}
+                  className="flex-1"
+                  placeholder="706 296 6893"
+                  inputMode="tel"
+                />
+              </div>
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
