@@ -74,10 +74,10 @@ const Home = () => {
       <section className="container-narrow py-20">
         <div className="grid gap-10 md:grid-cols-4">
           {[
-            { icon: Stethoscope, title: "Doctor-formulated", body: "Every product is developed by a licensed Naturopathic Doctor & BMLS." },
-            { icon: Sprout, title: "Plant-based", body: "Pure herbs, roots, and botanicals — no harsh fillers or synthetics." },
-            { icon: ShieldCheck, title: "Lab-conscious", body: "Backed by a biomedical laboratory science background and quality testing." },
-            { icon: HeartPulse, title: "Whole-body care", body: "From hormones to skin to intimacy — holistic, root-cause solutions." },
+            { icon: Stethoscope, title: t("pillar1_title"), body: t("pillar1_body") },
+            { icon: Sprout, title: t("pillar2_title"), body: t("pillar2_body") },
+            { icon: ShieldCheck, title: t("pillar3_title"), body: t("pillar3_body") },
+            { icon: HeartPulse, title: t("pillar4_title"), body: t("pillar4_body") },
           ].map(({ icon: Icon, title, body }) => (
             <div key={title} className="flex flex-col items-start">
               <Icon className="mb-4 h-6 w-6 text-ochre" strokeWidth={1.3} />
@@ -92,11 +92,11 @@ const Home = () => {
       <section className="container-narrow pb-10">
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-ochre">Our products</p>
-            <h2 className="mt-2 font-display text-4xl text-moss-deep">Everything we make.</h2>
+            <p className="text-xs uppercase tracking-[0.24em] text-ochre">{t("home_products_eyebrow")}</p>
+            <h2 className="mt-2 font-display text-4xl text-moss-deep">{t("home_products_title")}</h2>
           </div>
           <Link to="/shop" className="hidden text-sm text-moss underline-offset-4 hover:underline md:inline">
-            View full apothecary →
+            {t("home_products_view_all")}
           </Link>
         </div>
       </section>
@@ -112,7 +112,7 @@ const Home = () => {
                 to={`/shop?group=${encodeURIComponent(g)}`}
                 className="text-xs uppercase tracking-[0.18em] text-moss hover:underline"
               >
-                See all {g.toLowerCase()} →
+                {t("home_see_all")} {g.toLowerCase()} →
               </Link>
             </div>
             <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3">
@@ -134,20 +134,18 @@ const Home = () => {
             />
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-cream/70">The face behind the brand</p>
+            <p className="text-xs uppercase tracking-[0.28em] text-cream/70">{t("home_ceo_eyebrow")}</p>
             <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">
               Dr. Kolawole Oluwatomisin Esther
             </h2>
             <p className="mt-2 text-sm uppercase tracking-[0.2em] text-cream/70">
-              BMLS · Naturopathic Doctor · Founder
+              {t("home_ceo_credentials")}
             </p>
             <p className="mt-6 max-w-xl leading-relaxed text-cream/85">
-              A Biomedical Laboratory Scientist and Naturopathic Doctor on a mission
-              to make safe, effective, root-cause natural healthcare accessible —
-              especially for women's health, hormonal balance, fertility and intimacy.
+              {t("home_ceo_blurb")}
             </p>
             <Button asChild size="lg" variant="outline" className="mt-8 border-cream/40 bg-transparent text-cream hover:bg-cream/10 hover:text-cream">
-              <Link to="/ceo">Read her full story →</Link>
+              <Link to="/ceo">{t("home_ceo_cta")}</Link>
             </Button>
           </div>
         </div>
