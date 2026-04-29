@@ -10,14 +10,14 @@ const CEO = () => (
       <div className="aspect-[4/5] overflow-hidden bg-muted">
         <img
           src={ceo1}
-          alt="Dr. Tosin Kolawole, founder of Healthy Life Essentials & Wellness Herbals"
+          alt="Dr. Kolawole Oluwatomisin Esther, founder of Healthy Life Essentials & Wellness Herbals"
           className="h-full w-full object-cover"
         />
       </div>
       <div>
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">The face behind the brand</p>
         <h1 className="mt-4 font-display text-5xl leading-[1.05] text-moss-deep text-balance md:text-6xl">
-          Dr. Tosin Kolawole
+          Dr. Kolawole Oluwatomisin Esther
         </h1>
         <p className="mt-3 text-sm uppercase tracking-[0.2em] text-moss">
           BMLS · Naturopathic Doctor · Founder
@@ -98,7 +98,7 @@ const CEO = () => (
 
       <aside className="h-fit space-y-6 bg-cream/50 p-7">
         <div className="aspect-[4/5] overflow-hidden">
-          <img src={ceo2} alt="Dr. Tosin Kolawole portrait" className="h-full w-full object-cover" loading="lazy" />
+          <img src={ceo2} alt="Dr. Kolawole Oluwatomisin Esther portrait" className="h-full w-full object-cover" loading="lazy" />
         </div>
         <div>
           <p className="text-xs uppercase tracking-[0.22em] text-moss">Connect</p>

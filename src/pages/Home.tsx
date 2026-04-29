@@ -55,7 +55,7 @@ const Home = () => {
             </h1>
             <p className="mt-6 max-w-lg text-base text-cream/85 md:text-lg">
               Herbal remedies for feminine wellness, hormonal balance, infections,
-              vitality and skin — crafted by Naturopathic Dr. Tosin Kolawole.
+              vitality and skin — crafted by Naturopathic Dr. Kolawole Oluwatomisin Esther.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-cream text-moss-deep hover:bg-background">
@@ -127,7 +127,7 @@ const Home = () => {
           <div className="aspect-[4/5] overflow-hidden">
             <img
               src={ceoPortrait}
-              alt="Dr. Tosin Kolawole, founder of Healthy Life Essentials"
+              alt="Dr. Kolawole Oluwatomisin Esther, founder of Healthy Life Essentials"
               className="h-full w-full object-cover"
               loading="lazy"
             />
@@ -135,7 +135,7 @@ const Home = () => {
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-cream/70">The face behind the brand</p>
             <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">
-              Dr. Tosin Kolawole
+              Dr. Kolawole Oluwatomisin Esther
             </h2>
             <p className="mt-2 text-sm uppercase tracking-[0.2em] text-cream/70">
               BMLS · Naturopathic Doctor · Founder
@@ -159,7 +159,7 @@ const Home = () => {
           Book a private medical consultation.
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-muted-foreground">
-          Share your concerns confidentially and Dr. Tosin's team will recommend
+          Share your concerns confidentially and Dr. Oluwatomisin's team will recommend
           a personalized natural protocol.
         </p>
         <Button asChild size="lg" className="mt-8 bg-moss text-primary-foreground hover:bg-moss-deep">
