@@ -42,7 +42,7 @@ const Consultation = () => {
     const payload = {
       name: data.get("name") as string,
       email: data.get("email") as string,
-      phone: data.get("phone") as string,
+      phone: `${dialCode} ${phoneLocal}`.trim(),
       age: data.get("age") as string,
       concerns: data.get("concerns") as string,
       medications: (data.get("medications") as string) || "",
