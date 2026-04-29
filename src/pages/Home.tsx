@@ -1,24 +1,49 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sprout, ShieldCheck, HeartPulse, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { products, productGroups } from "@/data/products";
 import hero from "@/assets/hero-herbs.jpg";
+import hero2 from "@/assets/hero-2.webp";
+import hero3 from "@/assets/hero-3.jpg";
+import hero4 from "@/assets/hero-4.jpg";
+import hero5 from "@/assets/hero-5.webp";
 import ceoPortrait from "@/assets/ceo-portrait.jpeg";
 
+const heroSlides = [
+  { src: hero, alt: "Fresh herbs and an apothecary bottle on linen" },
+  { src: hero2, alt: "Laboratory examination of dried medicinal herbs" },
+  { src: hero3, alt: "Herbal supplement capsules with mortar and pestle" },
+  { src: hero4, alt: "Essential oil dripping from a fresh leaf into an amber bottle" },
+  { src: hero5, alt: "Medicinal herbs and tinctures arranged in a meadow" },
+];
+
 const Home = () => {
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSlide((s) => (s + 1) % heroSlides.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <>
       {/* Hero */}
       <section className="relative">
         <div className="relative h-[78vh] min-h-[560px] w-full overflow-hidden">
-          <img
-            src={hero}
-            alt="Fresh herbs and an apothecary bottle on linen"
-            width={1920}
-            height={1080}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          {heroSlides.map((s, i) => (
+            <img
+              key={s.src}
+              src={s.src}
+              alt={s.alt}
+              width={1920}
+              height={1080}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${i === slide ? "opacity-100" : "opacity-0"}`}
+            />
+          ))}
           <div className="absolute inset-0 bg-gradient-hero" />
           <div className="absolute inset-0 bg-gradient-sun mix-blend-soft-light" />
           <div className="container-narrow relative flex h-full flex-col justify-end pb-20 md:justify-center md:pb-0">
