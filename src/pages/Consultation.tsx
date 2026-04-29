@@ -77,7 +77,7 @@ const Consultation = () => {
         </h1>
         <p className="mt-5 max-w-xl text-muted-foreground">
           Your consultation request <span className="font-medium text-foreground">{submitted.ref}</span> has
-          been received. Dr. Tosin's team will reach out within 24 hours via your preferred channel.
+          been received. Dr. Oluwatomisin's team will reach out within 24 hours via your preferred channel.
         </p>
         <p className="mt-3 text-xs italic text-muted-foreground">
           (This is a demo form — no information has been transmitted.)
@@ -94,7 +94,7 @@ const Consultation = () => {
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">Medical Consultation</p>
         <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">
-          Speak privately with Dr. Tosin's team.
+          Speak privately with Dr. Oluwatomisin's team.
         </h1>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
           Share your health intake confidentially. We'll review your information and reach out
@@ -198,7 +198,7 @@ const Consultation = () => {
             </li>
             <li className="flex gap-3">
               <span className="font-display text-2xl leading-none text-ochre">2</span>
-              <span>Dr. Tosin's team reviews your case within 24 hours.</span>
+              <span>Dr. Oluwatomisin's team reviews your case within 24 hours.</span>
             </li>
             <li className="flex gap-3">
               <span className="font-display text-2xl leading-none text-ochre">3</span>
