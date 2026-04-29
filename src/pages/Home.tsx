@@ -4,6 +4,7 @@ import { ArrowRight, Sprout, ShieldCheck, HeartPulse, Stethoscope } from "lucide
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { products, productGroups } from "@/data/products";
+import { useLanguage } from "@/i18n/LanguageContext";
 import hero from "@/assets/hero-herbs.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
@@ -21,6 +22,7 @@ const heroSlides = [
 
 const Home = () => {
   const [slide, setSlide] = useState(0);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -48,21 +50,20 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-sun mix-blend-soft-light" />
           <div className="container-narrow relative flex h-full flex-col justify-end pb-20 md:justify-center md:pb-0">
             <p className="mb-5 text-xs uppercase tracking-[0.32em] text-cream/90">
-              Healthy Life Essentials & Wellness Herbals
+              {t("hero_eyebrow")}
             </p>
             <h1 className="max-w-2xl font-display text-5xl leading-[1.05] text-cream text-balance md:text-7xl">
-              Natural healing, doctor-formulated.
+              {t("hero_title")}
             </h1>
             <p className="mt-6 max-w-lg text-base text-cream/85 md:text-lg">
-              Herbal remedies for feminine wellness, hormonal balance, infections,
-              vitality and skin — crafted by Naturopathic Dr. Kolawole Oluwatomisin Esther.
+              {t("hero_subtitle")}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-cream text-moss-deep hover:bg-background">
-                <Link to="/shop">Shop products <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+                <Link to="/shop">{t("hero_cta_shop")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-cream/40 bg-transparent text-cream hover:bg-cream/10 hover:text-cream">
-                <Link to="/consultation">Book a consultation</Link>
+                <Link to="/consultation">{t("hero_cta_book")}</Link>
               </Button>
             </div>
           </div>

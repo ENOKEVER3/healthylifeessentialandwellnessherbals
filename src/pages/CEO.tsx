@@ -101,13 +101,52 @@ const CEO = () => (
           <img src={ceo2} alt="Dr. Kolawole Oluwatomisin Esther portrait" className="h-full w-full object-cover" loading="lazy" />
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-moss">Connect</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-moss">Contact</p>
           <ul className="mt-3 space-y-2 text-sm text-foreground/80">
             <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-moss" /> +234 706 296 6893</li>
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-moss" /> Ado Ekiti & Lagos, Nigeria</li>
-            <li className="flex items-center gap-2"><Instagram className="h-4 w-4 text-moss" /> @healthylifeessentials_herbals</li>
-            <li className="flex items-center gap-2"><Instagram className="h-4 w-4 text-moss" /> @healthylifeessentialswellness</li>
-            <li className="flex items-center gap-2"><Instagram className="h-4 w-4 text-moss" /> @iam_tommy01</li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-xs uppercase tracking-[0.22em] text-moss">Brand handles</p>
+          <ul className="mt-3 space-y-2 text-sm text-foreground/80">
+            <li>
+              <a
+                href="https://instagram.com/healthylifeessentials_herbals"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-colors hover:text-moss"
+              >
+                <Instagram className="h-4 w-4 text-moss" /> @healthylifeessentials_herbals
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://instagram.com/healthylifeessentialswellness"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-colors hover:text-moss"
+              >
+                <Instagram className="h-4 w-4 text-moss" /> @healthylifeessentialswellness
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-xs uppercase tracking-[0.22em] text-moss">Personal handle</p>
+          <ul className="mt-3 space-y-2 text-sm text-foreground/80">
+            <li>
+              <a
+                href="https://instagram.com/iam_tommy01"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-colors hover:text-moss"
+              >
+                <Instagram className="h-4 w-4 text-moss" /> @iam_tommy01
+              </a>
+            </li>
           </ul>
         </div>
         <Button asChild className="w-full bg-moss text-primary-foreground hover:bg-moss-deep">

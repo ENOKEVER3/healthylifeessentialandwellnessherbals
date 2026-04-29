@@ -13,6 +13,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { countryCodes, flagFor } from "@/data/countryCodes";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
@@ -28,9 +30,12 @@ const schema = z.object({
 type FormErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 const Consultation = () => {
+  const { t } = useLanguage();
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState<{ name: string; ref: string } | null>(null);
   const [preferredTime, setPreferredTime] = useState("");
+  const [dialCode, setDialCode] = useState("+234");
+  const [phoneLocal, setPhoneLocal] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +44,7 @@ const Consultation = () => {
     const payload = {
       name: data.get("name") as string,
       email: data.get("email") as string,
-      phone: data.get("phone") as string,
+      phone: `${dialCode} ${phoneLocal}`.trim(),
       age: data.get("age") as string,
       concerns: data.get("concerns") as string,
       medications: (data.get("medications") as string) || "",
@@ -62,6 +67,8 @@ const Consultation = () => {
     setSubmitted({ name: result.data.name.split(" ")[0], ref });
     form.reset();
     setPreferredTime("");
+    setPhoneLocal("");
+    setDialCode("+234");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -92,13 +99,12 @@ const Consultation = () => {
   return (
     <main className="container-narrow py-16 md:py-24">
       <header className="max-w-2xl">
-        <p className="text-xs uppercase tracking-[0.28em] text-ochre">Medical Consultation</p>
+        <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_eyebrow")}</p>
         <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">
-          Speak privately with Dr. Oluwatomisin's team.
+          {t("consult_title")}
         </h1>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-          Share your health intake confidentially. We'll review your information and reach out
-          with a personalized natural protocol — typically within 24 hours.
+          {t("consult_subtitle")}
         </p>
       </header>
 
@@ -117,7 +123,32 @@ const Consultation = () => {
             </div>
             <div>
               <Label htmlFor="phone">Phone / WhatsApp</Label>
-              <Input id="phone" name="phone" required className="mt-1.5" placeholder="+234..." />
+              <div className="mt-1.5 flex gap-2">
+                <Select value={dialCode} onValueChange={setDialCode}>
+                  <SelectTrigger className="w-[140px] shrink-0" aria-label="Country code">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {countryCodes.map((c) => (
+                      <SelectItem key={c.iso} value={c.dial}>
+                        <span className="mr-2 text-base leading-none">{flagFor(c.iso)}</span>
+                        <span className="font-medium">{c.dial}</span>
+                        <span className="ml-2 text-muted-foreground">{c.name}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  id="phone"
+                  name="phone"
+                  required
+                  value={phoneLocal}
+                  onChange={(e) => setPhoneLocal(e.target.value)}
+                  className="flex-1"
+                  placeholder="706 296 6893"
+                  inputMode="tel"
+                />
+              </div>
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
