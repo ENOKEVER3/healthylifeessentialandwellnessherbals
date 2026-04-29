@@ -59,7 +59,7 @@ const Consultation = () => {
         if (!errs[key]) errs[key] = issue.message;
       }
       setErrors(errs);
-      toast.error("Please check the highlighted fields.");
+      toast.error(t("consult_check_fields"));
       return;
     }
     setErrors({});
@@ -78,19 +78,18 @@ const Consultation = () => {
         <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-moss text-primary-foreground">
           <Check className="h-6 w-6" strokeWidth={1.5} />
         </div>
-        <p className="text-xs uppercase tracking-[0.28em] text-ochre">Request received</p>
+        <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_received")}</p>
         <h1 className="mt-3 font-display text-5xl text-moss-deep text-balance md:text-6xl">
-          Thank you, {submitted.name}.
+          {t("consult_thank_you")} {submitted.name}.
         </h1>
         <p className="mt-5 max-w-xl text-muted-foreground">
-          Your consultation request <span className="font-medium text-foreground">{submitted.ref}</span> has
-          been received. Dr. Oluwatomisin's team will reach out within 24 hours via your preferred channel.
+          {t("consult_received_body_a")} <span className="font-medium text-foreground">{submitted.ref}</span> {t("consult_received_body_b")}
         </p>
         <p className="mt-3 text-xs italic text-muted-foreground">
-          (This is a demo form — no information has been transmitted.)
+          {t("consult_received_demo")}
         </p>
         <Button onClick={() => setSubmitted(null)} className="mt-8 bg-moss text-primary-foreground hover:bg-moss-deep">
-          Submit another request
+          {t("consult_submit_another")}
         </Button>
       </main>
     );
@@ -112,20 +111,20 @@ const Consultation = () => {
         <form onSubmit={handleSubmit} noValidate className="space-y-8">
           <section className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <Label htmlFor="name">Full name</Label>
+              <Label htmlFor="name">{t("consult_full_name")}</Label>
               <Input id="name" name="name" required className="mt-1.5" />
               {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("consult_email")}</Label>
               <Input id="email" name="email" type="email" required className="mt-1.5" />
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
             <div>
-              <Label htmlFor="phone">Phone / WhatsApp</Label>
+              <Label htmlFor="phone">{t("consult_phone")}</Label>
               <div className="mt-1.5 flex gap-2">
                 <Select value={dialCode} onValueChange={setDialCode}>
-                  <SelectTrigger className="w-[140px] shrink-0" aria-label="Country code">
+                  <SelectTrigger className="w-[140px] shrink-0" aria-label={t("consult_country_code")}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="max-h-72">
@@ -152,21 +151,21 @@ const Consultation = () => {
               {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
             </div>
             <div>
-              <Label htmlFor="age">Age</Label>
+              <Label htmlFor="age">{t("consult_age")}</Label>
               <Input id="age" name="age" type="number" min={13} max={110} required className="mt-1.5" />
               {errors.age && <p className="mt-1 text-xs text-destructive">{errors.age}</p>}
             </div>
             <div>
-              <Label htmlFor="preferredTime">Preferred contact time</Label>
+              <Label htmlFor="preferredTime">{t("consult_preferred_time")}</Label>
               <Select value={preferredTime} onValueChange={setPreferredTime}>
                 <SelectTrigger id="preferredTime" className="mt-1.5">
-                  <SelectValue placeholder="Choose a window" />
+                  <SelectValue placeholder={t("consult_choose_window")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="morning">Morning (8am – 12pm)</SelectItem>
-                  <SelectItem value="afternoon">Afternoon (12pm – 4pm)</SelectItem>
-                  <SelectItem value="evening">Evening (4pm – 8pm)</SelectItem>
-                  <SelectItem value="anytime">Any time</SelectItem>
+                  <SelectItem value="morning">{t("consult_morning")}</SelectItem>
+                  <SelectItem value="afternoon">{t("consult_afternoon")}</SelectItem>
+                  <SelectItem value="evening">{t("consult_evening")}</SelectItem>
+                  <SelectItem value="anytime">{t("consult_anytime")}</SelectItem>
                 </SelectContent>
               </Select>
               {errors.preferredTime && <p className="mt-1 text-xs text-destructive">{errors.preferredTime}</p>}
@@ -174,38 +173,37 @@ const Consultation = () => {
           </section>
 
           <div>
-            <Label htmlFor="concerns">Current health concerns</Label>
+            <Label htmlFor="concerns">{t("consult_concerns")}</Label>
             <Textarea
               id="concerns"
               name="concerns"
               required
               rows={5}
               className="mt-1.5"
-              placeholder="Briefly describe symptoms, duration, and anything that has been tried..."
+              placeholder={t("consult_concerns_placeholder")}
             />
             {errors.concerns && <p className="mt-1 text-xs text-destructive">{errors.concerns}</p>}
           </div>
 
           <div>
-            <Label htmlFor="medications">Current medications & supplements (optional)</Label>
+            <Label htmlFor="medications">{t("consult_meds")}</Label>
             <Textarea
               id="medications"
               name="medications"
               rows={3}
               className="mt-1.5"
-              placeholder="List anything you're currently taking, including dosage."
+              placeholder={t("consult_meds_placeholder")}
             />
             {errors.medications && <p className="mt-1 text-xs text-destructive">{errors.medications}</p>}
           </div>
 
           <div>
-            <Label htmlFor="message">Anything else you'd like to share? (optional)</Label>
+            <Label htmlFor="message">{t("consult_message")}</Label>
             <Textarea id="message" name="message" rows={3} className="mt-1.5" />
           </div>
 
           <p className="text-xs italic text-muted-foreground">
-            Your information is treated with strict confidentiality. This form is a demo and does not
-            transmit data — we'll wire it to a secure backend when you're ready.
+            {t("consult_privacy")}
           </p>
 
           <Button
@@ -213,31 +211,31 @@ const Consultation = () => {
             size="lg"
             className="w-full bg-moss text-primary-foreground hover:bg-moss-deep sm:w-auto"
           >
-            Submit consultation request
+            {t("consult_submit")}
           </Button>
         </form>
 
         <aside className="h-fit space-y-6 bg-cream/50 p-7 lg:sticky lg:top-24">
           <div className="flex items-center gap-2">
             <Stethoscope className="h-5 w-5 text-moss" strokeWidth={1.5} />
-            <h2 className="font-display text-2xl text-moss-deep">What to expect</h2>
+            <h2 className="font-display text-2xl text-moss-deep">{t("consult_what_to_expect")}</h2>
           </div>
           <ol className="space-y-4 text-sm text-foreground/80">
             <li className="flex gap-3">
               <span className="font-display text-2xl leading-none text-ochre">1</span>
-              <span>Submit your confidential intake — it takes about 3 minutes.</span>
+              <span>{t("consult_step1")}</span>
             </li>
             <li className="flex gap-3">
               <span className="font-display text-2xl leading-none text-ochre">2</span>
-              <span>Dr. Oluwatomisin's team reviews your case within 24 hours.</span>
+              <span>{t("consult_step2")}</span>
             </li>
             <li className="flex gap-3">
               <span className="font-display text-2xl leading-none text-ochre">3</span>
-              <span>We reach out with a personalized natural protocol and product recommendations.</span>
+              <span>{t("consult_step3")}</span>
             </li>
           </ol>
           <div className="border-t border-border pt-5">
-            <p className="text-xs uppercase tracking-[0.22em] text-moss">Or contact us directly</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-moss">{t("consult_or_contact")}</p>
             <ul className="mt-3 space-y-2 text-sm text-foreground/80">
               <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-moss" /> +234 706 296 6893</li>
               <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-moss" /> care@healthylifeessentials.co</li>

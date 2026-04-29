@@ -4,8 +4,10 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/com
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { formatNGN } from "@/data/products";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export const CartDrawer = () => {
+  const { t } = useLanguage();
   const { isOpen, setOpen, detailedItems, subtotal, setQty, remove, count } = useCart();
 
   return (
@@ -13,19 +15,19 @@ export const CartDrawer = () => {
       <SheetContent side="right" className="flex w-full flex-col bg-background sm:max-w-md">
         <SheetHeader className="border-b border-border pb-4 text-left">
           <SheetTitle className="font-display text-2xl text-moss-deep">
-            Your Basket {count > 0 && <span className="text-muted-foreground">· {count}</span>}
+            {t("cart_title")} {count > 0 && <span className="text-muted-foreground">· {count}</span>}
           </SheetTitle>
         </SheetHeader>
 
         {detailedItems.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
             <ShoppingBag className="h-10 w-10 text-sage" strokeWidth={1.2} />
-            <p className="font-display text-xl text-moss-deep">Your basket is empty</p>
+            <p className="font-display text-xl text-moss-deep">{t("cart_empty_title")}</p>
             <p className="max-w-xs text-sm text-muted-foreground">
-              Begin with a tincture, a tea, or a quiet bundle of sage.
+              {t("cart_empty_body")}
             </p>
             <Button asChild variant="outline" className="mt-3" onClick={() => setOpen(false)}>
-              <Link to="/shop">Browse the apothecary</Link>
+              <Link to="/shop">{t("cart_browse")}</Link>
             </Button>
           </div>
         ) : (
@@ -51,7 +53,7 @@ export const CartDrawer = () => {
                       <button
                         onClick={() => remove(product.id)}
                         className="text-muted-foreground transition hover:text-foreground"
-                        aria-label="Remove"
+                        aria-label={t("cart_remove")}
                       >
                         <X className="h-4 w-4" />
                       </button>
@@ -61,7 +63,7 @@ export const CartDrawer = () => {
                         <button
                           onClick={() => setQty(product.id, quantity - 1)}
                           className="p-1.5 text-muted-foreground hover:text-foreground"
-                          aria-label="Decrease"
+                          aria-label={t("cart_decrease")}
                         >
                           <Minus className="h-3 w-3" />
                         </button>
@@ -69,7 +71,7 @@ export const CartDrawer = () => {
                         <button
                           onClick={() => setQty(product.id, quantity + 1)}
                           className="p-1.5 text-muted-foreground hover:text-foreground"
-                          aria-label="Increase"
+                          aria-label={t("cart_increase")}
                         >
                           <Plus className="h-3 w-3" />
                         </button>
@@ -83,12 +85,12 @@ export const CartDrawer = () => {
 
             <SheetFooter className="border-t border-border pt-5 sm:flex-col sm:space-x-0">
               <div className="mb-4 flex items-baseline justify-between">
-                <span className="text-sm uppercase tracking-[0.18em] text-muted-foreground">Subtotal</span>
+                <span className="text-sm uppercase tracking-[0.18em] text-muted-foreground">{t("cart_subtotal")}</span>
                 <span className="font-display text-2xl text-moss-deep">{formatNGN(subtotal)}</span>
               </div>
-              <p className="mb-4 text-xs text-muted-foreground">Shipping calculated at checkout. Complimentary over NGN 50,000.</p>
+              <p className="mb-4 text-xs text-muted-foreground">{t("cart_shipping_note")}</p>
               <Button asChild size="lg" className="w-full bg-moss text-primary-foreground hover:bg-moss-deep">
-                <Link to="/checkout" onClick={() => setOpen(false)}>Proceed to checkout</Link>
+                <Link to="/checkout" onClick={() => setOpen(false)}>{t("cart_proceed")}</Link>
               </Button>
             </SheetFooter>
           </>

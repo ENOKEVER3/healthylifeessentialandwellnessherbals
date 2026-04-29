@@ -9,8 +9,10 @@ import { formatNGN, getProduct, products } from "@/data/products";
 import { getReviewSummary } from "@/data/reviews";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const ProductDetail = () => {
+  const { t } = useLanguage();
   const { slug } = useParams();
   const product = slug ? getProduct(slug) : undefined;
   const { add } = useCart();
@@ -24,7 +26,7 @@ const ProductDetail = () => {
   return (
     <main className="container-narrow py-12 md:py-16">
       <Link to="/shop" className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-moss">
-        <ArrowLeft className="h-4 w-4" /> Back to apothecary
+        <ArrowLeft className="h-4 w-4" /> {t("product_back")}
       </Link>
 
       <div className="grid gap-12 md:grid-cols-2 md:gap-16">
@@ -51,7 +53,7 @@ const ProductDetail = () => {
             >
               <Stars value={summary.average} />
               <span className="tabular-nums">{summary.average.toFixed(1)}</span>
-              <span className="opacity-70">· {summary.count} reviews</span>
+              <span className="opacity-70">· {summary.count} {t("product_reviews_word")}</span>
             </a>
           )}
           <p className="mt-6 flex items-baseline gap-3">
@@ -64,7 +66,7 @@ const ProductDetail = () => {
           <p className="mt-7 text-base leading-relaxed text-foreground/80">{product.description}</p>
 
           <div className="mt-8 border-t border-border pt-6">
-            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-moss">Ingredients</p>
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-moss">{t("product_ingredients")}</p>
             <ul className="flex flex-wrap gap-x-1.5 gap-y-1 text-sm text-muted-foreground">
               {product.ingredients.map((i, idx) => (
                 <li key={i}>{i}{idx < product.ingredients.length - 1 && " ·"}</li>
@@ -75,7 +77,7 @@ const ProductDetail = () => {
           <div className="mt-6 flex items-start gap-3 bg-cream/60 p-5">
             <Leaf className="mt-0.5 h-4 w-4 shrink-0 text-moss" strokeWidth={1.4} />
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-moss">The Ritual</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-moss">{t("product_ritual")}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-foreground/80">{product.ritual}</p>
             </div>
           </div>
@@ -85,7 +87,7 @@ const ProductDetail = () => {
               <button
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
                 className="px-3 text-muted-foreground hover:text-foreground"
-                aria-label="Decrease quantity"
+                aria-label={t("product_decrease_qty")}
               >
                 <Minus className="h-3.5 w-3.5" />
               </button>
@@ -93,7 +95,7 @@ const ProductDetail = () => {
               <button
                 onClick={() => setQty((q) => q + 1)}
                 className="px-3 text-muted-foreground hover:text-foreground"
-                aria-label="Increase quantity"
+                aria-label={t("product_increase_qty")}
               >
                 <Plus className="h-3.5 w-3.5" />
               </button>
@@ -102,11 +104,11 @@ const ProductDetail = () => {
               size="lg"
               onClick={() => {
                 add(product.id, qty);
-                toast.success(`${product.name} added to your basket`);
+                toast.success(`${product.name} ${t("toast_added_to_basket")}`);
               }}
               className="flex-1 bg-moss text-primary-foreground hover:bg-moss-deep"
             >
-              Add to basket — {formatNGN(product.price * qty)}
+              {t("product_add_to_basket")} — {formatNGN(product.price * qty)}
             </Button>
           </div>
         </div>
@@ -117,7 +119,7 @@ const ProductDetail = () => {
       </div>
 
       <section className="mt-28">
-        <h2 className="mb-8 font-display text-3xl text-moss-deep">More from the shelf</h2>
+        <h2 className="mb-8 font-display text-3xl text-moss-deep">{t("product_more_from_shelf")}</h2>
         <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3">
           {others.map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
