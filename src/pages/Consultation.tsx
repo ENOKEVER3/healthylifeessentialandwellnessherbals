@@ -65,6 +65,8 @@ const Consultation = () => {
     setSubmitted({ name: result.data.name.split(" ")[0], ref });
     form.reset();
     setPreferredTime("");
+    setPhoneLocal("");
+    setDialCode("+234");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
