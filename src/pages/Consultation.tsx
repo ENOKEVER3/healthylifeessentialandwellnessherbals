@@ -30,6 +30,7 @@ const schema = z.object({
 type FormErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
 const Consultation = () => {
+  const { t } = useLanguage();
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState<{ name: string; ref: string } | null>(null);
   const [preferredTime, setPreferredTime] = useState("");
