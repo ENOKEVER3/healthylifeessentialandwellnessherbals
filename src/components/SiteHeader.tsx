@@ -31,6 +31,7 @@ export const SiteHeader = () => {
         <nav className="hidden items-center gap-7 text-sm md:flex">
           <NavLink to="/" end className={navLinkClass}>{t("nav_home")}</NavLink>
           <NavLink to="/consultation" className={navLinkClass}>{t("nav_consultation")}</NavLink>
+          <NavLink to="/advisor" className={navLinkClass}>{t("nav_advisor")}</NavLink>
 
           <DropdownMenu>
             <DropdownMenuTrigger className="inline-flex items-center gap-1 text-muted-foreground transition-colors hover:text-moss focus:outline-none">
@@ -78,6 +79,7 @@ export const SiteHeader = () => {
       <nav className="flex items-center justify-center gap-5 border-t border-border/60 px-4 py-2 text-xs md:hidden">
         <NavLink to="/" end className={navLinkClass}>{t("nav_home")}</NavLink>
         <NavLink to="/consultation" className={navLinkClass}>{t("nav_consult_short")}</NavLink>
+        <NavLink to="/advisor" className={navLinkClass}>{t("nav_advisor_short")}</NavLink>
         <NavLink to="/shop" className={navLinkClass}>{t("nav_shop")}</NavLink>
         <NavLink to="/ceo" className={navLinkClass}>{t("nav_ceo_short")}</NavLink>
       </nav>
