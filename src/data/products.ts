@@ -2,9 +2,11 @@ import darkThighsKit from "@/assets/p-dark-thighs-kit.jpeg";
 import wartsKit from "@/assets/p-warts-kit-real.jpeg";
 import hormonalTea from "@/assets/p-hormonal-imbalance-tea.jpeg";
 import hormonalTeabags from "@/assets/p-hormonal-imbalance-teabags.jpeg";
+import hormonalImbalance3L from "@/assets/p-hormonal-imbalance-3l.jpeg";
 import spearmintCaps from "@/assets/p-spearmint-capsule.jpeg";
 import spearmintTea from "@/assets/p-spearmint-tea.jpeg";
 import pidKit from "@/assets/p-pid-kit.jpeg";
+import pidHerbs from "@/assets/p-pid-herbs.jpeg";
 import rheumatismTea from "@/assets/p-rheumatism-tea.jpeg";
 import diabetesTea from "@/assets/p-diabetes-tea.jpeg";
 import hypertensionTea from "@/assets/p-hypertension-tea.jpeg";
@@ -15,9 +17,15 @@ import cookieCleanser from "@/assets/p-cookie-cleanser.jpeg";
 import cookieCleanserMint from "@/assets/p-cookie-cleanser-mint.jpeg";
 import infectionCaps from "@/assets/p-infection-flusher-caps.jpeg";
 import flusherDrink from "@/assets/p-flusher-drink.jpeg";
+import infectionFlusherHerbs from "@/assets/p-infection-flusher-herbs.jpeg";
 import boric from "@/assets/p-boric-real.jpeg";
 import libido from "@/assets/p-libido-real.jpeg";
 import amenorrheaHerb from "@/assets/p-amenorrhea-herb.jpeg";
+import fallopianHerbs from "@/assets/p-fallopian-tube-herbs.jpeg";
+import ovarianCystHerbs from "@/assets/p-ovarian-cyst-herbs.jpeg";
+import fibroidHerbs from "@/assets/p-fibroid-herbs.jpeg";
+import ulcerCapsule from "@/assets/p-ulcer-capsule.jpeg";
+import ulcerHerbs from "@/assets/p-ulcer-treatment-herbs.jpeg";
 
 export type ProductGroup = "Supplements" | "Skin Care" | "Herbals";
 
@@ -42,8 +50,7 @@ export const products: Product[] = [
     slug: "hormonal-imbalance-tea",
     name: "Hormonal Imbalance Tea",
     tagline: "Cycle · fertility · PMS relief",
-    price: 18000,
-    oldPrice: 22000,
+    price: 25000,
     category: "Teas",
     group: "Herbals",
     image: hormonalTea,
@@ -54,18 +61,17 @@ export const products: Product[] = [
   },
   {
     id: "2",
-    slug: "hormonal-imbalance-teabags",
-    name: "Hormonal Imbalance Teabags",
-    tagline: "Convenient hormone support",
-    price: 13000,
-    oldPrice: 15000,
-    category: "Teas",
+    slug: "hormonal-imbalance-herbs",
+    name: "Hormonal Imbalance Treatment Herbs",
+    tagline: "3L brewed herbal tonic",
+    price: 30000,
+    category: "Tonics",
     group: "Herbals",
-    image: hormonalTeabags,
-    ingredients: ["Chasteberry", "Raspberry leaf", "Dong quai", "Ginger"],
+    image: hormonalImbalance3L,
+    ingredients: ["Brewed herbal blend (3 litres)"],
     description:
-      "The same trusted Hormonal Imbalance formula in pre-portioned teabags — for easy daily support of menstrual regularity, fertility, and hormonal harmony.",
-    ritual: "Steep 1 teabag in hot water for 6–8 minutes. Drink once daily.",
+      "A 3-litre brewed herbal tonic that helps regulate the menstrual cycle, eases cramps and PMS, supports fertility and ovulation, and naturally balances estrogen and progesterone.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
   },
   {
     id: "3",
@@ -73,7 +79,6 @@ export const products: Product[] = [
     name: "Spearmint Hormone Balanced Capsule",
     tagline: "PCOS · acne · facial hair",
     price: 15000,
-    oldPrice: 18000,
     category: "Capsules",
     group: "Supplements",
     image: spearmintCaps,
@@ -85,16 +90,15 @@ export const products: Product[] = [
   {
     id: "4",
     slug: "spearmint-hormone-balanced-tea",
-    name: "Spearmint Hormone Balanced Tea",
-    tagline: "Hormones · skin · facial hair",
-    price: 12000,
-    oldPrice: 15000,
+    name: "Spearmint Hormone Balanced Tea (PCOS Tea)",
+    tagline: "PCOS · hormones · skin",
+    price: 30000,
     category: "Teas",
     group: "Herbals",
     image: spearmintTea,
     ingredients: ["Wild spearmint leaves"],
     description:
-      "30 organic teabags (40g) rich in antioxidants. Supports PCOS, eliminates hormonal acne, reduces androgens and hirsutism, regulates cycle and mood, improves digestion and reduces inflammation.",
+      "30 organic teabags rich in antioxidants. Supports PCOS, eliminates hormonal acne, reduces androgens and hirsutism, regulates cycle and mood, improves digestion and reduces inflammation.",
     ritual: "Boil 1 teabag with a glass cup of hot water for 5 min, allow to cool. Take 2 teabags daily — first thing in the morning and last thing at night.",
   },
   {
@@ -102,8 +106,7 @@ export const products: Product[] = [
     slug: "feminine-wellness-tea",
     name: "Feminine Wellness Tea",
     tagline: "Womb · fertility · UTI",
-    price: 13000,
-    oldPrice: 15000,
+    price: 25000,
     category: "Teas",
     group: "Herbals",
     image: feminineWellnessTea,
@@ -117,8 +120,7 @@ export const products: Product[] = [
     slug: "womb-cleanse-tea",
     name: "Womb Cleanse Tea",
     tagline: "PCOS · fertility · ovulation",
-    price: 14000,
-    oldPrice: 16000,
+    price: 35000,
     category: "Teas",
     group: "Herbals",
     image: wombCleanseTea,
@@ -132,8 +134,7 @@ export const products: Product[] = [
     slug: "amenorrhea-herb",
     name: "Amenorrhea Herb",
     tagline: "Restore lost periods",
-    price: 15000,
-    oldPrice: 18000,
+    price: 30000,
     category: "Tonics",
     group: "Herbals",
     image: amenorrheaHerb,
@@ -147,8 +148,7 @@ export const products: Product[] = [
     slug: "pid-treatment-kit",
     name: "PID Pelvic Inflammatory Disease Treatment Kit",
     tagline: "Complete 4-step protocol",
-    price: 65000,
-    oldPrice: 75000,
+    price: 50000,
     category: "Wellness Kits",
     group: "Herbals",
     image: pidKit,
@@ -164,6 +164,90 @@ export const products: Product[] = [
   },
   {
     id: "9",
+    slug: "pid-treatment-herbs",
+    name: "PID Treatment Herbs",
+    tagline: "3L brewed PID tonic",
+    price: 30000,
+    category: "Tonics",
+    group: "Herbals",
+    image: pidHerbs,
+    ingredients: ["Brewed herbal blend (3 litres)"],
+    description:
+      "A 3-litre brewed herbal tonic that helps in treating Pelvic Inflammatory Disease in both men and women, while protecting the reproductive organs from being affected.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
+  },
+  {
+    id: "10",
+    slug: "fallopian-tube-blockage-herbs",
+    name: "Fallopian Tube Blockage Treatment Herbs",
+    tagline: "Open tubes · restore flow",
+    price: 50000,
+    category: "Tonics",
+    group: "Herbals",
+    image: fallopianHerbs,
+    ingredients: ["Brewed herbal blend (3 litres)"],
+    description:
+      "A 3-litre brewed herbal tonic that helps treat hormonal imbalances, restore lost periods, cleanse the womb, and balance hormonal irregularities — supporting the unblocking of fallopian tubes naturally.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
+  },
+  {
+    id: "11",
+    slug: "ovarian-cyst-treatment-herbs",
+    name: "Ovarian Cyst Treatment Herbs",
+    tagline: "Shrinks cysts · balances hormones",
+    price: 50000,
+    category: "Tonics",
+    group: "Herbals",
+    image: ovarianCystHerbs,
+    ingredients: ["Brewed herbal blend (3 litres)"],
+    description:
+      "A 3-litre brewed herbal tonic that naturally shrinks ovarian cysts, clears infection and balances hormones. Relieves pain, reduces heavy bleeding, eases bloated tummy, improves sexual health, promotes fertility and regulates menstrual cycle.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
+  },
+  {
+    id: "12",
+    slug: "fibroid-treatment-herbs",
+    name: "Fibroid Treatment Herbs",
+    tagline: "Naturally shrinks fibroid",
+    price: 50000,
+    category: "Tonics",
+    group: "Herbals",
+    image: fibroidHerbs,
+    ingredients: ["Brewed herbal blend (3 litres)"],
+    description:
+      "A 3-litre brewed herbal tonic that naturally shrinks fibroid, clears infection and balances hormones. Relieves fibroid pain, reduces heavy bleeding to normal, eases bloated tummy, improves sexual health, promotes fertility and regulates menstrual cycle.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
+  },
+  {
+    id: "13",
+    slug: "ulcer-treatment-herbs",
+    name: "Ulcer Treatment Herbs",
+    tagline: "Relieve symptoms · pain · sores",
+    price: 40000,
+    category: "Tonics",
+    group: "Herbals",
+    image: ulcerHerbs,
+    ingredients: ["Brewed herbal blend (3 litres)"],
+    description:
+      "A 3-litre brewed herbal tonic that helps in treating ulcer, relieves ulcer pain and sores.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
+  },
+  {
+    id: "14",
+    slug: "ulcer-care-capsule",
+    name: "Ulcer Care Capsule",
+    tagline: "Relieve ulcer symptoms · vegan",
+    price: 15000,
+    category: "Capsules",
+    group: "Supplements",
+    image: ulcerCapsule,
+    ingredients: ["Vegan herbal ulcer-care blend"],
+    description:
+      "Vegan herbal capsules formulated to relieve ulcer symptoms, pain and sores, while supporting the healing of the stomach lining.",
+    ritual: "Take 2 capsules twice daily, morning and night, with water.",
+  },
+  {
+    id: "15",
     slug: "anti-rheumatism-arthritis-tea",
     name: "Anti-Rheumatism & Arthritis Support Tea",
     tagline: "Joint · circulation · relief",
@@ -178,7 +262,7 @@ export const products: Product[] = [
     ritual: "Boil 1 teabag in a cup of hot water for 5 min, allow to cool. Take 2 teabags daily — first thing in the morning and last thing at night.",
   },
   {
-    id: "10",
+    id: "16",
     slug: "anti-diabetes-herbal-tea",
     name: "Anti-Diabetes Herbal Tea",
     tagline: "Blood sugar · insulin support",
@@ -193,7 +277,7 @@ export const products: Product[] = [
     ritual: "Boil 1 teabag in a cup of hot water for 5 min. Drink 2 teabags daily — morning and night.",
   },
   {
-    id: "11",
+    id: "17",
     slug: "anti-hypertension-regulating-tea",
     name: "Anti-Hypertension Regulating Tea",
     tagline: "Blood pressure balance",
@@ -208,12 +292,11 @@ export const products: Product[] = [
     ritual: "Boil 1 teabag in a cup of hot water for 5 min. Take 2 teabags daily, morning and night.",
   },
   {
-    id: "12",
+    id: "18",
     slug: "liver-lungs-detox-tea",
     name: "Liver and Lungs Detox Tea",
     tagline: "Hepatitis · fatty liver · smokers",
-    price: 16000,
-    oldPrice: 19000,
+    price: 35000,
     category: "Teas",
     group: "Herbals",
     image: liverLungsTea,
@@ -223,7 +306,21 @@ export const products: Product[] = [
     ritual: "Take 2 teabags daily — 1 morning and 1 night. Boil 1 teabag in a cup of water for 3–5 minutes and drink as hot as you can.",
   },
   {
-    id: "13",
+    id: "19",
+    slug: "liver-detox-capsules",
+    name: "Liver Detox Capsules",
+    tagline: "Daily liver support",
+    price: 15000,
+    category: "Capsules",
+    group: "Supplements",
+    image: infectionCaps,
+    ingredients: ["Milk thistle", "Dandelion root", "Burdock", "Artichoke"],
+    description:
+      "Vegan herbal capsules that support daily liver detoxification, reduce fatty liver, ease bloating, and help eliminate toxins and waste from the body.",
+    ritual: "Take 2 capsules twice daily, morning and night, after meals with a full glass of water.",
+  },
+  {
+    id: "20",
     slug: "cookie-cleanser-feminine-wash",
     name: "Cookie Cleanser Feminine Wash",
     tagline: "pH-balanced · plant-based",
@@ -238,7 +335,7 @@ export const products: Product[] = [
     ritual: "Pump a small amount onto wet skin externally, lather, rinse thoroughly. Use daily.",
   },
   {
-    id: "14",
+    id: "21",
     slug: "cookie-cleanser-minty-wash",
     name: "Cookie Cleanser Minty Wash",
     tagline: "Cooling pH-balanced wash",
@@ -253,12 +350,11 @@ export const products: Product[] = [
     ritual: "Pump a small amount onto wet skin externally, lather, rinse thoroughly. Use daily.",
   },
   {
-    id: "15",
+    id: "22",
     slug: "herbal-infection-flusher-capsules",
     name: "Herbal Infection Flusher & Detoxifying Capsules",
     tagline: "For both genders",
-    price: 18000,
-    oldPrice: 22000,
+    price: 15000,
     category: "Capsules",
     group: "Supplements",
     image: infectionCaps,
@@ -268,12 +364,11 @@ export const products: Product[] = [
     ritual: "Take 2 capsules twice daily after meals with a full glass of water for 14–21 days.",
   },
   {
-    id: "16",
+    id: "23",
     slug: "herbal-infection-flusher-drink",
     name: "Herbal Infection Flusher & Detoxifying Drink",
     tagline: "1.2L ready-to-drink cleanse",
-    price: 14000,
-    oldPrice: 17000,
+    price: 15000,
     category: "Tonics",
     group: "Herbals",
     image: flusherDrink,
@@ -283,7 +378,21 @@ export const products: Product[] = [
     ritual: "Shake well. Take 30ml in the morning and 30ml at night for 14 days.",
   },
   {
-    id: "17",
+    id: "24",
+    slug: "infection-flusher-herbs-3l",
+    name: "Herbal Infection Flusher & Detoxifying Herbs",
+    tagline: "3L · UTI · BV · candida · STIs",
+    price: 30000,
+    category: "Tonics",
+    group: "Herbals",
+    image: infectionFlusherHerbs,
+    ingredients: ["Brewed herbal blend (3 litres)"],
+    description:
+      "A 3-litre brewed herbal tonic for both genders. Amazing solution for U.T.I, Chlamydia, H.P.V Warts, Bacterial Vaginosis (BV), Staphylococcus, P.I.D, S.T.D, Syphilis, Candidiasis / yeast infection, Gonorrhea, and infections with symptoms like nipple discharge, wormlike movements, painful blisters, sores, discharge from penis/vagina and itching.",
+    ritual: "Comes with a measuring cup. Take a cup in the morning before eating and a cup at night after eating.",
+  },
+  {
+    id: "25",
     slug: "dark-thighs-kit",
     name: "Dark Thigh, After Shave & Bumps Removal Kit",
     tagline: "Exfoliate · brighten · soothe",
@@ -298,7 +407,7 @@ export const products: Product[] = [
     ritual: "Cleanse with the herbal soap in the shower, pat dry, then massage 4–5 drops of Dark Area Kitty Oil into the area morning and night.",
   },
   {
-    id: "18",
+    id: "26",
     slug: "genital-warts-removal-kit",
     name: "Genital Wart Removal Kit",
     tagline: "Targeted herbal antiviral",
@@ -313,12 +422,11 @@ export const products: Product[] = [
     ritual: "Wash the affected area with the herbal soap morning and night. Take 2 capsules twice daily after meals for the recommended cycle.",
   },
   {
-    id: "19",
-    slug: "medical-grade-boric-acid",
-    name: "Medical Grade Boric Acid",
+    id: "27",
+    slug: "medical-grade-boric-acid-20",
+    name: "Medical Grade Boric Acid (20 count)",
     tagline: "Vaginal pH support",
     price: 6500,
-    oldPrice: 7000,
     category: "Capsules",
     group: "Supplements",
     image: boric,
@@ -328,12 +436,25 @@ export const products: Product[] = [
     ritual: "Insert one capsule vaginally at bedtime for up to 7 nights. Do not take orally.",
   },
   {
-    id: "20",
+    id: "28",
+    slug: "medical-grade-boric-acid-10",
+    name: "Medical Grade Boric Acid (10 count)",
+    tagline: "Vaginal pH support · trial size",
+    price: 3000,
+    category: "Capsules",
+    group: "Supplements",
+    image: boric,
+    ingredients: ["USP-grade boric acid 600mg", "Vegetable capsule"],
+    description:
+      "10 capsules · 600mg per serving. Medical grade boric acid vaginal suppositories used to restore healthy vaginal pH, reduce odour, and address recurrent BV and yeast infections. Smaller pack, perfect to try.",
+    ritual: "Insert one capsule vaginally at bedtime for up to 7 nights. Do not take orally.",
+  },
+  {
+    id: "29",
     slug: "libido-moisture-boost",
     name: "Libido & Moisture Boost Herbal Supplements",
     tagline: "Slippery elm + African okra",
-    price: 12000,
-    oldPrice: 15000,
+    price: 15000,
     category: "Capsules",
     group: "Supplements",
     image: libido,
@@ -341,6 +462,21 @@ export const products: Product[] = [
     description:
       "30 vegan capsules that relieve vaginal dryness and boost natural moisture. Made with slippery elm and African okra to support libido, lubrication and overall vaginal tissue health.",
     ritual: "Take 1 capsule daily with food. Best taken consistently for 4–6 weeks.",
+  },
+  {
+    id: "30",
+    slug: "hormonal-imbalance-teabags",
+    name: "Hormonal Imbalance Teabags",
+    tagline: "Convenient hormone support",
+    price: 13000,
+    oldPrice: 15000,
+    category: "Teas",
+    group: "Herbals",
+    image: hormonalTeabags,
+    ingredients: ["Chasteberry", "Raspberry leaf", "Dong quai", "Ginger"],
+    description:
+      "The same trusted Hormonal Imbalance formula in pre-portioned teabags — for easy daily support of menstrual regularity, fertility, and hormonal harmony.",
+    ritual: "Steep 1 teabag in hot water for 6–8 minutes. Drink once daily.",
   },
 ];
 
