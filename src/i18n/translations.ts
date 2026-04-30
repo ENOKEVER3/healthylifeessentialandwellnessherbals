@@ -240,6 +240,35 @@ const en = {
 
   // Toasts / misc
   toast_added_to_basket: "added to your basket",
+
+  // WhatsApp
+  wa_chat_expert: "Chat with a herbal expert",
+  wa_order_via: "Order via WhatsApp",
+
+  // Nav
+  nav_advisor: "AI Advisor",
+  nav_advisor_short: "Advisor",
+
+  // AI Symptom Advisor
+  advisor_eyebrow: "AI Herbal Advisor",
+  advisor_title: "Tell us how you feel.",
+  advisor_subtitle:
+    "Describe your symptoms and our AI will suggest possible causes, traditional herbs, and gentle lifestyle steps — grounded in Dr. Oluwatomisin's naturopathic approach.",
+  advisor_placeholder: "e.g. I have a headache and constant fatigue for 3 days...",
+  advisor_submit: "Get herbal guidance",
+  advisor_thinking: "Consulting the herbal library…",
+  advisor_clear: "Ask another question",
+  advisor_min_chars: "Please describe your symptoms in a bit more detail.",
+  advisor_error: "Something went wrong. Please try again.",
+  advisor_disclaimer_title: "Not medical advice",
+  advisor_disclaimer_body:
+    "This AI assistant offers general wellness guidance only. For diagnosis, treatment, pregnancy, children or persistent symptoms, please book a consultation or chat on WhatsApp.",
+  advisor_book_consult: "Book a consultation",
+  advisor_examples_title: "Try one of these",
+  advisor_example_1: "I have a headache and fatigue",
+  advisor_example_2: "Bloating and irregular periods",
+  advisor_example_3: "Trouble sleeping and stressed",
+  advisor_example_4: "Recurring vaginal infections",
 };
 
 export type TranslationKey = keyof typeof en;
