@@ -240,6 +240,35 @@ const en = {
 
   // Toasts / misc
   toast_added_to_basket: "added to your basket",
+
+  // WhatsApp
+  wa_chat_expert: "Chat with a herbal expert",
+  wa_order_via: "Order via WhatsApp",
+
+  // Nav
+  nav_advisor: "AI Advisor",
+  nav_advisor_short: "Advisor",
+
+  // AI Symptom Advisor
+  advisor_eyebrow: "AI Herbal Advisor",
+  advisor_title: "Tell us how you feel.",
+  advisor_subtitle:
+    "Describe your symptoms and our AI will suggest possible causes, traditional herbs, and gentle lifestyle steps — grounded in Dr. Oluwatomisin's naturopathic approach.",
+  advisor_placeholder: "e.g. I have a headache and constant fatigue for 3 days...",
+  advisor_submit: "Get herbal guidance",
+  advisor_thinking: "Consulting the herbal library…",
+  advisor_clear: "Ask another question",
+  advisor_min_chars: "Please describe your symptoms in a bit more detail.",
+  advisor_error: "Something went wrong. Please try again.",
+  advisor_disclaimer_title: "Not medical advice",
+  advisor_disclaimer_body:
+    "This AI assistant offers general wellness guidance only. For diagnosis, treatment, pregnancy, children or persistent symptoms, please book a consultation or chat on WhatsApp.",
+  advisor_book_consult: "Book a consultation",
+  advisor_examples_title: "Try one of these",
+  advisor_example_1: "I have a headache and fatigue",
+  advisor_example_2: "Bloating and irregular periods",
+  advisor_example_3: "Trouble sleeping and stressed",
+  advisor_example_4: "Recurring vaginal infections",
 };
 
 export type TranslationKey = keyof typeof en;
@@ -470,6 +499,32 @@ const fr: Record<TranslationKey, string> = {
   notfound_return: "Retour à l'accueil",
 
   toast_added_to_basket: "ajouté à votre panier",
+
+  wa_chat_expert: "Discuter avec un expert en herbes",
+  wa_order_via: "Commander via WhatsApp",
+
+  nav_advisor: "Conseiller IA",
+  nav_advisor_short: "Conseiller",
+
+  advisor_eyebrow: "Conseiller herbal IA",
+  advisor_title: "Dites-nous comment vous vous sentez.",
+  advisor_subtitle:
+    "Décrivez vos symptômes et notre IA proposera des causes possibles, des plantes traditionnelles et des conseils de mode de vie — inspirés par l'approche naturopathique du Dr Oluwatomisin.",
+  advisor_placeholder: "ex. J'ai mal à la tête et une grande fatigue depuis 3 jours...",
+  advisor_submit: "Obtenir des conseils",
+  advisor_thinking: "Consultation de la bibliothèque herbale…",
+  advisor_clear: "Poser une autre question",
+  advisor_min_chars: "Veuillez décrire vos symptômes plus en détail.",
+  advisor_error: "Une erreur s'est produite. Veuillez réessayer.",
+  advisor_disclaimer_title: "Pas un avis médical",
+  advisor_disclaimer_body:
+    "Cet assistant IA ne fournit que des conseils généraux de bien-être. Pour un diagnostic, un traitement, la grossesse, les enfants ou des symptômes persistants, veuillez réserver une consultation ou discuter sur WhatsApp.",
+  advisor_book_consult: "Réserver une consultation",
+  advisor_examples_title: "Essayez l'un de ces exemples",
+  advisor_example_1: "J'ai mal à la tête et je suis fatigué",
+  advisor_example_2: "Ballonnements et règles irrégulières",
+  advisor_example_3: "Difficultés à dormir et stress",
+  advisor_example_4: "Infections vaginales récurrentes",
 };
 
 const de: Record<TranslationKey, string> = {
@@ -699,6 +754,32 @@ const de: Record<TranslationKey, string> = {
   notfound_return: "Zur Startseite",
 
   toast_added_to_basket: "in den Warenkorb gelegt",
+
+  wa_chat_expert: "Mit einer Kräuterexpertin chatten",
+  wa_order_via: "Über WhatsApp bestellen",
+
+  nav_advisor: "KI-Berater",
+  nav_advisor_short: "Berater",
+
+  advisor_eyebrow: "KI-Kräuterberater",
+  advisor_title: "Sagen Sie uns, wie Sie sich fühlen.",
+  advisor_subtitle:
+    "Beschreiben Sie Ihre Symptome und unsere KI schlägt mögliche Ursachen, traditionelle Kräuter und sanfte Lebensstil-Tipps vor — basierend auf Dr. Oluwatomisins naturheilkundlichem Ansatz.",
+  advisor_placeholder: "z. B. Ich habe seit 3 Tagen Kopfschmerzen und ständige Müdigkeit...",
+  advisor_submit: "Kräuterrat erhalten",
+  advisor_thinking: "Kräuterbibliothek wird konsultiert…",
+  advisor_clear: "Eine weitere Frage stellen",
+  advisor_min_chars: "Bitte beschreiben Sie Ihre Symptome etwas ausführlicher.",
+  advisor_error: "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+  advisor_disclaimer_title: "Kein medizinischer Rat",
+  advisor_disclaimer_body:
+    "Dieser KI-Assistent bietet nur allgemeine Wellness-Hinweise. Für Diagnose, Behandlung, Schwangerschaft, Kinder oder anhaltende Symptome buchen Sie bitte eine Beratung oder chatten Sie auf WhatsApp.",
+  advisor_book_consult: "Beratung buchen",
+  advisor_examples_title: "Probieren Sie eines davon",
+  advisor_example_1: "Ich habe Kopfschmerzen und Müdigkeit",
+  advisor_example_2: "Blähungen und unregelmäßige Periode",
+  advisor_example_3: "Schlafprobleme und Stress",
+  advisor_example_4: "Wiederkehrende vaginale Infektionen",
 };
 
 const zh: Record<TranslationKey, string> = {
@@ -923,6 +1004,32 @@ const zh: Record<TranslationKey, string> = {
   notfound_return: "返回首页",
 
   toast_added_to_basket: "已加入您的购物篮",
+
+  wa_chat_expert: "与草药专家聊天",
+  wa_order_via: "通过 WhatsApp 下单",
+
+  nav_advisor: "AI 顾问",
+  nav_advisor_short: "顾问",
+
+  advisor_eyebrow: "AI 草药顾问",
+  advisor_title: "告诉我们您的感受。",
+  advisor_subtitle:
+    "描述您的症状,我们的 AI 将根据 Oluwatomisin 医生的自然疗法理念,建议可能的原因、传统草药和温和的生活方式调整。",
+  advisor_placeholder: "例如:我已经头痛和疲劳 3 天了……",
+  advisor_submit: "获取草药建议",
+  advisor_thinking: "正在查阅草药资料……",
+  advisor_clear: "再问一个问题",
+  advisor_min_chars: "请更详细地描述您的症状。",
+  advisor_error: "出错了,请重试。",
+  advisor_disclaimer_title: "非医疗建议",
+  advisor_disclaimer_body:
+    "此 AI 助手仅提供一般健康指导。如需诊断、治疗、孕期、儿童或持续症状的帮助,请预约咨询或通过 WhatsApp 联系。",
+  advisor_book_consult: "预约咨询",
+  advisor_examples_title: "试试这些示例",
+  advisor_example_1: "我头痛而且疲劳",
+  advisor_example_2: "腹胀和月经不规律",
+  advisor_example_3: "失眠和压力大",
+  advisor_example_4: "反复的阴道感染",
 };
 
 const pt: Record<TranslationKey, string> = {
@@ -1152,6 +1259,32 @@ const pt: Record<TranslationKey, string> = {
   notfound_return: "Voltar à página inicial",
 
   toast_added_to_basket: "adicionado ao seu cesto",
+
+  wa_chat_expert: "Falar com uma especialista em ervas",
+  wa_order_via: "Encomendar via WhatsApp",
+
+  nav_advisor: "Conselheiro IA",
+  nav_advisor_short: "Conselheiro",
+
+  advisor_eyebrow: "Conselheiro Herbal IA",
+  advisor_title: "Diga-nos como se sente.",
+  advisor_subtitle:
+    "Descreva os seus sintomas e a nossa IA sugerirá possíveis causas, ervas tradicionais e ajustes suaves de estilo de vida — com base na abordagem naturopática da Dra. Oluwatomisin.",
+  advisor_placeholder: "ex. Tenho dor de cabeça e fadiga constante há 3 dias...",
+  advisor_submit: "Obter orientação herbal",
+  advisor_thinking: "A consultar a biblioteca herbal…",
+  advisor_clear: "Fazer outra pergunta",
+  advisor_min_chars: "Por favor, descreva os seus sintomas com um pouco mais de detalhe.",
+  advisor_error: "Ocorreu um erro. Por favor, tente novamente.",
+  advisor_disclaimer_title: "Não é aconselhamento médico",
+  advisor_disclaimer_body:
+    "Este assistente de IA oferece apenas orientação geral de bem-estar. Para diagnóstico, tratamento, gravidez, crianças ou sintomas persistentes, marque uma consulta ou converse no WhatsApp.",
+  advisor_book_consult: "Marcar uma consulta",
+  advisor_examples_title: "Experimente um destes",
+  advisor_example_1: "Tenho dor de cabeça e fadiga",
+  advisor_example_2: "Inchaço e períodos irregulares",
+  advisor_example_3: "Dificuldade em dormir e stress",
+  advisor_example_4: "Infeções vaginais recorrentes",
 };
 
 export const translations: Record<LanguageCode, Record<TranslationKey, string>> = {

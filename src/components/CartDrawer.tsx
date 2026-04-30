@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { Minus, Plus, X, ShoppingBag } from "lucide-react";
+import { Minus, Plus, X, ShoppingBag, MessageCircle } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { formatNGN } from "@/data/products";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { buildOrderMessage, buildWhatsAppLink } from "@/lib/whatsapp";
 
 export const CartDrawer = () => {
   const { t } = useLanguage();
@@ -91,6 +92,31 @@ export const CartDrawer = () => {
               <p className="mb-4 text-xs text-muted-foreground">{t("cart_shipping_note")}</p>
               <Button asChild size="lg" className="w-full bg-moss text-primary-foreground hover:bg-moss-deep">
                 <Link to="/checkout" onClick={() => setOpen(false)}>{t("cart_proceed")}</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="mt-2 w-full border-[#25D366] text-[#128C7E] hover:bg-[#25D366]/10"
+              >
+                <a
+                  href={buildWhatsAppLink(
+                    buildOrderMessage(
+                      detailedItems.map((d) => ({
+                        name: d.product.name,
+                        quantity: d.quantity,
+                        lineTotal: d.lineTotal,
+                      })),
+                      subtotal,
+                      formatNGN,
+                    ),
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                >
+                  <MessageCircle className="h-4 w-4" /> {t("wa_order_via")}
+                </a>
               </Button>
             </SheetFooter>
           </>
