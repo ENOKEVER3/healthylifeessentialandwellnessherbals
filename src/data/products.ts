@@ -396,7 +396,7 @@ export const products: Product[] = [
     slug: "dark-thighs-kit",
     name: "Dark Thigh, After Shave & Bumps Removal Kit",
     tagline: "Exfoliate · brighten · soothe",
-    price: 16000,
+    price: 15000,
     oldPrice: 20000,
     category: "Body Care",
     group: "Skin Care",
