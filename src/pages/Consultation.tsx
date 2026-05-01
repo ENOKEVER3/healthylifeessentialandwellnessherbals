@@ -38,12 +38,53 @@ type FormErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 const Consultation = () => {
   const { t } = useLanguage();
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState<{ name: string; ref: string } | null>(null);
+  const [submitted, setSubmitted] = useState<{ name: string; ref: string; waLink: string; mailLink: string } | null>(null);
   const [preferredTime, setPreferredTime] = useState("");
   const [dialCode, setDialCode] = useState("+234");
   const [phoneLocal, setPhoneLocal] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [uploading, setUploading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onPickFiles = (list: FileList | null) => {
+    if (!list) return;
+    const next: File[] = [...files];
+    for (const f of Array.from(list)) {
+      if (!ALLOWED_TYPES.includes(f.type)) {
+        toast.error(`${f.name}: only images (JPG, PNG, WEBP, HEIC) and PDF are allowed.`);
+        continue;
+      }
+      if (f.size > MAX_FILE_SIZE) {
+        toast.error(`${f.name}: max file size is 10MB.`);
+        continue;
+      }
+      next.push(f);
+    }
+    setFiles(next.slice(0, 5));
+  };
+
+  const removeFile = (idx: number) => setFiles(files.filter((_, i) => i !== idx));
+
+  const uploadFiles = async (ref: string): Promise<string[]> => {
+    if (files.length === 0) return [];
+    const urls: string[] = [];
+    for (const f of files) {
+      const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const path = `${ref}/${Date.now()}-${safeName}`;
+      const { error } = await supabase.storage
+        .from("consultation-uploads")
+        .upload(path, f, { contentType: f.type, upsert: false });
+      if (error) {
+        console.error("Upload failed", error);
+        toast.error(`Failed to upload ${f.name}`);
+        continue;
+      }
+      const { data } = supabase.storage.from("consultation-uploads").getPublicUrl(path);
+      urls.push(data.publicUrl);
+    }
+    return urls;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -69,12 +110,54 @@ const Consultation = () => {
       return;
     }
     setErrors({});
+
     const ref = "HLE-" + Math.random().toString(36).slice(2, 8).toUpperCase();
-    setSubmitted({ name: result.data.name.split(" ")[0], ref });
+
+    setUploading(true);
+    let attachmentUrls: string[] = [];
+    try {
+      attachmentUrls = await uploadFiles(ref);
+    } finally {
+      setUploading(false);
+    }
+
+    const lines = [
+      "Hello Dr. Oluwatomisin 🌿 I'd like to chat with you. I am from Healthy Life Essentials Official Website. Here is my Complain...",
+      "",
+      `Name: ${result.data.name}`,
+      `Age: ${result.data.age}`,
+      `Email: ${result.data.email}`,
+      `Phone: ${result.data.phone}`,
+      `Preferred contact time: ${result.data.preferredTime}`,
+      "",
+      `Concerns: ${result.data.concerns}`,
+    ];
+    if (result.data.medications) lines.push("", `Current medications / supplements: ${result.data.medications}`);
+    if (result.data.message) lines.push("", `Additional message: ${result.data.message}`);
+    if (attachmentUrls.length > 0) {
+      lines.push("", "Test results:");
+      attachmentUrls.forEach((u) => lines.push(u));
+    }
+    lines.push("", `Reference: ${ref}`);
+
+    const body = lines.join("\n");
+    const waLink = buildWhatsAppLink(body);
+    const subject = `New consultation request — ${result.data.name} (${ref})`;
+    const mailLink = `mailto:${DOCTOR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Open WhatsApp immediately so the message is delivered
+    window.open(waLink, "_blank", "noopener,noreferrer");
+    // Open mail client as a second channel
+    setTimeout(() => {
+      window.location.href = mailLink;
+    }, 400);
+
+    setSubmitted({ name: result.data.name.split(" ")[0], ref, waLink, mailLink });
     form.reset();
     setPreferredTime("");
     setPhoneLocal("");
     setDialCode("+234");
+    setFiles([]);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
