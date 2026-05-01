@@ -100,15 +100,42 @@ const Advisor = () => {
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr,1fr]">
         <section>
-          <Textarea
-            value={symptoms}
-            onChange={(e) => setSymptoms(e.target.value)}
-            placeholder={t("advisor_placeholder")}
-            rows={6}
-            maxLength={2000}
-            className="resize-none border-moss/30 focus-visible:ring-moss"
-            disabled={loading}
-          />
+          <div className="relative" ref={wrapperRef}>
+            <Textarea
+              value={symptoms}
+              onChange={(e) => {
+                setSymptoms(e.target.value);
+                setShowSuggest(true);
+              }}
+              onFocus={() => setShowSuggest(true)}
+              placeholder={t("advisor_placeholder")}
+              rows={6}
+              maxLength={2000}
+              className="resize-none border-moss/30 focus-visible:ring-moss"
+              disabled={loading}
+            />
+            {showSuggest && filteredSuggestions.length > 0 && (
+              <ul
+                role="listbox"
+                className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-moss/30 bg-background shadow-lg"
+              >
+                {filteredSuggestions.map((s) => (
+                  <li key={s}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSymptoms(s);
+                        setShowSuggest(false);
+                      }}
+                      className="block w-full px-3 py-2 text-left text-sm text-foreground transition hover:bg-cream/60"
+                    >
+                      {s}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
             <Button
