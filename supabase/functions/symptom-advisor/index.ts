@@ -32,7 +32,7 @@ Return your answer using EXACTLY this Markdown structure (no extra preamble):
 ### When to seek medical help
 - bullet
 
-> ⚠️ This is general wellness guidance, not medical advice. Please consult Dr. Oluwatomisin or a qualified health professional for personal diagnosis and treatment.`;
+> ⚠️ This is general wellness guidance, not medical advice. Please consult Dr. Oluwatomisin for professional and personal diagnosis and treatment.`;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
