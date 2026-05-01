@@ -69,7 +69,7 @@ const en = {
   consult_meds_placeholder: "List anything you're currently taking, including dosage.",
   consult_message: "Anything else you'd like to share? (optional)",
   consult_privacy:
-    "Your information is treated with strict confidentiality. This form is a demo and does not transmit data — we'll wire it to a secure backend when you're ready.",
+    "Your information is treated with strict confidentiality.",
   consult_submit: "Submit consultation request",
   consult_check_fields: "Please check the highlighted fields.",
   consult_what_to_expect: "What to expect",
@@ -337,7 +337,7 @@ const fr: Record<TranslationKey, string> = {
   consult_meds_placeholder: "Listez ce que vous prenez actuellement, posologie comprise.",
   consult_message: "Autre chose à partager ? (facultatif)",
   consult_privacy:
-    "Vos informations sont traitées en toute confidentialité. Ce formulaire est une démo et ne transmet aucune donnée — nous le connecterons à un backend sécurisé quand vous serez prêt.",
+    "Vos informations sont traitées en toute confidentialité.",
   consult_submit: "Envoyer la demande de consultation",
   consult_check_fields: "Veuillez vérifier les champs surlignés.",
   consult_what_to_expect: "À quoi s'attendre",
@@ -591,7 +591,7 @@ const de: Record<TranslationKey, string> = {
   consult_meds_placeholder: "Listen Sie auf, was Sie aktuell einnehmen, inklusive Dosierung.",
   consult_message: "Möchten Sie noch etwas mitteilen? (optional)",
   consult_privacy:
-    "Ihre Daten werden streng vertraulich behandelt. Dieses Formular ist eine Demo und überträgt keine Daten — wir verbinden es bei Bedarf mit einem sicheren Backend.",
+    "Ihre Daten werden streng vertraulich behandelt.",
   consult_submit: "Beratungsanfrage senden",
   consult_check_fields: "Bitte überprüfen Sie die markierten Felder.",
   consult_what_to_expect: "Was Sie erwartet",
@@ -845,7 +845,7 @@ const zh: Record<TranslationKey, string> = {
   consult_meds_placeholder: "请列出您目前服用的内容,包括剂量。",
   consult_message: "还有其他想分享的吗?(选填)",
   consult_privacy:
-    "您的信息将严格保密。本表格为演示版本,不会传输任何数据——准备好时可接入安全后端。",
+    "您的信息将严格保密。",
   consult_submit: "提交咨询请求",
   consult_check_fields: "请检查标记的字段。",
   consult_what_to_expect: "您可以期待的流程",
@@ -1096,7 +1096,7 @@ const pt: Record<TranslationKey, string> = {
   consult_meds_placeholder: "Liste o que está a tomar atualmente, incluindo dosagem.",
   consult_message: "Algo mais que queira partilhar? (opcional)",
   consult_privacy:
-    "As suas informações são tratadas com total confidencialidade. Este formulário é demonstrativo e não transmite dados — ligaremos a um backend seguro quando estiver pronto.",
+    "As suas informações são tratadas com total confidencialidade.",
   consult_submit: "Enviar pedido de consulta",
   consult_check_fields: "Verifique os campos destacados.",
   consult_what_to_expect: "O que esperar",
