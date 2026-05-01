@@ -327,7 +327,7 @@ const Consultation = () => {
                 htmlFor="testResults"
                 className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-moss/40 bg-background/60 px-4 py-6 text-sm text-moss-deep transition hover:border-moss hover:bg-cream/40"
               >
-                <Upload className="h-4 w-4" />
+                <Upload className="h-5 w-5" strokeWidth={2.25} />
                 <span>Click to add files (JPG, PNG, WEBP, HEIC, PDF)</span>
               </label>
               <input
