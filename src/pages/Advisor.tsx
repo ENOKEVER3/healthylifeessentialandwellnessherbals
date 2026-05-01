@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Sparkles, Loader2, AlertTriangle, RefreshCw, MessageCircle } from "lucide-react";
@@ -9,18 +9,54 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { toast } from "sonner";
 
+const CASE_SUGGESTIONS = [
+  "I'm having irregular periods",
+  "I'm having PCOS",
+  "I'm having excessive facial hair",
+  "I'm having high prolactin",
+  "I'm having vagina dryness",
+  "I'm having low libido",
+  "I'm having low progesterone",
+  "I'm having fibroid",
+  "I'm having ovarian cyst",
+  "I'm having ulcer",
+  "I'm having pelvic inflammatory disease",
+  "I'm having urinary tract infection",
+  "I'm having bacteria vaginitis",
+  "I'm having staphylococcus infection",
+  "I'm having candidiasis",
+  "I'm having erectile dysfunction",
+  "I'm having low sperm count",
+  "I'm having low appetite",
+  "I'm having blocked fallopian tubes",
+  "I'm experiencing sperm leakage",
+];
+
 const Advisor = () => {
   const { t } = useLanguage();
   const [symptoms, setSymptoms] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuggest, setShowSuggest] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const examples = [
-    t("advisor_example_1"),
-    t("advisor_example_2"),
-    t("advisor_example_3"),
-    t("advisor_example_4"),
-  ];
+  const examples = CASE_SUGGESTIONS;
+
+  const filteredSuggestions = useMemo(() => {
+    const q = symptoms.trim().toLowerCase();
+    if (q.length < 2) return [];
+    return CASE_SUGGESTIONS.filter((s) => s.toLowerCase().includes(q)).slice(0, 6);
+  }, [symptoms]);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowSuggest(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
 
   const ask = async (text: string) => {
     const value = text.trim();
