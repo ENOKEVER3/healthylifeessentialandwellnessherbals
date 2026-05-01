@@ -198,10 +198,10 @@ const Consultation = () => {
   }
 
   return (
-    <main className="container-narrow py-16 md:py-24">
+    <main className="container-narrow px-4 py-12 sm:px-6 md:py-24">
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_eyebrow")}</p>
-        <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">
+        <h1 className="mt-3 font-display text-4xl text-moss-deep sm:text-5xl md:text-6xl">
           {t("consult_title")}
         </h1>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
@@ -209,7 +209,7 @@ const Consultation = () => {
         </p>
       </header>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1.4fr,1fr]">
+      <div className="mt-10 grid gap-10 md:mt-12 md:gap-12 lg:grid-cols-[1.4fr,1fr]">
         <form onSubmit={handleSubmit} noValidate className="space-y-8">
           <section className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
