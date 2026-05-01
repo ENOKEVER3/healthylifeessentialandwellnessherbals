@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import ceo1 from "@/assets/ceo-portrait.jpeg";
 import ceo2 from "@/assets/ceo-2.jpeg";
+import ceo3 from "@/assets/ceo-3.jpeg";
+import ceo4 from "@/assets/ceo-4.jpeg";
 
 const CEO = () => {
   const { t } = useLanguage();
@@ -137,6 +139,22 @@ const CEO = () => {
             <Link to="/consultation">{t("ceo_book")}</Link>
           </Button>
         </aside>
+      </section>
+
+      {/* Editorial gallery */}
+      <section className="bg-cream/40 py-16 md:py-20">
+        <div className="container-narrow">
+          <p className="text-xs uppercase tracking-[0.28em] text-ochre">In frame</p>
+          <h2 className="mt-3 font-display text-3xl text-moss-deep md:text-4xl">Editorial portraits</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            <div className="aspect-[4/5] overflow-hidden bg-muted">
+              <img src={ceo3} alt="Dr. Kolawole Oluwatomisin Esther — editorial portrait" className="h-full w-full object-cover" loading="lazy" />
+            </div>
+            <div className="aspect-[4/5] overflow-hidden bg-muted">
+              <img src={ceo4} alt="Dr. Kolawole Oluwatomisin Esther — editorial portrait" className="h-full w-full object-cover" loading="lazy" />
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Sparkles, Loader2, AlertTriangle, RefreshCw, MessageCircle } from "lucide-react";
@@ -9,18 +9,54 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { toast } from "sonner";
 
+const CASE_SUGGESTIONS = [
+  "I'm having irregular periods",
+  "I'm having PCOS",
+  "I'm having excessive facial hair",
+  "I'm having high prolactin",
+  "I'm having vagina dryness",
+  "I'm having low libido",
+  "I'm having low progesterone",
+  "I'm having fibroid",
+  "I'm having ovarian cyst",
+  "I'm having ulcer",
+  "I'm having pelvic inflammatory disease",
+  "I'm having urinary tract infection",
+  "I'm having bacteria vaginitis",
+  "I'm having staphylococcus infection",
+  "I'm having candidiasis",
+  "I'm having erectile dysfunction",
+  "I'm having low sperm count",
+  "I'm having low appetite",
+  "I'm having blocked fallopian tubes",
+  "I'm experiencing sperm leakage",
+];
+
 const Advisor = () => {
   const { t } = useLanguage();
   const [symptoms, setSymptoms] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuggest, setShowSuggest] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const examples = [
-    t("advisor_example_1"),
-    t("advisor_example_2"),
-    t("advisor_example_3"),
-    t("advisor_example_4"),
-  ];
+  const examples = CASE_SUGGESTIONS;
+
+  const filteredSuggestions = useMemo(() => {
+    const q = symptoms.trim().toLowerCase();
+    if (q.length < 2) return [];
+    return CASE_SUGGESTIONS.filter((s) => s.toLowerCase().includes(q)).slice(0, 6);
+  }, [symptoms]);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowSuggest(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
 
   const ask = async (text: string) => {
     const value = text.trim();
@@ -64,15 +100,42 @@ const Advisor = () => {
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr,1fr]">
         <section>
-          <Textarea
-            value={symptoms}
-            onChange={(e) => setSymptoms(e.target.value)}
-            placeholder={t("advisor_placeholder")}
-            rows={6}
-            maxLength={2000}
-            className="resize-none border-moss/30 focus-visible:ring-moss"
-            disabled={loading}
-          />
+          <div className="relative" ref={wrapperRef}>
+            <Textarea
+              value={symptoms}
+              onChange={(e) => {
+                setSymptoms(e.target.value);
+                setShowSuggest(true);
+              }}
+              onFocus={() => setShowSuggest(true)}
+              placeholder={t("advisor_placeholder")}
+              rows={6}
+              maxLength={2000}
+              className="resize-none border-moss/30 focus-visible:ring-moss"
+              disabled={loading}
+            />
+            {showSuggest && filteredSuggestions.length > 0 && (
+              <ul
+                role="listbox"
+                className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-moss/30 bg-background shadow-lg"
+              >
+                {filteredSuggestions.map((s) => (
+                  <li key={s}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSymptoms(s);
+                        setShowSuggest(false);
+                      }}
+                      className="block w-full px-3 py-2 text-left text-sm text-foreground transition hover:bg-cream/60"
+                    >
+                      {s}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
             <Button
