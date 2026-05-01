@@ -304,6 +304,58 @@ const Consultation = () => {
             <Textarea id="message" name="message" rows={3} className="mt-1.5" />
           </div>
 
+          {/* Test results upload */}
+          <div className="rounded-lg border border-moss/30 bg-cream/30 p-5">
+            <Label className="text-sm font-medium text-moss-deep">
+              Upload your test results (optional)
+            </Label>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Attach lab reports, scans or prescriptions as images or PDF. They'll be sent to Dr. Oluwatomisin together with your message. Max 5 files, 10MB each.
+            </p>
+            <div className="mt-3">
+              <label
+                htmlFor="testResults"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-moss/40 bg-background/60 px-4 py-6 text-sm text-moss-deep transition hover:border-moss hover:bg-cream/40"
+              >
+                <Upload className="h-4 w-4" />
+                <span>Click to add files (JPG, PNG, WEBP, HEIC, PDF)</span>
+              </label>
+              <input
+                id="testResults"
+                type="file"
+                multiple
+                accept="image/jpeg,image/png,image/webp,image/heic,application/pdf"
+                className="sr-only"
+                onChange={(e) => {
+                  onPickFiles(e.target.files);
+                  e.currentTarget.value = "";
+                }}
+              />
+            </div>
+            {files.length > 0 && (
+              <ul className="mt-3 space-y-2">
+                {files.map((f, i) => (
+                  <li
+                    key={`${f.name}-${i}`}
+                    className="flex items-center justify-between gap-3 rounded-md border border-border bg-background px-3 py-2 text-xs"
+                  >
+                    <span className="truncate">
+                      {f.name} <span className="text-muted-foreground">({(f.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(i)}
+                      className="shrink-0 text-muted-foreground transition hover:text-destructive"
+                      aria-label={`Remove ${f.name}`}
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
           <p className="text-xs italic text-muted-foreground">
             {t("consult_privacy")}
           </p>
@@ -311,9 +363,16 @@ const Consultation = () => {
           <Button
             type="submit"
             size="lg"
+            disabled={uploading}
             className="w-full bg-moss text-primary-foreground hover:bg-moss-deep sm:w-auto"
           >
-            {t("consult_submit")}
+            {uploading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Uploading…
+              </>
+            ) : (
+              t("consult_submit")
+            )}
           </Button>
         </form>
 
