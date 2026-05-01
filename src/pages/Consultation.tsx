@@ -163,30 +163,30 @@ const Consultation = () => {
 
   if (submitted) {
     return (
-      <main className="container-narrow flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-moss text-primary-foreground">
-          <Check className="h-6 w-6" strokeWidth={1.5} />
+      <main className="container-narrow flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center sm:py-20">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-moss text-primary-foreground">
+          <Check className="h-8 w-8" strokeWidth={2.5} />
         </div>
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_received")}</p>
-        <h1 className="mt-3 font-display text-5xl text-moss-deep text-balance md:text-6xl">
+        <h1 className="mt-3 font-display text-4xl text-moss-deep text-balance sm:text-5xl md:text-6xl">
           {t("consult_thank_you")} {submitted.name}.
         </h1>
-        <p className="mt-5 max-w-xl text-muted-foreground">
+        <p className="mt-5 max-w-xl text-sm text-muted-foreground sm:text-base">
           Your consultation request <span className="font-medium text-foreground">{submitted.ref}</span> has been prepared.
           We've opened WhatsApp and your email app so you can send it directly to Dr. Oluwatomisin.
         </p>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
           If nothing opened, use one of the buttons below.
         </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-6 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
           <Button asChild className="bg-[#25D366] text-white hover:bg-[#25D366]/90">
             <a href={submitted.waLink} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="h-4 w-4" /> Send on WhatsApp
+              <MessageCircle className="h-5 w-5" strokeWidth={2.5} /> Send on WhatsApp
             </a>
           </Button>
           <Button asChild variant="outline">
             <a href={submitted.mailLink}>
-              <Mail className="h-4 w-4" /> Send by Email
+              <Mail className="h-5 w-5" strokeWidth={2.5} /> Send by Email
             </a>
           </Button>
         </div>
