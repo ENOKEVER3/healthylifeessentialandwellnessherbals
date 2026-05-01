@@ -163,30 +163,30 @@ const Consultation = () => {
 
   if (submitted) {
     return (
-      <main className="container-narrow flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-moss text-primary-foreground">
-          <Check className="h-6 w-6" strokeWidth={1.5} />
+      <main className="container-narrow flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center sm:py-20">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-moss text-primary-foreground">
+          <Check className="h-8 w-8" strokeWidth={2.5} />
         </div>
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_received")}</p>
-        <h1 className="mt-3 font-display text-5xl text-moss-deep text-balance md:text-6xl">
+        <h1 className="mt-3 font-display text-4xl text-moss-deep text-balance sm:text-5xl md:text-6xl">
           {t("consult_thank_you")} {submitted.name}.
         </h1>
-        <p className="mt-5 max-w-xl text-muted-foreground">
+        <p className="mt-5 max-w-xl text-sm text-muted-foreground sm:text-base">
           Your consultation request <span className="font-medium text-foreground">{submitted.ref}</span> has been prepared.
           We've opened WhatsApp and your email app so you can send it directly to Dr. Oluwatomisin.
         </p>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
           If nothing opened, use one of the buttons below.
         </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-6 flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
           <Button asChild className="bg-[#25D366] text-white hover:bg-[#25D366]/90">
             <a href={submitted.waLink} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="h-4 w-4" /> Send on WhatsApp
+              <MessageCircle className="h-5 w-5" strokeWidth={2.5} /> Send on WhatsApp
             </a>
           </Button>
           <Button asChild variant="outline">
             <a href={submitted.mailLink}>
-              <Mail className="h-4 w-4" /> Send by Email
+              <Mail className="h-5 w-5" strokeWidth={2.5} /> Send by Email
             </a>
           </Button>
         </div>
@@ -198,10 +198,10 @@ const Consultation = () => {
   }
 
   return (
-    <main className="container-narrow py-16 md:py-24">
+    <main className="container-narrow px-4 py-12 sm:px-6 md:py-24">
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_eyebrow")}</p>
-        <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">
+        <h1 className="mt-3 font-display text-4xl text-moss-deep sm:text-5xl md:text-6xl">
           {t("consult_title")}
         </h1>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
@@ -209,7 +209,7 @@ const Consultation = () => {
         </p>
       </header>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1.4fr,1fr]">
+      <div className="mt-10 grid gap-10 md:mt-12 md:gap-12 lg:grid-cols-[1.4fr,1fr]">
         <form onSubmit={handleSubmit} noValidate className="space-y-8">
           <section className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
@@ -226,8 +226,18 @@ const Consultation = () => {
               <Label htmlFor="phone">{t("consult_phone")}</Label>
               <div className="mt-1.5 flex gap-2">
                 <Select value={dialCode} onValueChange={setDialCode}>
-                  <SelectTrigger className="w-[140px] shrink-0" aria-label={t("consult_country_code")}>
-                    <SelectValue />
+                  <SelectTrigger
+                    className="w-[110px] shrink-0 sm:w-[120px]"
+                    aria-label={t("consult_country_code")}
+                  >
+                    <span className="flex items-center gap-1.5 truncate">
+                      <span className="text-base leading-none">
+                        {flagFor(
+                          countryCodes.find((c) => c.dial === dialCode)?.iso ?? "NG",
+                        )}
+                      </span>
+                      <span className="font-medium">{dialCode}</span>
+                    </span>
                   </SelectTrigger>
                   <SelectContent className="max-h-72">
                     {countryCodes.map((c) => (
@@ -245,7 +255,7 @@ const Consultation = () => {
                   required
                   value={phoneLocal}
                   onChange={(e) => setPhoneLocal(e.target.value)}
-                  className="flex-1"
+                  className="flex-1 min-w-0"
                   placeholder="706 296 6893"
                   inputMode="tel"
                 />
@@ -317,7 +327,7 @@ const Consultation = () => {
                 htmlFor="testResults"
                 className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-moss/40 bg-background/60 px-4 py-6 text-sm text-moss-deep transition hover:border-moss hover:bg-cream/40"
               >
-                <Upload className="h-4 w-4" />
+                <Upload className="h-5 w-5" strokeWidth={2.25} />
                 <span>Click to add files (JPG, PNG, WEBP, HEIC, PDF)</span>
               </label>
               <input
@@ -348,7 +358,7 @@ const Consultation = () => {
                       className="shrink-0 text-muted-foreground transition hover:text-destructive"
                       aria-label={`Remove ${f.name}`}
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-5 w-5" strokeWidth={2.5} />
                     </button>
                   </li>
                 ))}
@@ -368,7 +378,7 @@ const Consultation = () => {
           >
             {uploading ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Uploading…
+                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2.5} /> Uploading…
               </>
             ) : (
               t("consult_submit")
@@ -376,9 +386,9 @@ const Consultation = () => {
           </Button>
         </form>
 
-        <aside className="h-fit space-y-6 bg-cream/50 p-7 lg:sticky lg:top-24">
+        <aside className="h-fit space-y-6 rounded-lg bg-cream/50 p-6 sm:p-7 lg:sticky lg:top-24">
           <div className="flex items-center gap-2">
-            <Stethoscope className="h-5 w-5 text-moss" strokeWidth={1.5} />
+            <Stethoscope className="h-6 w-6 text-moss" strokeWidth={2.25} />
             <h2 className="font-display text-2xl text-moss-deep">{t("consult_what_to_expect")}</h2>
           </div>
           <ol className="space-y-4 text-sm text-foreground/80">
@@ -398,9 +408,9 @@ const Consultation = () => {
           <div className="border-t border-border pt-5">
             <p className="text-xs uppercase tracking-[0.22em] text-moss">{t("consult_or_contact")}</p>
             <ul className="mt-3 space-y-2 text-sm text-foreground/80">
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-moss" /> +234 706 296 6893</li>
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-moss" /> care@healthylifeessentials.co</li>
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-moss" /> Ado Ekiti & Lagos, Nigeria</li>
+              <li className="flex items-center gap-2"><Phone className="h-5 w-5 text-moss" strokeWidth={2.25} /> +234 706 296 6893</li>
+              <li className="flex items-center gap-2"><Mail className="h-5 w-5 text-moss" strokeWidth={2.25} /> care@healthylifeessentials.co</li>
+              <li className="flex items-center gap-2"><MapPin className="h-5 w-5 text-moss" strokeWidth={2.25} /> Ado Ekiti & Lagos, Nigeria</li>
             </ul>
           </div>
         </aside>
