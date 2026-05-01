@@ -358,7 +358,7 @@ const Consultation = () => {
                       className="shrink-0 text-muted-foreground transition hover:text-destructive"
                       aria-label={`Remove ${f.name}`}
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-5 w-5" strokeWidth={2.5} />
                     </button>
                   </li>
                 ))}
@@ -378,7 +378,7 @@ const Consultation = () => {
           >
             {uploading ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Uploading…
+                <Loader2 className="h-5 w-5 animate-spin" strokeWidth={2.5} /> Uploading…
               </>
             ) : (
               t("consult_submit")
@@ -386,9 +386,9 @@ const Consultation = () => {
           </Button>
         </form>
 
-        <aside className="h-fit space-y-6 bg-cream/50 p-7 lg:sticky lg:top-24">
+        <aside className="h-fit space-y-6 rounded-lg bg-cream/50 p-6 sm:p-7 lg:sticky lg:top-24">
           <div className="flex items-center gap-2">
-            <Stethoscope className="h-5 w-5 text-moss" strokeWidth={1.5} />
+            <Stethoscope className="h-6 w-6 text-moss" strokeWidth={2.25} />
             <h2 className="font-display text-2xl text-moss-deep">{t("consult_what_to_expect")}</h2>
           </div>
           <ol className="space-y-4 text-sm text-foreground/80">
@@ -408,9 +408,9 @@ const Consultation = () => {
           <div className="border-t border-border pt-5">
             <p className="text-xs uppercase tracking-[0.22em] text-moss">{t("consult_or_contact")}</p>
             <ul className="mt-3 space-y-2 text-sm text-foreground/80">
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-moss" /> +234 706 296 6893</li>
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-moss" /> care@healthylifeessentials.co</li>
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-moss" /> Ado Ekiti & Lagos, Nigeria</li>
+              <li className="flex items-center gap-2"><Phone className="h-5 w-5 text-moss" strokeWidth={2.25} /> +234 706 296 6893</li>
+              <li className="flex items-center gap-2"><Mail className="h-5 w-5 text-moss" strokeWidth={2.25} /> care@healthylifeessentials.co</li>
+              <li className="flex items-center gap-2"><MapPin className="h-5 w-5 text-moss" strokeWidth={2.25} /> Ado Ekiti & Lagos, Nigeria</li>
             </ul>
           </div>
         </aside>
