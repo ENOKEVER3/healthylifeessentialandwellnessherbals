@@ -226,8 +226,18 @@ const Consultation = () => {
               <Label htmlFor="phone">{t("consult_phone")}</Label>
               <div className="mt-1.5 flex gap-2">
                 <Select value={dialCode} onValueChange={setDialCode}>
-                  <SelectTrigger className="w-[140px] shrink-0" aria-label={t("consult_country_code")}>
-                    <SelectValue />
+                  <SelectTrigger
+                    className="w-[110px] shrink-0 sm:w-[120px]"
+                    aria-label={t("consult_country_code")}
+                  >
+                    <span className="flex items-center gap-1.5 truncate">
+                      <span className="text-base leading-none">
+                        {flagFor(
+                          countryCodes.find((c) => c.dial === dialCode)?.iso ?? "NG",
+                        )}
+                      </span>
+                      <span className="font-medium">{dialCode}</span>
+                    </span>
                   </SelectTrigger>
                   <SelectContent className="max-h-72">
                     {countryCodes.map((c) => (
@@ -245,7 +255,7 @@ const Consultation = () => {
                   required
                   value={phoneLocal}
                   onChange={(e) => setPhoneLocal(e.target.value)}
-                  className="flex-1"
+                  className="flex-1 min-w-0"
                   placeholder="706 296 6893"
                   inputMode="tel"
                 />
