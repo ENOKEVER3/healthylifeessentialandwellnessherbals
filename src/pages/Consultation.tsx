@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { Check, Phone, Mail, MapPin, Stethoscope } from "lucide-react";
+import { Check, Phone, Mail, MapPin, Stethoscope, Upload, X, Loader2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,12 @@ import {
 import { toast } from "sonner";
 import { countryCodes, flagFor } from "@/data/countryCodes";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
+
+const DOCTOR_EMAIL = "Oluwatomisin625@gmail.com";
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "application/pdf"];
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
