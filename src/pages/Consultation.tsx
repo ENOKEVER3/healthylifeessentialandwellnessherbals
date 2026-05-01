@@ -172,12 +172,25 @@ const Consultation = () => {
           {t("consult_thank_you")} {submitted.name}.
         </h1>
         <p className="mt-5 max-w-xl text-muted-foreground">
-          {t("consult_received_body_a")} <span className="font-medium text-foreground">{submitted.ref}</span> {t("consult_received_body_b")}
+          Your consultation request <span className="font-medium text-foreground">{submitted.ref}</span> has been prepared.
+          We've opened WhatsApp and your email app so you can send it directly to Dr. Oluwatomisin.
         </p>
-        <p className="mt-3 text-xs italic text-muted-foreground">
-          {t("consult_received_demo")}
+        <p className="mt-3 max-w-xl text-sm text-muted-foreground">
+          If nothing opened, use one of the buttons below.
         </p>
-        <Button onClick={() => setSubmitted(null)} className="mt-8 bg-moss text-primary-foreground hover:bg-moss-deep">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Button asChild className="bg-[#25D366] text-white hover:bg-[#25D366]/90">
+            <a href={submitted.waLink} target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="h-4 w-4" /> Send on WhatsApp
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <a href={submitted.mailLink}>
+              <Mail className="h-4 w-4" /> Send by Email
+            </a>
+          </Button>
+        </div>
+        <Button onClick={() => setSubmitted(null)} variant="ghost" className="mt-6">
           {t("consult_submit_another")}
         </Button>
       </main>
