@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Check, Phone, Mail, MapPin, Stethoscope, Upload, X, Loader2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,15 +35,66 @@ const schema = z.object({
 
 type FormErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
+const STORAGE_KEY = "hle-consultation-draft";
+
+type Draft = {
+  name: string;
+  email: string;
+  age: string;
+  concerns: string;
+  medications: string;
+  message: string;
+  preferredTime: string;
+  dialCode: string;
+  phoneLocal: string;
+};
+
+const emptyDraft: Draft = {
+  name: "", email: "", age: "", concerns: "", medications: "",
+  message: "", preferredTime: "", dialCode: "+234", phoneLocal: "",
+};
+
+const loadDraft = (): Draft => {
+  if (typeof window === "undefined") return emptyDraft;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return emptyDraft;
+    return { ...emptyDraft, ...JSON.parse(raw) };
+  } catch {
+    return emptyDraft;
+  }
+};
+
 const Consultation = () => {
   const { t } = useLanguage();
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState<{ name: string; ref: string; waLink: string; mailLink: string } | null>(null);
-  const [preferredTime, setPreferredTime] = useState("");
-  const [dialCode, setDialCode] = useState("+234");
-  const [phoneLocal, setPhoneLocal] = useState("");
+  const initial = loadDraft();
+  const [name, setName] = useState(initial.name);
+  const [email, setEmail] = useState(initial.email);
+  const [age, setAge] = useState(initial.age);
+  const [concerns, setConcerns] = useState(initial.concerns);
+  const [medications, setMedications] = useState(initial.medications);
+  const [message, setMessage] = useState(initial.message);
+  const [preferredTime, setPreferredTime] = useState(initial.preferredTime);
+  const [dialCode, setDialCode] = useState(initial.dialCode);
+  const [phoneLocal, setPhoneLocal] = useState(initial.phoneLocal);
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
+
+  // Persist draft to localStorage on any change
+  useEffect(() => {
+    const draft: Draft = { name, email, age, concerns, medications, message, preferredTime, dialCode, phoneLocal };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+    } catch {
+      // ignore quota errors
+    }
+  }, [name, email, age, concerns, medications, message, preferredTime, dialCode, phoneLocal]);
+
+  const clearDraft = () => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* noop */ }
+  };
 
   const onPickFiles = (list: FileList | null) => {
     if (!list) return;
@@ -86,17 +137,15 @@ const Consultation = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
     const payload = {
-      name: data.get("name") as string,
-      email: data.get("email") as string,
+      name,
+      email,
       phone: `${dialCode} ${phoneLocal}`.trim(),
-      age: data.get("age") as string,
-      concerns: data.get("concerns") as string,
-      medications: (data.get("medications") as string) || "",
+      age,
+      concerns,
+      medications,
       preferredTime,
-      message: (data.get("message") as string) || "",
+      message,
     };
     const result = schema.safeParse(payload);
     if (!result.success) {
@@ -153,11 +202,13 @@ const Consultation = () => {
     }, 400);
 
     setSubmitted({ name: result.data.name.split(" ")[0], ref, waLink, mailLink });
-    form.reset();
+    setName(""); setEmail(""); setAge(""); setConcerns("");
+    setMedications(""); setMessage("");
     setPreferredTime("");
     setPhoneLocal("");
     setDialCode("+234");
     setFiles([]);
+    clearDraft();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -214,12 +265,12 @@ const Consultation = () => {
           <section className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <Label htmlFor="name">{t("consult_full_name")}</Label>
-              <Input id="name" name="name" required className="mt-1.5" />
+              <Input id="name" name="name" required value={name} onChange={(e) => setName(e.target.value)} className="mt-1.5" />
               {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
             </div>
             <div>
               <Label htmlFor="email">{t("consult_email")}</Label>
-              <Input id="email" name="email" type="email" required className="mt-1.5" />
+              <Input id="email" name="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5" />
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
             <div>
@@ -264,7 +315,7 @@ const Consultation = () => {
             </div>
             <div>
               <Label htmlFor="age">{t("consult_age")}</Label>
-              <Input id="age" name="age" type="number" min={13} max={110} required className="mt-1.5" />
+              <Input id="age" name="age" type="number" min={13} max={110} required value={age} onChange={(e) => setAge(e.target.value)} className="mt-1.5" />
               {errors.age && <p className="mt-1 text-xs text-destructive">{errors.age}</p>}
             </div>
             <div>
@@ -291,6 +342,8 @@ const Consultation = () => {
               name="concerns"
               required
               rows={5}
+              value={concerns}
+              onChange={(e) => setConcerns(e.target.value)}
               className="mt-1.5"
               placeholder={t("consult_concerns_placeholder")}
             />
@@ -303,6 +356,8 @@ const Consultation = () => {
               id="medications"
               name="medications"
               rows={3}
+              value={medications}
+              onChange={(e) => setMedications(e.target.value)}
               className="mt-1.5"
               placeholder={t("consult_meds_placeholder")}
             />
@@ -311,7 +366,7 @@ const Consultation = () => {
 
           <div>
             <Label htmlFor="message">{t("consult_message")}</Label>
-            <Textarea id="message" name="message" rows={3} className="mt-1.5" />
+            <Textarea id="message" name="message" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} className="mt-1.5" />
           </div>
 
           {/* Test results upload */}

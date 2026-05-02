@@ -11,6 +11,7 @@ import {
 import logo from "@/assets/logo.png";
 import { productGroups } from "@/data/products";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -57,6 +58,7 @@ export const SiteHeader = () => {
 
         <div className="flex items-center gap-1">
           <LanguageSwitcher />
+          <ThemeSwitcher />
           <Button
             variant="ghost"
             size="sm"
