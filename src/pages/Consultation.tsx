@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Check, Phone, Mail, MapPin, Stethoscope, Upload, X, Loader2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,15 +35,66 @@ const schema = z.object({
 
 type FormErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
 
+const STORAGE_KEY = "hle-consultation-draft";
+
+type Draft = {
+  name: string;
+  email: string;
+  age: string;
+  concerns: string;
+  medications: string;
+  message: string;
+  preferredTime: string;
+  dialCode: string;
+  phoneLocal: string;
+};
+
+const emptyDraft: Draft = {
+  name: "", email: "", age: "", concerns: "", medications: "",
+  message: "", preferredTime: "", dialCode: "+234", phoneLocal: "",
+};
+
+const loadDraft = (): Draft => {
+  if (typeof window === "undefined") return emptyDraft;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return emptyDraft;
+    return { ...emptyDraft, ...JSON.parse(raw) };
+  } catch {
+    return emptyDraft;
+  }
+};
+
 const Consultation = () => {
   const { t } = useLanguage();
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState<{ name: string; ref: string; waLink: string; mailLink: string } | null>(null);
-  const [preferredTime, setPreferredTime] = useState("");
-  const [dialCode, setDialCode] = useState("+234");
-  const [phoneLocal, setPhoneLocal] = useState("");
+  const initial = loadDraft();
+  const [name, setName] = useState(initial.name);
+  const [email, setEmail] = useState(initial.email);
+  const [age, setAge] = useState(initial.age);
+  const [concerns, setConcerns] = useState(initial.concerns);
+  const [medications, setMedications] = useState(initial.medications);
+  const [message, setMessage] = useState(initial.message);
+  const [preferredTime, setPreferredTime] = useState(initial.preferredTime);
+  const [dialCode, setDialCode] = useState(initial.dialCode);
+  const [phoneLocal, setPhoneLocal] = useState(initial.phoneLocal);
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
+
+  // Persist draft to localStorage on any change
+  useEffect(() => {
+    const draft: Draft = { name, email, age, concerns, medications, message, preferredTime, dialCode, phoneLocal };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+    } catch {
+      // ignore quota errors
+    }
+  }, [name, email, age, concerns, medications, message, preferredTime, dialCode, phoneLocal]);
+
+  const clearDraft = () => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* noop */ }
+  };
 
   const onPickFiles = (list: FileList | null) => {
     if (!list) return;
