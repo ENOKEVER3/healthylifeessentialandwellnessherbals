@@ -244,6 +244,7 @@ const en = {
   // WhatsApp
   wa_chat_expert: "Chat with a herbal expert",
   wa_order_via: "Order via WhatsApp",
+  tiktok_order_via: "Order via TikTok Shop",
 
   // Nav
   nav_advisor: "AI Advisor",
@@ -501,6 +502,7 @@ const fr: Record<TranslationKey, string> = {
   toast_added_to_basket: "ajouté à votre panier",
 
   wa_chat_expert: "Discuter avec un expert en herbes",
+  tiktok_order_via: "Commander via TikTok Shop",
   wa_order_via: "Commander via WhatsApp",
 
   nav_advisor: "Conseiller IA",
@@ -755,6 +757,7 @@ const de: Record<TranslationKey, string> = {
 
   toast_added_to_basket: "in den Warenkorb gelegt",
 
+  tiktok_order_via: "Über TikTok Shop bestellen",
   wa_chat_expert: "Mit einer Kräuterexpertin chatten",
   wa_order_via: "Über WhatsApp bestellen",
 
@@ -1004,6 +1007,7 @@ const zh: Record<TranslationKey, string> = {
   notfound_return: "返回首页",
 
   toast_added_to_basket: "已加入您的购物篮",
+  tiktok_order_via: "通过 TikTok 商店下单",
 
   wa_chat_expert: "与草药专家聊天",
   wa_order_via: "通过 WhatsApp 下单",
@@ -1258,6 +1262,7 @@ const pt: Record<TranslationKey, string> = {
   notfound_title: "Ups! Página não encontrada",
   notfound_return: "Voltar à página inicial",
 
+  tiktok_order_via: "Encomendar via TikTok Shop",
   toast_added_to_basket: "adicionado ao seu cesto",
 
   wa_chat_expert: "Falar com uma especialista em ervas",
