@@ -137,17 +137,15 @@ const Consultation = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
     const payload = {
-      name: data.get("name") as string,
-      email: data.get("email") as string,
+      name,
+      email,
       phone: `${dialCode} ${phoneLocal}`.trim(),
-      age: data.get("age") as string,
-      concerns: data.get("concerns") as string,
-      medications: (data.get("medications") as string) || "",
+      age,
+      concerns,
+      medications,
       preferredTime,
-      message: (data.get("message") as string) || "",
+      message,
     };
     const result = schema.safeParse(payload);
     if (!result.success) {
@@ -204,11 +202,13 @@ const Consultation = () => {
     }, 400);
 
     setSubmitted({ name: result.data.name.split(" ")[0], ref, waLink, mailLink });
-    form.reset();
+    setName(""); setEmail(""); setAge(""); setConcerns("");
+    setMedications(""); setMessage("");
     setPreferredTime("");
     setPhoneLocal("");
     setDialCode("+234");
     setFiles([]);
+    clearDraft();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
