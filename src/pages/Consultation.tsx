@@ -265,12 +265,12 @@ const Consultation = () => {
           <section className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <Label htmlFor="name">{t("consult_full_name")}</Label>
-              <Input id="name" name="name" required className="mt-1.5" />
+              <Input id="name" name="name" required value={name} onChange={(e) => setName(e.target.value)} className="mt-1.5" />
               {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
             </div>
             <div>
               <Label htmlFor="email">{t("consult_email")}</Label>
-              <Input id="email" name="email" type="email" required className="mt-1.5" />
+              <Input id="email" name="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5" />
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
             <div>
@@ -315,7 +315,7 @@ const Consultation = () => {
             </div>
             <div>
               <Label htmlFor="age">{t("consult_age")}</Label>
-              <Input id="age" name="age" type="number" min={13} max={110} required className="mt-1.5" />
+              <Input id="age" name="age" type="number" min={13} max={110} required value={age} onChange={(e) => setAge(e.target.value)} className="mt-1.5" />
               {errors.age && <p className="mt-1 text-xs text-destructive">{errors.age}</p>}
             </div>
             <div>
@@ -342,6 +342,8 @@ const Consultation = () => {
               name="concerns"
               required
               rows={5}
+              value={concerns}
+              onChange={(e) => setConcerns(e.target.value)}
               className="mt-1.5"
               placeholder={t("consult_concerns_placeholder")}
             />
@@ -354,6 +356,8 @@ const Consultation = () => {
               id="medications"
               name="medications"
               rows={3}
+              value={medications}
+              onChange={(e) => setMedications(e.target.value)}
               className="mt-1.5"
               placeholder={t("consult_meds_placeholder")}
             />
@@ -362,7 +366,7 @@ const Consultation = () => {
 
           <div>
             <Label htmlFor="message">{t("consult_message")}</Label>
-            <Textarea id="message" name="message" rows={3} className="mt-1.5" />
+            <Textarea id="message" name="message" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} className="mt-1.5" />
           </div>
 
           {/* Test results upload */}
