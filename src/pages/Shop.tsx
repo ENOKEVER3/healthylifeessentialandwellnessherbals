@@ -64,6 +64,11 @@ const Shop = () => {
 
   return (
     <div className="container-narrow py-16 md:py-24">
+      <Seo
+        title={`${group === ALL ? "Shop herbal remedies" : group} — Healthy Life Essentials`}
+        description="Browse our small-batch herbal teas, capsules, balms, and feminine wellness blends. Hand-formulated by Dr. Oluwatomisin."
+        path={group === ALL ? "/shop" : `/shop?group=${encodeURIComponent(group)}`}
+      />
       <header className="mb-10 max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("shop_eyebrow")}</p>
         <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">

@@ -17,6 +17,7 @@ import { countryCodes, flagFor } from "@/data/countryCodes";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { Seo } from "@/components/Seo";
 
 const DOCTOR_EMAIL = "Oluwatomisin625@gmail.com";
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "application/pdf"];
@@ -259,6 +260,11 @@ const Consultation = () => {
 
   return (
     <div className="container-narrow px-4 py-12 sm:px-6 md:py-24">
+      <Seo
+        title="Book a Consultation with Dr. Oluwatomisin"
+        description="Book a personal herbal consultation with Naturopathic Dr. Oluwatomisin via WhatsApp or email. Share your concerns and any test results securely."
+        path="/consultation"
+      />
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_eyebrow")}</p>
         <h1 className="mt-3 font-display text-4xl text-moss-deep sm:text-5xl md:text-6xl">
