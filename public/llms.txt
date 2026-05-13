@@ -1,0 +1,28 @@
+# Healthy Life Essentials & Wellness Herbals
+
+> Hand-formulated herbal tinctures, teas, capsules, and balms. Small-batch, plant-grown, made with care. A Nigerian wellness brand founded by Naturopathic Dr. Kolawole Oluwatomisin Esther.
+
+Healthy Life Essentials & Wellness Herbals is a natural wellness company that crafts herbal remedies for hormonal balance, fertility, reproductive health, infections, diabetes, hypertension, rheumatism, liver health, and general wellbeing. Products include brewed herbal tonics, organic teabags, vegan capsules, feminine care washes, and skincare kits. The brand also offers private medical consultations and an AI-powered symptom advisor.
+
+## Pages
+
+- [Home](/): Browse herbal remedies, wellness kits, and book consultations.
+- [Shop](/shop): Full product catalog of herbal teas, tonics, capsules, and wellness kits.
+- [About](/about): Our story, sourcing philosophy, and small-batch production process.
+- [CEO](/ceo): Meet Dr. Kolawole Oluwatomisin Esther — naturopathic doctor and founder.
+- [Medical Consultation](/consultation): Book a private consultation and upload test results for personalized herbal protocols.
+- [AI Symptom Advisor](/advisor): Describe symptoms and receive structured herbal guidance and lifestyle advice.
+
+## Products
+
+- [Hormonal Imbalance Tea](/product/hormonal-imbalance-tea): Cycle, fertility, and PMS relief herbal tea blend.
+- [Spearmint Hormone Balanced Capsule](/product/spearmint-hormone-balanced-capsule): PCOS, acne, and facial hair support.
+- [Fibroid Treatment Herbs](/product/fibroid-treatment-herbs): 3L brewed tonic to naturally shrink fibroids and balance hormones.
+- [PID Treatment Kit](/product/pid-treatment-kit): Complete 4-step protocol for Pelvic Inflammatory Disease.
+- [Anti-Diabetes Herbal Tea](/product/anti-diabetes-herbal-tea): Blood sugar and insulin support tea.
+- [Anti-Hypertension Regulating Tea](/product/anti-hypertension-regulating-tea): Blood pressure balance herbal tea.
+
+## Optional
+
+- [Dark Thighs Kit](/product/dark-thighs-kit): Exfoliate, brighten, and soothe dark inner thighs and razor bumps.
+- [Cookie Cleanser Feminine Wash](/product/cookie-cleanser-feminine-wash): pH-balanced, plant-based daily feminine wash.
