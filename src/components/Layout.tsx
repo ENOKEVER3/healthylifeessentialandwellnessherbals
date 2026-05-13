@@ -7,9 +7,9 @@ import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 const Layout = () => (
   <div className="flex min-h-screen flex-col">
     <SiteHeader />
-    <div className="flex-1">
+    <main id="main-content" className="flex-1">
       <Outlet />
-    </div>
+    </main>
     <SiteFooter />
     <CartDrawer />
     <WhatsAppFloat />

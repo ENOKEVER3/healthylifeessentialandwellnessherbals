@@ -91,7 +91,7 @@ const Advisor = () => {
   );
 
   return (
-    <main className="container-narrow py-14 md:py-20">
+    <div className="container-narrow py-14 md:py-20">
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.24em] text-ochre">{t("advisor_eyebrow")}</p>
         <h1 className="mt-3 font-display text-4xl text-moss-deep md:text-5xl">{t("advisor_title")}</h1>
@@ -213,7 +213,7 @@ const Advisor = () => {
           </div>
         </section>
       )}
-    </main>
+    </div>
   );
 };
 
