@@ -15,7 +15,7 @@ const CEO = () => {
     { icon: Leaf, title: t("ceo_cred3_title"), body: t("ceo_cred3_body") },
   ];
   return (
-    <main>
+    <div>
       <section className="container-narrow grid items-center gap-12 py-16 md:grid-cols-[1fr,1.1fr] md:py-24">
         <div className="aspect-[4/5] overflow-hidden bg-muted">
           <img
@@ -156,7 +156,7 @@ const CEO = () => {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

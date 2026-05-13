@@ -4,7 +4,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 const About = () => {
   const { t } = useLanguage();
   return (
-    <main>
+    <div>
       <section className="container-narrow py-20 md:py-28">
         <div className="max-w-3xl">
           <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("about_eyebrow")}</p>
@@ -37,7 +37,7 @@ const About = () => {
           </p>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

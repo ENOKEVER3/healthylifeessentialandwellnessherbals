@@ -53,7 +53,7 @@ const Checkout = () => {
 
   if (snapshot) {
     return (
-      <main className="container-narrow py-16 md:py-20">
+      <div className="container-narrow py-16 md:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-moss text-primary-foreground">
             <Check className="h-6 w-6" strokeWidth={1.5} />
@@ -155,24 +155,24 @@ const Checkout = () => {
           </Button>
           <Button variant="outline" size="lg" onClick={() => navigate("/")}>{t("checkout_return_home")}</Button>
         </div>
-      </main>
+      </div>
     );
   }
 
   if (detailedItems.length === 0) {
     return (
-      <main className="container-narrow flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
+      <div className="container-narrow flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
         <h1 className="font-display text-4xl text-moss-deep">{t("checkout_empty_title")}</h1>
         <p className="mt-3 text-muted-foreground">{t("checkout_empty_body")}</p>
         <Button asChild className="mt-8 bg-moss text-primary-foreground hover:bg-moss-deep">
           <Link to="/shop">{t("checkout_visit_apothecary")}</Link>
         </Button>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container-narrow py-12 md:py-16">
+    <div className="container-narrow py-12 md:py-16">
       <Link to="/shop" className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-moss">
         <ArrowLeft className="h-4 w-4" /> {t("checkout_continue_shopping")}
       </Link>
@@ -256,7 +256,7 @@ const Checkout = () => {
           </div>
         </aside>
       </div>
-    </main>
+    </div>
   );
 };
 

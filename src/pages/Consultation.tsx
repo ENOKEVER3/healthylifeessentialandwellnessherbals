@@ -214,7 +214,7 @@ const Consultation = () => {
 
   if (submitted) {
     return (
-      <main className="container-narrow flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center sm:py-20">
+      <div className="container-narrow flex min-h-[60vh] flex-col items-center justify-center px-4 py-16 text-center sm:py-20">
         <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-moss text-primary-foreground">
           <Check className="h-8 w-8" strokeWidth={2.5} />
         </div>
@@ -244,12 +244,12 @@ const Consultation = () => {
         <Button onClick={() => setSubmitted(null)} variant="ghost" className="mt-6">
           {t("consult_submit_another")}
         </Button>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container-narrow px-4 py-12 sm:px-6 md:py-24">
+    <div className="container-narrow px-4 py-12 sm:px-6 md:py-24">
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("consult_eyebrow")}</p>
         <h1 className="mt-3 font-display text-4xl text-moss-deep sm:text-5xl md:text-6xl">
@@ -470,7 +470,7 @@ const Consultation = () => {
           </div>
         </aside>
       </div>
-    </main>
+    </div>
   );
 };
 

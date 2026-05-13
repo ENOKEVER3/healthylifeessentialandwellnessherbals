@@ -62,7 +62,7 @@ const Shop = () => {
   };
 
   return (
-    <main className="container-narrow py-16 md:py-24">
+    <div className="container-narrow py-16 md:py-24">
       <header className="mb-10 max-w-2xl">
         <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("shop_eyebrow")}</p>
         <h1 className="mt-3 font-display text-5xl text-moss-deep md:text-6xl">
@@ -159,7 +159,7 @@ const Shop = () => {
           </div>
         </>
       )}
-    </main>
+    </div>
   );
 };
 

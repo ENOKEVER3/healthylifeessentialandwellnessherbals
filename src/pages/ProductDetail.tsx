@@ -24,7 +24,7 @@ const ProductDetail = () => {
   const summary = getReviewSummary(product.slug);
 
   return (
-    <main className="container-narrow py-12 md:py-16">
+    <div className="container-narrow py-12 md:py-16">
       <Link to="/shop" className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-moss">
         <ArrowLeft className="h-4 w-4" /> {t("product_back")}
       </Link>
@@ -124,7 +124,7 @@ const ProductDetail = () => {
           {others.map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 
