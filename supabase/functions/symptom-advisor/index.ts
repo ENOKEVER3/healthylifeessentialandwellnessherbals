@@ -1,3 +1,5 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -35,25 +37,15 @@ Return your answer using EXACTLY this Markdown structure (no extra preamble):
 
 > ⚠️ This is general wellness guidance, not medical advice. Please consult Dr. Oluwatomisin for professional and personal diagnosis and treatment.`;
 
-// Simple in-memory IP rate limiter (per warm instance):
-// max 5 requests per minute, max 30 per hour per IP.
-type Bucket = { minute: { count: number; reset: number }; hour: { count: number; reset: number } };
-const buckets = new Map<string, Bucket>();
 const MINUTE_LIMIT = 5;
 const HOUR_LIMIT = 30;
 
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  let b = buckets.get(ip);
-  if (!b) {
-    b = { minute: { count: 0, reset: now + 60_000 }, hour: { count: 0, reset: now + 3_600_000 } };
-    buckets.set(ip, b);
-  }
-  if (now > b.minute.reset) { b.minute = { count: 0, reset: now + 60_000 }; }
-  if (now > b.hour.reset) { b.hour = { count: 0, reset: now + 3_600_000 }; }
-  b.minute.count++;
-  b.hour.count++;
-  return b.minute.count > MINUTE_LIMIT || b.hour.count > HOUR_LIMIT;
+async function hashIp(ip: string): Promise<string> {
+  const data = new TextEncoder().encode(ip + "|advisor");
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 Deno.serve(async (req) => {
@@ -64,12 +56,45 @@ Deno.serve(async (req) => {
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       req.headers.get("cf-connecting-ip") ||
       "unknown";
+    const ipHash = await hashIp(ip);
 
-    if (rateLimited(ip)) {
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+
+    // Durable per-IP rate limit (survives cold starts).
+    const nowIso = new Date().toISOString();
+    const minuteAgo = new Date(Date.now() - 60_000).toISOString();
+    const hourAgo = new Date(Date.now() - 3_600_000).toISOString();
+
+    const { count: minuteCount, error: minErr } = await supabase
+      .from("advisor_rate_limit")
+      .select("id", { count: "exact", head: true })
+      .eq("ip_hash", ipHash)
+      .gte("created_at", minuteAgo);
+    const { count: hourCount, error: hourErr } = await supabase
+      .from("advisor_rate_limit")
+      .select("id", { count: "exact", head: true })
+      .eq("ip_hash", ipHash)
+      .gte("created_at", hourAgo);
+
+    if (minErr || hourErr) {
+      console.error("rate-limit lookup error", minErr, hourErr);
+    } else if ((minuteCount ?? 0) >= MINUTE_LIMIT || (hourCount ?? 0) >= HOUR_LIMIT) {
       return new Response(
         JSON.stringify({ error: "Too many requests. Please wait a moment and try again." }),
         { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
+    }
+
+    // Record this request (best-effort) and prune old rows occasionally.
+    await supabase.from("advisor_rate_limit").insert({ ip_hash: ipHash, created_at: nowIso });
+    if (Math.random() < 0.05) {
+      await supabase
+        .from("advisor_rate_limit")
+        .delete()
+        .lt("created_at", new Date(Date.now() - 24 * 3_600_000).toISOString());
     }
 
     const { symptoms } = await req.json();
@@ -86,7 +111,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Sanitize: collapse whitespace, strip control chars, hard-cap length again.
     const cleaned = symptoms
       .replace(/[\u0000-\u001F\u007F]/g, " ")
       .replace(/\s+/g, " ")
