@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://healthylifeessentialandwellnessherbals.lovable.app/sitemap.xml
