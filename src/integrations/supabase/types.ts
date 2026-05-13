@@ -14,7 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      advisor_rate_limit: {
+        Row: {
+          created_at: string
+          id: number
+          ip_hash: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          ip_hash: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          ip_hash?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
