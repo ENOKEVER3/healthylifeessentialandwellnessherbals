@@ -1,10 +1,16 @@
 import hero from "@/assets/hero-herbs.jpg";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Seo } from "@/components/Seo";
 
 const About = () => {
   const { t } = useLanguage();
   return (
     <div>
+      <Seo
+        title="About — Healthy Life Essentials & Wellness Herbals"
+        description="Our story: a small-batch Nigerian herbal apothecary rooted in naturopathy, slow ritual, and plant-grown wellness."
+        path="/about"
+      />
       <section className="container-narrow py-20 md:py-28">
         <div className="max-w-3xl">
           <p className="text-xs uppercase tracking-[0.28em] text-ochre">{t("about_eyebrow")}</p>

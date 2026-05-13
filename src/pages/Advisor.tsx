@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { toast } from "sonner";
+import { Seo } from "@/components/Seo";
 
 const CASE_SUGGESTIONS = [
   "I'm having irregular periods",
@@ -92,6 +93,11 @@ const Advisor = () => {
 
   return (
     <div className="container-narrow py-14 md:py-20">
+      <Seo
+        title="AI Herbal Advisor — Personalised Wellness Guidance"
+        description="Describe your symptoms and get gentle, herbal-focused guidance from our Naturopathic AI Advisor. Not a replacement for medical care."
+        path="/advisor"
+      />
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.24em] text-ochre">{t("advisor_eyebrow")}</p>
         <h1 className="mt-3 font-display text-4xl text-moss-deep md:text-5xl">{t("advisor_title")}</h1>

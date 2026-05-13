@@ -11,6 +11,7 @@ import hero3 from "@/assets/hero-3.jpg";
 import hero4 from "@/assets/hero-4.jpg";
 import hero5 from "@/assets/hero-5.jpg";
 import ceoPortrait from "@/assets/ceo-portrait.jpeg";
+import { Seo } from "@/components/Seo";
 
 const heroSlides = [
   { src: hero, alt: "Fresh herbs and an apothecary bottle on linen" },
@@ -33,6 +34,11 @@ const Home = () => {
 
   return (
     <>
+      <Seo
+        title="Healthy Life Essentials & Wellness Herbals"
+        description="Hand-formulated herbal tinctures, teas, capsules, and balms from Naturopathic Dr. Oluwatomisin. Small-batch, plant-grown, made in Nigeria."
+        path="/"
+      />
       {/* Hero */}
       <section className="relative">
         <div className="relative h-[78vh] min-h-[560px] w-full overflow-hidden">

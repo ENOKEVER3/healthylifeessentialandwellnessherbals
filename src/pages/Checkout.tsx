@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext";
 import { formatNGN, type Product } from "@/data/products";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Seo } from "@/components/Seo";
 
 type SnapshotLine = { product: Product; quantity: number; lineTotal: number };
 type Snapshot = {
@@ -173,6 +174,11 @@ const Checkout = () => {
 
   return (
     <div className="container-narrow py-12 md:py-16">
+      <Seo
+        title="Checkout — Healthy Life Essentials"
+        description="Review your basket and place your herbal order with Healthy Life Essentials & Wellness Herbals."
+        path="/checkout"
+      />
       <Link to="/shop" className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-moss">
         <ArrowLeft className="h-4 w-4" /> {t("checkout_continue_shopping")}
       </Link>
