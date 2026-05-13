@@ -10,6 +10,9 @@ import { getReviewSummary } from "@/data/reviews";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Seo } from "@/components/Seo";
+
+const SITE_URL = "https://healthylifeessentialandwellnessherbals.lovable.app";
 
 const ProductDetail = () => {
   const { t } = useLanguage();
@@ -23,8 +26,38 @@ const ProductDetail = () => {
   const others = products.filter((p) => p.id !== product.id).slice(0, 3);
   const summary = getReviewSummary(product.slug);
 
+  const productLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    category: product.category,
+    brand: { "@type": "Brand", name: "Healthy Life Essentials & Wellness Herbals" },
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "NGN",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/product/${product.slug}`,
+    },
+  };
+  if (summary.count > 0) {
+    productLd.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: summary.average.toFixed(1),
+      reviewCount: summary.count,
+    };
+  }
+
   return (
     <div className="container-narrow py-12 md:py-16">
+      <Seo
+        title={`${product.name} — Healthy Life Essentials`}
+        description={product.tagline + ". " + product.description.slice(0, 140)}
+        path={`/product/${product.slug}`}
+        type="product"
+        jsonLd={productLd}
+      />
       <Link to="/shop" className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-moss">
         <ArrowLeft className="h-4 w-4" /> {t("product_back")}
       </Link>
