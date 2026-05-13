@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Phone, Instagram, MapPin, Stethoscope, FlaskConical, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Seo } from "@/components/Seo";
 import ceo1 from "@/assets/ceo-portrait.jpeg";
 import ceo2 from "@/assets/ceo-2.jpeg";
 import ceo3 from "@/assets/ceo-3.jpeg";
@@ -16,6 +17,11 @@ const CEO = () => {
   ];
   return (
     <div>
+      <Seo
+        title="Meet Dr. Oluwatomisin — Naturopathic Founder"
+        description="Dr. Kolawole Oluwatomisin Esther — the naturopathic doctor behind Healthy Life Essentials & Wellness Herbals. Credentials, story, and clinical approach."
+        path="/ceo"
+      />
       <section className="container-narrow grid items-center gap-12 py-16 md:grid-cols-[1fr,1.1fr] md:py-24">
         <div className="aspect-[4/5] overflow-hidden bg-muted">
           <img

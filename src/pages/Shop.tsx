@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { products, productGroups, type ProductGroup } from "@/data/products";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Seo } from "@/components/Seo";
 
 const ALL = "All" as const;
 
