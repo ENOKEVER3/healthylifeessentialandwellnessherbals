@@ -75,7 +75,7 @@ const Advisor = () => {
       setAnswer(data?.answer ?? "");
     } catch (e) {
       console.error(e);
-      toast.error(e instanceof Error ? e.message : t("advisor_error"));
+      toast.error(t("advisor_error"));
     } finally {
       setLoading(false);
     }

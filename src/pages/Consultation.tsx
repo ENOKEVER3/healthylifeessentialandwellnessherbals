@@ -117,7 +117,7 @@ const Consultation = () => {
 
   const uploadFiles = async (ref: string): Promise<string[]> => {
     if (files.length === 0) return [];
-    const urls: string[] = [];
+    const paths: string[] = [];
     for (const f of files) {
       const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, "_");
       const path = `${ref}/${Date.now()}-${safeName}`;
@@ -129,10 +129,19 @@ const Consultation = () => {
         toast.error(`Failed to upload ${f.name}`);
         continue;
       }
-      const { data } = supabase.storage.from("consultation-uploads").getPublicUrl(path);
-      urls.push(data.publicUrl);
+      paths.push(path);
     }
-    return urls;
+    if (paths.length === 0) return [];
+    // Bucket is private — request short-lived signed URLs to share with the doctor
+    const { data, error } = await supabase.functions.invoke("sign-consultation-files", {
+      body: { paths },
+    });
+    if (error || !data?.urls) {
+      console.error("Sign failed", error);
+      toast.error("Failed to prepare attachment links.");
+      return [];
+    }
+    return data.urls as string[];
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
