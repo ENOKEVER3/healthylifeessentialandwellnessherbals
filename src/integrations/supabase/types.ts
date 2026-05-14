@@ -32,6 +32,45 @@ export type Database = {
         }
         Relationships: []
       }
+      site_reviews: {
+        Row: {
+          avatar_kind: string | null
+          body: string
+          country_code: string
+          created_at: string
+          display_name: string
+          id: string
+          is_anonymous: boolean
+          photo_url: string | null
+          rating: number
+          year: number
+        }
+        Insert: {
+          avatar_kind?: string | null
+          body: string
+          country_code: string
+          created_at?: string
+          display_name: string
+          id?: string
+          is_anonymous?: boolean
+          photo_url?: string | null
+          rating: number
+          year: number
+        }
+        Update: {
+          avatar_kind?: string | null
+          body?: string
+          country_code?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_anonymous?: boolean
+          photo_url?: string | null
+          rating?: number
+          year?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
