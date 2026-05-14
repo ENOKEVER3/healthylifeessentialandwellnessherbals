@@ -15,6 +15,7 @@ import About from "./pages/About";
 import CEO from "./pages/CEO";
 import Consultation from "./pages/Consultation";
 import Advisor from "./pages/Advisor";
+import Reviews from "./pages/Reviews";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
                 <Route path="/ceo" element={<CEO />} />
                 <Route path="/consultation" element={<Consultation />} />
                 <Route path="/advisor" element={<Advisor />} />
+                <Route path="/reviews" element={<Reviews />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

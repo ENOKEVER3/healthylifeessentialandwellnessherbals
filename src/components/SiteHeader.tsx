@@ -54,6 +54,7 @@ export const SiteHeader = () => {
           </DropdownMenu>
 
           <NavLink to="/ceo" className={navLinkClass}>{t("nav_ceo")}</NavLink>
+          <NavLink to="/reviews" className={navLinkClass}>Reviews</NavLink>
         </nav>
 
         <div className="flex items-center gap-1">
@@ -84,6 +85,7 @@ export const SiteHeader = () => {
         <NavLink to="/advisor" className={navLinkClass}>{t("nav_advisor_short")}</NavLink>
         <NavLink to="/shop" className={navLinkClass}>{t("nav_shop")}</NavLink>
         <NavLink to="/ceo" className={navLinkClass}>{t("nav_ceo_short")}</NavLink>
+        <NavLink to="/reviews" className={navLinkClass}>Reviews</NavLink>
       </nav>
     </header>
   );
