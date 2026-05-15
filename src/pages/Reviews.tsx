@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,12 +37,27 @@ type ReviewRow = {
   rating: number;
   body: string;
   created_at: string;
+  edited: boolean;
 };
 
 const PAGE_SIZE = 24;
 const YEARS = Array.from({ length: 11 }, (_, i) => 2025 + i);
 const CURRENT_YEAR = new Date().getFullYear();
 const THUMB_SIZE = 512;
+const OWNED_KEY = "owned_reviews_v1";
+
+type OwnedMap = Record<string, string>; // reviewId -> edit_token
+
+const readOwned = (): OwnedMap => {
+  try {
+    return JSON.parse(localStorage.getItem(OWNED_KEY) || "{}");
+  } catch {
+    return {};
+  }
+};
+const writeOwned = (m: OwnedMap) => {
+  try { localStorage.setItem(OWNED_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+};
 
 /* ---------- helpers ---------- */
 
@@ -131,6 +146,17 @@ const Reviews = () => {
   const [filterRating, setFilterRating] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
 
+  // Owned reviews (id -> edit_token) for one-time edit capability
+  const [owned, setOwned] = useState<OwnedMap>(() => readOwned());
+
+  // Edit dialog state
+  const [editing, setEditing] = useState<ReviewRow | null>(null);
+  const [editBody, setEditBody] = useState("");
+  const [editRating, setEditRating] = useState(5);
+  const [editCountry, setEditCountry] = useState("NG");
+  const [editYear, setEditYear] = useState<number>(CURRENT_YEAR);
+  const [savingEdit, setSavingEdit] = useState(false);
+
   // Form state
   const [mode, setMode] = useState<"" | "name" | "anonymous">("");
   const [fullName, setFullName] = useState("");
@@ -215,6 +241,59 @@ const Reviews = () => {
     return { avg, count: rows.length };
   }, [rows]);
 
+  const openEdit = (r: ReviewRow) => {
+    setEditing(r);
+    setEditBody(r.body);
+    setEditRating(r.rating);
+    setEditCountry(r.country_code);
+    setEditYear(r.year);
+  };
+
+  const saveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editing) return;
+    const token = owned[editing.id];
+    if (!token) return toast.error("Edit link expired on this device");
+    if (editBody.trim().length < 3) return toast.error("Please write a short review");
+    setSavingEdit(true);
+    try {
+      const { data, error } = await supabase
+        .from("site_reviews")
+        .update({
+          body: editBody.trim().slice(0, 2000),
+          rating: editRating,
+          country_code: editCountry,
+          year: editYear,
+          edited: true,
+        })
+        .eq("id", editing.id)
+        .eq("edit_token", token)
+        .eq("edited", false)
+        .select("id")
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) {
+        toast.error("This review has already been edited.");
+      } else {
+        toast.success("Review updated");
+        setRows((prev) =>
+          prev.map((r) =>
+            r.id === editing.id
+              ? { ...r, body: editBody.trim(), rating: editRating, country_code: editCountry, year: editYear, edited: true }
+              : r,
+          ),
+        );
+      }
+      setEditing(null);
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not save changes");
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
+
   const resetForm = () => {
     setMode("");
     setFullName("");
@@ -288,17 +367,28 @@ const Reviews = () => {
       const display_name =
         mode === "anonymous" ? "Anonymous" : fullName.trim().slice(0, 80);
 
-      const { error } = await supabase.from("site_reviews").insert({
-        display_name,
-        is_anonymous: mode === "anonymous",
-        avatar_kind: mode === "anonymous" ? avatarKind : null,
-        photo_url,
-        country_code: country,
-        year,
-        rating,
-        body: body.trim().slice(0, 2000),
-      });
+      const { data: inserted, error } = await supabase
+        .from("site_reviews")
+        .insert({
+          display_name,
+          is_anonymous: mode === "anonymous",
+          avatar_kind: mode === "anonymous" ? avatarKind : null,
+          photo_url,
+          country_code: country,
+          year,
+          rating,
+          body: body.trim().slice(0, 2000),
+        })
+        .select("id, edit_token")
+        .single();
       if (error) throw error;
+
+      // Remember this review locally so the user can edit it once.
+      if (inserted?.id && (inserted as { edit_token?: string }).edit_token) {
+        const next = { ...readOwned(), [inserted.id]: (inserted as { edit_token: string }).edit_token };
+        writeOwned(next);
+        setOwned(next);
+      }
 
       const first = mode === "anonymous" ? "friend" : fullName.trim().split(" ")[0];
       setThanksName(first);
@@ -450,10 +540,11 @@ const Reviews = () => {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {rows.map((r) => {
                 const country = countryCodes.find((c) => c.iso === r.country_code);
+                const canEdit = !!owned[r.id] && !r.edited;
                 return (
                   <article
                     key={r.id}
-                    className="group flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
+                    className="group relative flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-3">
                       <img
@@ -474,8 +565,24 @@ const Reviews = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="mt-4"><StarsRead value={r.rating} /></div>
+                    <div className="mt-4 flex items-center justify-between">
+                      <StarsRead value={r.rating} />
+                      {r.edited && (
+                        <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          edited
+                        </span>
+                      )}
+                    </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
+                    {canEdit && (
+                      <button
+                        type="button"
+                        onClick={() => openEdit(r)}
+                        className="mt-4 inline-flex items-center gap-1.5 self-start text-xs font-medium text-moss hover:text-moss-deep"
+                      >
+                        <Pencil className="h-3.5 w-3.5" /> Edit your review
+                      </button>
+                    )}
                   </article>
                 );
               })}
@@ -741,6 +848,75 @@ const Reviews = () => {
               </form>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit dialog (one-time edit) */}
+      <Dialog open={!!editing} onOpenChange={(v) => { if (!v) setEditing(null); }}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-moss-deep">Edit your review</DialogTitle>
+            <DialogDescription>
+              You can update your review once. After saving, it can't be changed again.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={saveEdit} className="mt-2 space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs uppercase tracking-[0.18em] text-moss">Country</Label>
+                <Select value={editCountry} onValueChange={setEditCountry}>
+                  <SelectTrigger className="mt-2"><SelectValue /></SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {countryCodes.map((c) => (
+                      <SelectItem key={c.iso} value={c.iso}>
+                        <span className="mr-2">{flagFor(c.iso)}</span>{c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-xs uppercase tracking-[0.18em] text-moss">Year</Label>
+                <Select value={String(editYear)} onValueChange={(v) => setEditYear(Number(v))}>
+                  <SelectTrigger className="mt-2"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {YEARS.map((y) => (<SelectItem key={y} value={String(y)}>{y}</SelectItem>))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <Label className="text-xs uppercase tracking-[0.18em] text-moss">Rating</Label>
+              <div className="mt-2"><StarPicker value={editRating} onChange={setEditRating} /></div>
+            </div>
+
+            <div>
+              <Label className="text-xs uppercase tracking-[0.18em] text-moss">Your review</Label>
+              <Textarea
+                value={editBody}
+                onChange={(e) => setEditBody(e.target.value)}
+                rows={5}
+                maxLength={2000}
+                className="mt-2"
+              />
+              <p className="mt-1 text-right text-xs text-muted-foreground">{editBody.length}/2000</p>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={() => setEditing(null)} disabled={savingEdit}>
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={savingEdit}
+                className="bg-moss text-primary-foreground hover:bg-moss-deep"
+              >
+                {savingEdit ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving…</>) : "Save changes"}
+              </Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>
