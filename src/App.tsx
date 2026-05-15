@@ -16,6 +16,7 @@ import CEO from "./pages/CEO";
 import Consultation from "./pages/Consultation";
 import Advisor from "./pages/Advisor";
 import Reviews from "./pages/Reviews";
+import Track from "./pages/Track";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
