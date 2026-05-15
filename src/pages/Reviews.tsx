@@ -146,6 +146,17 @@ const Reviews = () => {
   const [filterRating, setFilterRating] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
 
+  // Owned reviews (id -> edit_token) for one-time edit capability
+  const [owned, setOwned] = useState<OwnedMap>(() => readOwned());
+
+  // Edit dialog state
+  const [editing, setEditing] = useState<ReviewRow | null>(null);
+  const [editBody, setEditBody] = useState("");
+  const [editRating, setEditRating] = useState(5);
+  const [editCountry, setEditCountry] = useState("NG");
+  const [editYear, setEditYear] = useState<number>(CURRENT_YEAR);
+  const [savingEdit, setSavingEdit] = useState(false);
+
   // Form state
   const [mode, setMode] = useState<"" | "name" | "anonymous">("");
   const [fullName, setFullName] = useState("");
