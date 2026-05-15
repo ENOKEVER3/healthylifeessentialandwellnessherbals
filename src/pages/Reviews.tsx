@@ -850,6 +850,75 @@ const Reviews = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Edit dialog (one-time edit) */}
+      <Dialog open={!!editing} onOpenChange={(v) => { if (!v) setEditing(null); }}>
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-moss-deep">Edit your review</DialogTitle>
+            <DialogDescription>
+              You can update your review once. After saving, it can't be changed again.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={saveEdit} className="mt-2 space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs uppercase tracking-[0.18em] text-moss">Country</Label>
+                <Select value={editCountry} onValueChange={setEditCountry}>
+                  <SelectTrigger className="mt-2"><SelectValue /></SelectTrigger>
+                  <SelectContent className="max-h-72">
+                    {countryCodes.map((c) => (
+                      <SelectItem key={c.iso} value={c.iso}>
+                        <span className="mr-2">{flagFor(c.iso)}</span>{c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label className="text-xs uppercase tracking-[0.18em] text-moss">Year</Label>
+                <Select value={String(editYear)} onValueChange={(v) => setEditYear(Number(v))}>
+                  <SelectTrigger className="mt-2"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {YEARS.map((y) => (<SelectItem key={y} value={String(y)}>{y}</SelectItem>))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <Label className="text-xs uppercase tracking-[0.18em] text-moss">Rating</Label>
+              <div className="mt-2"><StarPicker value={editRating} onChange={setEditRating} /></div>
+            </div>
+
+            <div>
+              <Label className="text-xs uppercase tracking-[0.18em] text-moss">Your review</Label>
+              <Textarea
+                value={editBody}
+                onChange={(e) => setEditBody(e.target.value)}
+                rows={5}
+                maxLength={2000}
+                className="mt-2"
+              />
+              <p className="mt-1 text-right text-xs text-muted-foreground">{editBody.length}/2000</p>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={() => setEditing(null)} disabled={savingEdit}>
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={savingEdit}
+                className="bg-moss text-primary-foreground hover:bg-moss-deep"
+              >
+                {savingEdit ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving…</>) : "Save changes"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
