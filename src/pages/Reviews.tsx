@@ -241,6 +241,59 @@ const Reviews = () => {
     return { avg, count: rows.length };
   }, [rows]);
 
+  const openEdit = (r: ReviewRow) => {
+    setEditing(r);
+    setEditBody(r.body);
+    setEditRating(r.rating);
+    setEditCountry(r.country_code);
+    setEditYear(r.year);
+  };
+
+  const saveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editing) return;
+    const token = owned[editing.id];
+    if (!token) return toast.error("Edit link expired on this device");
+    if (editBody.trim().length < 3) return toast.error("Please write a short review");
+    setSavingEdit(true);
+    try {
+      const { data, error } = await supabase
+        .from("site_reviews")
+        .update({
+          body: editBody.trim().slice(0, 2000),
+          rating: editRating,
+          country_code: editCountry,
+          year: editYear,
+          edited: true,
+        })
+        .eq("id", editing.id)
+        .eq("edit_token", token)
+        .eq("edited", false)
+        .select("id")
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) {
+        toast.error("This review has already been edited.");
+      } else {
+        toast.success("Review updated");
+        setRows((prev) =>
+          prev.map((r) =>
+            r.id === editing.id
+              ? { ...r, body: editBody.trim(), rating: editRating, country_code: editCountry, year: editYear, edited: true }
+              : r,
+          ),
+        );
+      }
+      setEditing(null);
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not save changes");
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
+
   const resetForm = () => {
     setMode("");
     setFullName("");
