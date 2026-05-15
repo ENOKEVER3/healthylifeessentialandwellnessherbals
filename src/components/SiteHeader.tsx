@@ -67,6 +67,7 @@ export const SiteHeader = () => {
 
           <NavLink to="/ceo" className={navLinkClass}>{t("nav_ceo")}</NavLink>
           <NavLink to="/reviews" className={navLinkClass}>Reviews</NavLink>
+          <NavLink to="/track" className={navLinkClass}>Track</NavLink>
         </nav>
 
         <div className="flex items-center gap-1">
