@@ -37,12 +37,27 @@ type ReviewRow = {
   rating: number;
   body: string;
   created_at: string;
+  edited: boolean;
 };
 
 const PAGE_SIZE = 24;
 const YEARS = Array.from({ length: 11 }, (_, i) => 2025 + i);
 const CURRENT_YEAR = new Date().getFullYear();
 const THUMB_SIZE = 512;
+const OWNED_KEY = "owned_reviews_v1";
+
+type OwnedMap = Record<string, string>; // reviewId -> edit_token
+
+const readOwned = (): OwnedMap => {
+  try {
+    return JSON.parse(localStorage.getItem(OWNED_KEY) || "{}");
+  } catch {
+    return {};
+  }
+};
+const writeOwned = (m: OwnedMap) => {
+  try { localStorage.setItem(OWNED_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+};
 
 /* ---------- helpers ---------- */
 
