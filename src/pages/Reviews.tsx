@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
