@@ -540,10 +540,11 @@ const Reviews = () => {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {rows.map((r) => {
                 const country = countryCodes.find((c) => c.iso === r.country_code);
+                const canEdit = !!owned[r.id] && !r.edited;
                 return (
                   <article
                     key={r.id}
-                    className="group flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
+                    className="group relative flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-3">
                       <img
@@ -564,8 +565,24 @@ const Reviews = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="mt-4"><StarsRead value={r.rating} /></div>
+                    <div className="mt-4 flex items-center justify-between">
+                      <StarsRead value={r.rating} />
+                      {r.edited && (
+                        <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                          edited
+                        </span>
+                      )}
+                    </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
+                    {canEdit && (
+                      <button
+                        type="button"
+                        onClick={() => openEdit(r)}
+                        className="mt-4 inline-flex items-center gap-1.5 self-start text-xs font-medium text-moss hover:text-moss-deep"
+                      >
+                        <Pencil className="h-3.5 w-3.5" /> Edit your review
+                      </button>
+                    )}
                   </article>
                 );
               })}
