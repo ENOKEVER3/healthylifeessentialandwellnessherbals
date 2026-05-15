@@ -39,6 +39,8 @@ export type Database = {
           country_code: string
           created_at: string
           display_name: string
+          edit_token: string
+          edited: boolean
           id: string
           is_anonymous: boolean
           photo_url: string | null
@@ -51,6 +53,8 @@ export type Database = {
           country_code: string
           created_at?: string
           display_name: string
+          edit_token?: string
+          edited?: boolean
           id?: string
           is_anonymous?: boolean
           photo_url?: string | null
@@ -63,6 +67,8 @@ export type Database = {
           country_code?: string
           created_at?: string
           display_name?: string
+          edit_token?: string
+          edited?: boolean
           id?: string
           is_anonymous?: boolean
           photo_url?: string | null
