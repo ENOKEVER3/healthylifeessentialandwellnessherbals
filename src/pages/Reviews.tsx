@@ -314,17 +314,28 @@ const Reviews = () => {
       const display_name =
         mode === "anonymous" ? "Anonymous" : fullName.trim().slice(0, 80);
 
-      const { error } = await supabase.from("site_reviews").insert({
-        display_name,
-        is_anonymous: mode === "anonymous",
-        avatar_kind: mode === "anonymous" ? avatarKind : null,
-        photo_url,
-        country_code: country,
-        year,
-        rating,
-        body: body.trim().slice(0, 2000),
-      });
+      const { data: inserted, error } = await supabase
+        .from("site_reviews")
+        .insert({
+          display_name,
+          is_anonymous: mode === "anonymous",
+          avatar_kind: mode === "anonymous" ? avatarKind : null,
+          photo_url,
+          country_code: country,
+          year,
+          rating,
+          body: body.trim().slice(0, 2000),
+        })
+        .select("id, edit_token")
+        .single();
       if (error) throw error;
+
+      // Remember this review locally so the user can edit it once.
+      if (inserted?.id && (inserted as { edit_token?: string }).edit_token) {
+        const next = { ...readOwned(), [inserted.id]: (inserted as { edit_token: string }).edit_token };
+        writeOwned(next);
+        setOwned(next);
+      }
 
       const first = mode === "anonymous" ? "friend" : fullName.trim().split(" ")[0];
       setThanksName(first);
