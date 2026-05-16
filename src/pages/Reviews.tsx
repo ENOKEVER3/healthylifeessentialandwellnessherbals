@@ -149,6 +149,28 @@ const Reviews = () => {
   // Owned reviews (id -> edit_token) for one-time edit capability
   const [owned, setOwned] = useState<OwnedMap>(() => readOwned());
 
+  // Background music (permanent while reading reviews, paused while leaving/editing a review)
+  const bgmRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    const audio = new Audio("/audio/reviews-bgm.mp3");
+    audio.loop = true;
+    audio.volume = 0.45;
+    audio.preload = "auto";
+    bgmRef.current = audio;
+    const tryPlay = () => { audio.play().catch(() => {}); };
+    // Autoplay attempt (will likely be blocked until first interaction)
+    tryPlay();
+    const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "scroll", "click"];
+    const onInteract = () => { tryPlay(); };
+    events.forEach((e) => window.addEventListener(e, onInteract, { passive: true }));
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, onInteract));
+      audio.pause();
+      audio.src = "";
+      bgmRef.current = null;
+    };
+  }, []);
+
   // Edit dialog state
   const [editing, setEditing] = useState<ReviewRow | null>(null);
   const [editBody, setEditBody] = useState("");
