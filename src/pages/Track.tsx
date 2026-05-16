@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Package, ExternalLink, Truck } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Package, ExternalLink, Truck, Calculator, Globe2, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
