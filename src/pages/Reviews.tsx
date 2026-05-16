@@ -173,6 +173,18 @@ const Reviews = () => {
 
   // Edit dialog state
   const [editing, setEditing] = useState<ReviewRow | null>(null);
+
+  // Pause music while a review form (create or edit) is open; resume when closed
+  useEffect(() => {
+    const audio = bgmRef.current;
+    if (!audio) return;
+    if (open || !!editing) {
+      audio.pause();
+    } else {
+      audio.play().catch(() => {});
+    }
+  }, [open, editing]);
+
   const [editBody, setEditBody] = useState("");
   const [editRating, setEditRating] = useState(5);
   const [editCountry, setEditCountry] = useState("NG");
