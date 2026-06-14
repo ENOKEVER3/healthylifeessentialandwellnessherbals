@@ -259,15 +259,31 @@ const Reviews = () => {
     [filterCountry, filterYear, filterRating],
   );
 
+  const fetchLikeCounts = useCallback(async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { data, error } = await supabase
+      .from("review_likes")
+      .select("review_id")
+      .in("review_id", ids);
+    if (error) return;
+    const tally: Record<string, number> = {};
+    (data ?? []).forEach((row: { review_id: string }) => {
+      tally[row.review_id] = (tally[row.review_id] ?? 0) + 1;
+    });
+    setLikeCounts((prev) => ({ ...prev, ...tally, ...Object.fromEntries(ids.filter((i) => !(i in tally)).map((i) => [i, 0])) }));
+  }, []);
+
   const fetchFirstPage = useCallback(async () => {
     setLoading(true);
     const { data, error, count } = await buildQuery(0, PAGE_SIZE - 1);
     if (error) toast.error("Could not load reviews");
     const list = (data ?? []) as ReviewRow[];
     setRows(list);
+    setTotalCount(count ?? list.length);
     setHasMore((count ?? list.length) > list.length);
     setLoading(false);
-  }, [buildQuery]);
+    fetchLikeCounts(list.map((r) => r.id));
+  }, [buildQuery, fetchLikeCounts]);
 
   const loadMore = async () => {
     if (loadingMore || !hasMore) return;
@@ -277,8 +293,50 @@ const Reviews = () => {
     const list = (data ?? []) as ReviewRow[];
     const next = [...rows, ...list];
     setRows(next);
+    setTotalCount(count ?? next.length);
     setHasMore((count ?? next.length) > next.length);
     setLoadingMore(false);
+    fetchLikeCounts(list.map((r) => r.id));
+  };
+
+  const toggleLike = async (reviewId: string) => {
+    if (pendingLike[reviewId]) return;
+    const deviceId = deviceIdRef.current;
+    const alreadyLiked = likedIds.has(reviewId);
+    // Optimistic update
+    setPendingLike((p) => ({ ...p, [reviewId]: true }));
+    setLikeCounts((prev) => ({ ...prev, [reviewId]: Math.max(0, (prev[reviewId] ?? 0) + (alreadyLiked ? -1 : 1)) }));
+    const nextSet = new Set(likedIds);
+    if (alreadyLiked) nextSet.delete(reviewId); else nextSet.add(reviewId);
+    setLikedIds(nextSet);
+    writeLikedSet(nextSet);
+    try {
+      if (alreadyLiked) {
+        const { error } = await supabase
+          .from("review_likes")
+          .delete()
+          .eq("review_id", reviewId)
+          .eq("device_id", deviceId);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("review_likes")
+          .insert({ review_id: reviewId, device_id: deviceId });
+        // Ignore unique-violation: already liked from this device earlier
+        if (error && !/duplicate|unique/i.test(error.message)) throw error;
+      }
+    } catch (err) {
+      // Roll back on failure
+      console.error(err);
+      setLikeCounts((prev) => ({ ...prev, [reviewId]: Math.max(0, (prev[reviewId] ?? 0) + (alreadyLiked ? 1 : -1)) }));
+      const rollback = new Set(likedIds);
+      if (alreadyLiked) rollback.add(reviewId); else rollback.delete(reviewId);
+      setLikedIds(rollback);
+      writeLikedSet(rollback);
+      toast.error("Couldn't save your like");
+    } finally {
+      setPendingLike((p) => ({ ...p, [reviewId]: false }));
+    }
   };
 
   useEffect(() => {
