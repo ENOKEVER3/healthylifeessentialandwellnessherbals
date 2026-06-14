@@ -558,7 +558,11 @@ const Reviews = () => {
               </div>
               <div className="mt-2"><StarsRead value={Math.round(summary.avg)} /></div>
               <p className="mt-3 text-sm text-muted-foreground">
-                Showing {rows.length} {rows.length === 1 ? "review" : "reviews"}.
+                <span className="font-semibold text-moss-deep">{totalCount.toLocaleString()}</span>{" "}
+                {totalCount === 1 ? "review" : "reviews"} in total
+                {totalCount > rows.length && (
+                  <span className="opacity-70"> · showing {rows.length}</span>
+                )}
               </p>
             </div>
           </div>
