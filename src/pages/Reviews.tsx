@@ -294,20 +294,14 @@ const Reviews = () => {
     if (editBody.trim().length < 3) return toast.error("Please write a short review");
     setSavingEdit(true);
     try {
-      const { data, error } = await supabase
-        .from("site_reviews")
-        .update({
-          body: editBody.trim().slice(0, 2000),
-          rating: editRating,
-          country_code: editCountry,
-          year: editYear,
-          edited: true,
-        })
-        .eq("id", editing.id)
-        .eq("edit_token", token)
-        .eq("edited", false)
-        .select("id")
-        .maybeSingle();
+      const { data, error } = await supabase.rpc("update_review", {
+        p_id: editing.id,
+        p_token: token,
+        p_body: editBody.trim().slice(0, 2000),
+        p_rating: editRating,
+        p_country: editCountry,
+        p_year: editYear,
+      });
       if (error) throw error;
       if (!data) {
         toast.error("This review has already been edited.");
