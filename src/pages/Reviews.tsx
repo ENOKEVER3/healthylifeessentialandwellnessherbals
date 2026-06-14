@@ -46,6 +46,8 @@ const YEARS = Array.from({ length: 11 }, (_, i) => 2025 + i);
 const CURRENT_YEAR = new Date().getFullYear();
 const THUMB_SIZE = 512;
 const OWNED_KEY = "owned_reviews_v1";
+const DEVICE_KEY = "hle_device_id_v1";
+const LIKES_KEY = "hle_liked_reviews_v1";
 
 type OwnedMap = Record<string, string>; // reviewId -> edit_token
 
@@ -58,6 +60,28 @@ const readOwned = (): OwnedMap => {
 };
 const writeOwned = (m: OwnedMap) => {
   try { localStorage.setItem(OWNED_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+};
+
+/** Stable per-device id (browsers cannot read a MAC address — this is the closest privacy-safe substitute). */
+const getDeviceId = (): string => {
+  try {
+    let id = localStorage.getItem(DEVICE_KEY);
+    if (!id) {
+      id = (crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`);
+      localStorage.setItem(DEVICE_KEY, id);
+    }
+    return id;
+  } catch {
+    return "anon-" + Math.random().toString(36).slice(2, 14);
+  }
+};
+
+const readLikedSet = (): Set<string> => {
+  try { return new Set(JSON.parse(localStorage.getItem(LIKES_KEY) || "[]")); }
+  catch { return new Set(); }
+};
+const writeLikedSet = (s: Set<string>) => {
+  try { localStorage.setItem(LIKES_KEY, JSON.stringify([...s])); } catch { /* ignore */ }
 };
 
 /* ---------- helpers ---------- */
