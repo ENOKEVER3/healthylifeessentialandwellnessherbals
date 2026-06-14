@@ -213,7 +213,10 @@ const Reviews = () => {
     (from: number, to: number) => {
       let q = supabase
         .from("site_reviews")
-        .select("*", { count: "exact" })
+        .select(
+          "id, display_name, is_anonymous, avatar_kind, photo_url, country_code, year, rating, body, created_at, edited",
+          { count: "exact" },
+        )
         .order("created_at", { ascending: false })
         .range(from, to);
       if (filterCountry !== "all") q = q.eq("country_code", filterCountry);
