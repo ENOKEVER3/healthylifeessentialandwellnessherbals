@@ -663,20 +663,27 @@ const Reviews = () => {
               {rows.map((r) => {
                 const country = countryCodes.find((c) => c.iso === r.country_code);
                 const canEdit = !!owned[r.id] && !r.edited;
+                const useAnimated = !r.photo_url && (r.avatar_kind === "male" || r.avatar_kind === "female");
+                const liked = likedIds.has(r.id);
+                const likes = likeCounts[r.id] ?? 0;
                 return (
                   <article
                     key={r.id}
                     className="group relative flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <img
-                        src={avatarSrc(r)}
-                        alt={r.display_name}
-                        width={56}
-                        height={56}
-                        loading="lazy"
-                        className="h-14 w-14 rounded-full object-cover ring-2 ring-cream"
-                      />
+                      {useAnimated ? (
+                        <AnimatedAvatar kind={(r.avatar_kind ?? "female") as "male" | "female"} size={56} />
+                      ) : (
+                        <img
+                          src={avatarSrc(r)}
+                          alt={r.display_name}
+                          width={56}
+                          height={56}
+                          loading="lazy"
+                          className="h-14 w-14 rounded-full object-cover ring-2 ring-cream"
+                        />
+                      )}
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-display text-lg text-moss-deep">{r.display_name}</p>
                         <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -696,15 +703,35 @@ const Reviews = () => {
                       )}
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
-                    {canEdit && (
+                    <div className="mt-4 flex items-center justify-between gap-3">
                       <button
                         type="button"
-                        onClick={() => openEdit(r)}
-                        className="mt-4 inline-flex items-center gap-1.5 self-start text-xs font-medium text-moss hover:text-moss-deep"
+                        onClick={() => toggleLike(r.id)}
+                        disabled={!!pendingLike[r.id]}
+                        aria-pressed={liked}
+                        aria-label={liked ? "Unlike this review" : "Like this review"}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all active:scale-95 ${
+                          liked
+                            ? "border-rose-400/60 bg-rose-50 text-rose-600 dark:bg-rose-950/40"
+                            : "border-border bg-background text-muted-foreground hover:border-rose-300 hover:text-rose-500"
+                        }`}
                       >
-                        <Pencil className="h-3.5 w-3.5" /> Edit your review
+                        <Heart
+                          className={`h-3.5 w-3.5 transition-transform ${liked ? "fill-rose-500 text-rose-500 scale-110" : ""}`}
+                          strokeWidth={2}
+                        />
+                        <span className="tabular-nums">{likes}</span>
                       </button>
-                    )}
+                      {canEdit && (
+                        <button
+                          type="button"
+                          onClick={() => openEdit(r)}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-moss hover:text-moss-deep"
+                        >
+                          <Pencil className="h-3.5 w-3.5" /> Edit your review
+                        </button>
+                      )}
+                    </div>
                   </article>
                 );
               })}
