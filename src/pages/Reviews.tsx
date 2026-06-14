@@ -398,25 +398,22 @@ const Reviews = () => {
       const display_name =
         mode === "anonymous" ? "Anonymous" : fullName.trim().slice(0, 80);
 
-      const { data: inserted, error } = await supabase
-        .from("site_reviews")
-        .insert({
-          display_name,
-          is_anonymous: mode === "anonymous",
-          avatar_kind: mode === "anonymous" ? avatarKind : null,
-          photo_url,
-          country_code: country,
-          year,
-          rating,
-          body: body.trim().slice(0, 2000),
-        })
-        .select("id, edit_token")
-        .single();
+      const { data: inserted, error } = await supabase.rpc("create_review", {
+        p_display_name: display_name,
+        p_is_anonymous: mode === "anonymous",
+        p_avatar_kind: mode === "anonymous" ? avatarKind : null,
+        p_photo_url: photo_url,
+        p_country: country,
+        p_year: year,
+        p_rating: rating,
+        p_body: body.trim().slice(0, 2000),
+      });
       if (error) throw error;
+      const row = Array.isArray(inserted) ? inserted[0] : inserted;
 
       // Remember this review locally so the user can edit it once.
-      if (inserted?.id && (inserted as { edit_token?: string }).edit_token) {
-        const next = { ...readOwned(), [inserted.id]: (inserted as { edit_token: string }).edit_token };
+      if (row?.id && row?.edit_token) {
+        const next = { ...readOwned(), [row.id as string]: row.edit_token as string };
         writeOwned(next);
         setOwned(next);
       }
