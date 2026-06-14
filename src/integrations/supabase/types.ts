@@ -32,6 +32,32 @@ export type Database = {
         }
         Relationships: []
       }
+      review_likes: {
+        Row: {
+          created_at: string
+          device_id: string
+          review_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          review_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          review_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_likes_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "site_reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_reviews: {
         Row: {
           avatar_kind: string | null
