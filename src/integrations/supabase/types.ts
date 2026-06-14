@@ -82,6 +82,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_review: {
+        Args: {
+          p_avatar_kind: string
+          p_body: string
+          p_country: string
+          p_display_name: string
+          p_is_anonymous: boolean
+          p_photo_url: string
+          p_rating: number
+          p_year: number
+        }
+        Returns: {
+          edit_token: string
+          id: string
+        }[]
+      }
       update_review: {
         Args: {
           p_body: string
