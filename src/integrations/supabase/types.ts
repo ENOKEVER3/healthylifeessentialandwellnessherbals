@@ -82,7 +82,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_review: {
+        Args: {
+          p_body: string
+          p_country: string
+          p_id: string
+          p_rating: number
+          p_token: string
+          p_year: number
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
