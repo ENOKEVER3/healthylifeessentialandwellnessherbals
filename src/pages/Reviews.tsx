@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart } from "lucide-react";
+import { AnimatedAvatar } from "@/components/AnimatedAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,6 +46,8 @@ const YEARS = Array.from({ length: 11 }, (_, i) => 2025 + i);
 const CURRENT_YEAR = new Date().getFullYear();
 const THUMB_SIZE = 512;
 const OWNED_KEY = "owned_reviews_v1";
+const DEVICE_KEY = "hle_device_id_v1";
+const LIKES_KEY = "hle_liked_reviews_v1";
 
 type OwnedMap = Record<string, string>; // reviewId -> edit_token
 
@@ -57,6 +60,28 @@ const readOwned = (): OwnedMap => {
 };
 const writeOwned = (m: OwnedMap) => {
   try { localStorage.setItem(OWNED_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+};
+
+/** Stable per-device id (browsers cannot read a MAC address — this is the closest privacy-safe substitute). */
+const getDeviceId = (): string => {
+  try {
+    let id = localStorage.getItem(DEVICE_KEY);
+    if (!id) {
+      id = (crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`);
+      localStorage.setItem(DEVICE_KEY, id);
+    }
+    return id;
+  } catch {
+    return "anon-" + Math.random().toString(36).slice(2, 14);
+  }
+};
+
+const readLikedSet = (): Set<string> => {
+  try { return new Set(JSON.parse(localStorage.getItem(LIKES_KEY) || "[]")); }
+  catch { return new Set(); }
+};
+const writeLikedSet = (s: Set<string>) => {
+  try { localStorage.setItem(LIKES_KEY, JSON.stringify([...s])); } catch { /* ignore */ }
 };
 
 /* ---------- helpers ---------- */
@@ -135,10 +160,17 @@ const cropToSquareBlob = (
 
 const Reviews = () => {
   const [rows, setRows] = useState<ReviewRow[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [open, setOpen] = useState(false);
+
+  // Likes (device-locked, no login required)
+  const deviceIdRef = useRef<string>(getDeviceId());
+  const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
+  const [likedIds, setLikedIds] = useState<Set<string>>(() => readLikedSet());
+  const [pendingLike, setPendingLike] = useState<Record<string, boolean>>({});
 
   // Filters
   const [filterCountry, setFilterCountry] = useState<string>("all");
@@ -227,15 +259,31 @@ const Reviews = () => {
     [filterCountry, filterYear, filterRating],
   );
 
+  const fetchLikeCounts = useCallback(async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { data, error } = await supabase
+      .from("review_likes")
+      .select("review_id")
+      .in("review_id", ids);
+    if (error) return;
+    const tally: Record<string, number> = {};
+    (data ?? []).forEach((row: { review_id: string }) => {
+      tally[row.review_id] = (tally[row.review_id] ?? 0) + 1;
+    });
+    setLikeCounts((prev) => ({ ...prev, ...tally, ...Object.fromEntries(ids.filter((i) => !(i in tally)).map((i) => [i, 0])) }));
+  }, []);
+
   const fetchFirstPage = useCallback(async () => {
     setLoading(true);
     const { data, error, count } = await buildQuery(0, PAGE_SIZE - 1);
     if (error) toast.error("Could not load reviews");
     const list = (data ?? []) as ReviewRow[];
     setRows(list);
+    setTotalCount(count ?? list.length);
     setHasMore((count ?? list.length) > list.length);
     setLoading(false);
-  }, [buildQuery]);
+    fetchLikeCounts(list.map((r) => r.id));
+  }, [buildQuery, fetchLikeCounts]);
 
   const loadMore = async () => {
     if (loadingMore || !hasMore) return;
@@ -245,8 +293,50 @@ const Reviews = () => {
     const list = (data ?? []) as ReviewRow[];
     const next = [...rows, ...list];
     setRows(next);
+    setTotalCount(count ?? next.length);
     setHasMore((count ?? next.length) > next.length);
     setLoadingMore(false);
+    fetchLikeCounts(list.map((r) => r.id));
+  };
+
+  const toggleLike = async (reviewId: string) => {
+    if (pendingLike[reviewId]) return;
+    const deviceId = deviceIdRef.current;
+    const alreadyLiked = likedIds.has(reviewId);
+    // Optimistic update
+    setPendingLike((p) => ({ ...p, [reviewId]: true }));
+    setLikeCounts((prev) => ({ ...prev, [reviewId]: Math.max(0, (prev[reviewId] ?? 0) + (alreadyLiked ? -1 : 1)) }));
+    const nextSet = new Set(likedIds);
+    if (alreadyLiked) nextSet.delete(reviewId); else nextSet.add(reviewId);
+    setLikedIds(nextSet);
+    writeLikedSet(nextSet);
+    try {
+      if (alreadyLiked) {
+        const { error } = await supabase
+          .from("review_likes")
+          .delete()
+          .eq("review_id", reviewId)
+          .eq("device_id", deviceId);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("review_likes")
+          .insert({ review_id: reviewId, device_id: deviceId });
+        // Ignore unique-violation: already liked from this device earlier
+        if (error && !/duplicate|unique/i.test(error.message)) throw error;
+      }
+    } catch (err) {
+      // Roll back on failure
+      console.error(err);
+      setLikeCounts((prev) => ({ ...prev, [reviewId]: Math.max(0, (prev[reviewId] ?? 0) + (alreadyLiked ? 1 : -1)) }));
+      const rollback = new Set(likedIds);
+      if (alreadyLiked) rollback.add(reviewId); else rollback.delete(reviewId);
+      setLikedIds(rollback);
+      writeLikedSet(rollback);
+      toast.error("Couldn't save your like");
+    } finally {
+      setPendingLike((p) => ({ ...p, [reviewId]: false }));
+    }
   };
 
   useEffect(() => {
@@ -468,7 +558,11 @@ const Reviews = () => {
               </div>
               <div className="mt-2"><StarsRead value={Math.round(summary.avg)} /></div>
               <p className="mt-3 text-sm text-muted-foreground">
-                Showing {rows.length} {rows.length === 1 ? "review" : "reviews"}.
+                <span className="font-semibold text-moss-deep">{totalCount.toLocaleString()}</span>{" "}
+                {totalCount === 1 ? "review" : "reviews"} in total
+                {totalCount > rows.length && (
+                  <span className="opacity-70"> · showing {rows.length}</span>
+                )}
               </p>
             </div>
           </div>
@@ -569,20 +663,27 @@ const Reviews = () => {
               {rows.map((r) => {
                 const country = countryCodes.find((c) => c.iso === r.country_code);
                 const canEdit = !!owned[r.id] && !r.edited;
+                const useAnimated = !r.photo_url && (r.avatar_kind === "male" || r.avatar_kind === "female");
+                const liked = likedIds.has(r.id);
+                const likes = likeCounts[r.id] ?? 0;
                 return (
                   <article
                     key={r.id}
                     className="group relative flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <img
-                        src={avatarSrc(r)}
-                        alt={r.display_name}
-                        width={56}
-                        height={56}
-                        loading="lazy"
-                        className="h-14 w-14 rounded-full object-cover ring-2 ring-cream"
-                      />
+                      {useAnimated ? (
+                        <AnimatedAvatar kind={(r.avatar_kind ?? "female") as "male" | "female"} size={56} />
+                      ) : (
+                        <img
+                          src={avatarSrc(r)}
+                          alt={r.display_name}
+                          width={56}
+                          height={56}
+                          loading="lazy"
+                          className="h-14 w-14 rounded-full object-cover ring-2 ring-cream"
+                        />
+                      )}
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-display text-lg text-moss-deep">{r.display_name}</p>
                         <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -602,15 +703,35 @@ const Reviews = () => {
                       )}
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
-                    {canEdit && (
+                    <div className="mt-4 flex items-center justify-between gap-3">
                       <button
                         type="button"
-                        onClick={() => openEdit(r)}
-                        className="mt-4 inline-flex items-center gap-1.5 self-start text-xs font-medium text-moss hover:text-moss-deep"
+                        onClick={() => toggleLike(r.id)}
+                        disabled={!!pendingLike[r.id]}
+                        aria-pressed={liked}
+                        aria-label={liked ? "Unlike this review" : "Like this review"}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all active:scale-95 ${
+                          liked
+                            ? "border-rose-400/60 bg-rose-50 text-rose-600 dark:bg-rose-950/40"
+                            : "border-border bg-background text-muted-foreground hover:border-rose-300 hover:text-rose-500"
+                        }`}
                       >
-                        <Pencil className="h-3.5 w-3.5" /> Edit your review
+                        <Heart
+                          className={`h-3.5 w-3.5 transition-transform ${liked ? "fill-rose-500 text-rose-500 scale-110" : ""}`}
+                          strokeWidth={2}
+                        />
+                        <span className="tabular-nums">{likes}</span>
                       </button>
-                    )}
+                      {canEdit && (
+                        <button
+                          type="button"
+                          onClick={() => openEdit(r)}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-moss hover:text-moss-deep"
+                        >
+                          <Pencil className="h-3.5 w-3.5" /> Edit your review
+                        </button>
+                      )}
+                    </div>
                   </article>
                 );
               })}
