@@ -160,10 +160,17 @@ const cropToSquareBlob = (
 
 const Reviews = () => {
   const [rows, setRows] = useState<ReviewRow[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [open, setOpen] = useState(false);
+
+  // Likes (device-locked, no login required)
+  const deviceIdRef = useRef<string>(getDeviceId());
+  const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
+  const [likedIds, setLikedIds] = useState<Set<string>>(() => readLikedSet());
+  const [pendingLike, setPendingLike] = useState<Record<string, boolean>>({});
 
   // Filters
   const [filterCountry, setFilterCountry] = useState<string>("all");
