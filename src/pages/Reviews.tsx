@@ -213,7 +213,10 @@ const Reviews = () => {
     (from: number, to: number) => {
       let q = supabase
         .from("site_reviews")
-        .select("*", { count: "exact" })
+        .select(
+          "id, display_name, is_anonymous, avatar_kind, photo_url, country_code, year, rating, body, created_at, edited",
+          { count: "exact" },
+        )
         .order("created_at", { ascending: false })
         .range(from, to);
       if (filterCountry !== "all") q = q.eq("country_code", filterCountry);
@@ -291,20 +294,14 @@ const Reviews = () => {
     if (editBody.trim().length < 3) return toast.error("Please write a short review");
     setSavingEdit(true);
     try {
-      const { data, error } = await supabase
-        .from("site_reviews")
-        .update({
-          body: editBody.trim().slice(0, 2000),
-          rating: editRating,
-          country_code: editCountry,
-          year: editYear,
-          edited: true,
-        })
-        .eq("id", editing.id)
-        .eq("edit_token", token)
-        .eq("edited", false)
-        .select("id")
-        .maybeSingle();
+      const { data, error } = await supabase.rpc("update_review", {
+        p_id: editing.id,
+        p_token: token,
+        p_body: editBody.trim().slice(0, 2000),
+        p_rating: editRating,
+        p_country: editCountry,
+        p_year: editYear,
+      });
       if (error) throw error;
       if (!data) {
         toast.error("This review has already been edited.");
@@ -401,25 +398,22 @@ const Reviews = () => {
       const display_name =
         mode === "anonymous" ? "Anonymous" : fullName.trim().slice(0, 80);
 
-      const { data: inserted, error } = await supabase
-        .from("site_reviews")
-        .insert({
-          display_name,
-          is_anonymous: mode === "anonymous",
-          avatar_kind: mode === "anonymous" ? avatarKind : null,
-          photo_url,
-          country_code: country,
-          year,
-          rating,
-          body: body.trim().slice(0, 2000),
-        })
-        .select("id, edit_token")
-        .single();
+      const { data: inserted, error } = await supabase.rpc("create_review", {
+        p_display_name: display_name,
+        p_is_anonymous: mode === "anonymous",
+        p_avatar_kind: mode === "anonymous" ? avatarKind : null,
+        p_photo_url: photo_url,
+        p_country: country,
+        p_year: year,
+        p_rating: rating,
+        p_body: body.trim().slice(0, 2000),
+      });
       if (error) throw error;
+      const row = Array.isArray(inserted) ? inserted[0] : inserted;
 
       // Remember this review locally so the user can edit it once.
-      if (inserted?.id && (inserted as { edit_token?: string }).edit_token) {
-        const next = { ...readOwned(), [inserted.id]: (inserted as { edit_token: string }).edit_token };
+      if (row?.id && row?.edit_token) {
+        const next = { ...readOwned(), [row.id as string]: row.edit_token as string };
         writeOwned(next);
         setOwned(next);
       }
