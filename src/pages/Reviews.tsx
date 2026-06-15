@@ -304,6 +304,30 @@ const Reviews = () => {
     setLikeCounts((prev) => ({ ...prev, ...tally, ...Object.fromEntries(ids.filter((i) => !(i in tally)).map((i) => [i, 0])) }));
   }, []);
 
+  // Hydrate "my reactions" from localStorage on mount
+  useEffect(() => {
+    const stored = readMyReactions();
+    const map: Record<string, Set<string>> = {};
+    Object.entries(stored).forEach(([rid, arr]) => { map[rid] = new Set(arr); });
+    setMyReactions(map);
+  }, []);
+
+  const fetchReactionCounts = useCallback(async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { data, error } = await supabase
+      .from("review_reactions")
+      .select("review_id, emoji")
+      .in("review_id", ids);
+    if (error) return;
+    const tally: Record<string, Record<string, number>> = {};
+    ids.forEach((id) => { tally[id] = {}; });
+    (data ?? []).forEach((row: { review_id: string; emoji: string }) => {
+      tally[row.review_id] = tally[row.review_id] ?? {};
+      tally[row.review_id][row.emoji] = (tally[row.review_id][row.emoji] ?? 0) + 1;
+    });
+    setReactionCounts((prev) => ({ ...prev, ...tally }));
+  }, []);
+
   const fetchFirstPage = useCallback(async () => {
     setLoading(true);
     const { data, error, count } = await buildQuery(0, PAGE_SIZE - 1);
@@ -313,8 +337,10 @@ const Reviews = () => {
     setTotalCount(count ?? list.length);
     setHasMore((count ?? list.length) > list.length);
     setLoading(false);
-    fetchLikeCounts(list.map((r) => r.id));
-  }, [buildQuery, fetchLikeCounts]);
+    const ids = list.map((r) => r.id);
+    fetchLikeCounts(ids);
+    fetchReactionCounts(ids);
+  }, [buildQuery, fetchLikeCounts, fetchReactionCounts]);
 
   const loadMore = async () => {
     if (loadingMore || !hasMore) return;
@@ -327,8 +353,68 @@ const Reviews = () => {
     setTotalCount(count ?? next.length);
     setHasMore((count ?? next.length) > next.length);
     setLoadingMore(false);
-    fetchLikeCounts(list.map((r) => r.id));
+    const ids = list.map((r) => r.id);
+    fetchLikeCounts(ids);
+    fetchReactionCounts(ids);
   };
+
+  const toggleReaction = async (reviewId: string, emoji: string) => {
+    const key = `${reviewId}:${emoji}`;
+    if (pendingReaction[key]) return;
+    const deviceId = deviceIdRef.current;
+    const mine = myReactions[reviewId] ?? new Set<string>();
+    const already = mine.has(emoji);
+
+    // Optimistic
+    setPendingReaction((p) => ({ ...p, [key]: true }));
+    setReactionCounts((prev) => {
+      const forReview = { ...(prev[reviewId] ?? {}) };
+      forReview[emoji] = Math.max(0, (forReview[emoji] ?? 0) + (already ? -1 : 1));
+      return { ...prev, [reviewId]: forReview };
+    });
+    const nextMine = new Set(mine);
+    if (already) nextMine.delete(emoji); else nextMine.add(emoji);
+    const nextMap = { ...myReactions, [reviewId]: nextMine };
+    setMyReactions(nextMap);
+    writeMyReactions(
+      Object.fromEntries(Object.entries(nextMap).map(([k, v]) => [k, [...v]])),
+    );
+
+    try {
+      if (already) {
+        const { error } = await supabase
+          .from("review_reactions")
+          .delete()
+          .eq("review_id", reviewId)
+          .eq("device_id", deviceId)
+          .eq("emoji", emoji);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("review_reactions")
+          .insert({ review_id: reviewId, device_id: deviceId, emoji });
+        if (error && !/duplicate|unique/i.test(error.message)) throw error;
+      }
+    } catch (err) {
+      // Rollback
+      console.error(err);
+      setReactionCounts((prev) => {
+        const forReview = { ...(prev[reviewId] ?? {}) };
+        forReview[emoji] = Math.max(0, (forReview[emoji] ?? 0) + (already ? 1 : -1));
+        return { ...prev, [reviewId]: forReview };
+      });
+      const rollback = new Set(mine);
+      const rollbackMap = { ...myReactions, [reviewId]: rollback };
+      setMyReactions(rollbackMap);
+      writeMyReactions(
+        Object.fromEntries(Object.entries(rollbackMap).map(([k, v]) => [k, [...v]])),
+      );
+      toast.error("Couldn't save your reaction");
+    } finally {
+      setPendingReaction((p) => ({ ...p, [key]: false }));
+    }
+  };
+
 
   const toggleLike = async (reviewId: string) => {
     if (pendingLike[reviewId]) return;
