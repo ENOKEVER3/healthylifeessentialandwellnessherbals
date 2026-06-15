@@ -96,6 +96,15 @@ const writeLikedSet = (s: Set<string>) => {
   try { localStorage.setItem(LIKES_KEY, JSON.stringify([...s])); } catch { /* ignore */ }
 };
 
+const readMyReactions = (): Record<string, string[]> => {
+  try { return JSON.parse(localStorage.getItem(REACTIONS_KEY) || "{}"); }
+  catch { return {}; }
+};
+const writeMyReactions = (m: Record<string, string[]>) => {
+  try { localStorage.setItem(REACTIONS_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+};
+
+
 /* ---------- helpers ---------- */
 
 const StarPicker = ({ value, onChange }: { value: number; onChange: (v: number) => void }) => (
