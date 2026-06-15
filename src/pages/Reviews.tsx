@@ -182,15 +182,17 @@ const Reviews = () => {
   const [owned, setOwned] = useState<OwnedMap>(() => readOwned());
 
   // Background music (permanent while reading reviews, paused while leaving/editing a review)
+  // Picks one of two tracks at random per page visit.
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
-    const audio = new Audio("/audio/reviews-bgm.mp3");
+    const tracks = ["/audio/reviews-bgm.mp3", "/audio/reviews-bgm-2.mp3"];
+    const pick = tracks[Math.floor(Math.random() * tracks.length)];
+    const audio = new Audio(pick);
     audio.loop = true;
     audio.volume = 0.45;
     audio.preload = "auto";
     bgmRef.current = audio;
     const tryPlay = () => { audio.play().catch(() => {}); };
-    // Autoplay attempt (will likely be blocked until first interaction)
     tryPlay();
     const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "scroll", "click"];
     const onInteract = () => { tryPlay(); };
@@ -202,6 +204,7 @@ const Reviews = () => {
       bgmRef.current = null;
     };
   }, []);
+
 
   // Edit dialog state
   const [editing, setEditing] = useState<ReviewRow | null>(null);
