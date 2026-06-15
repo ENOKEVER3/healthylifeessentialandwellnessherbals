@@ -820,7 +820,38 @@ const Reviews = () => {
                       )}
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
-                    <div className="mt-4 flex items-center justify-between gap-3">
+
+                    {/* Emoji reaction bar */}
+                    <div className="mt-4 -mx-1 flex flex-wrap items-center gap-1.5">
+                      {EMOJIS.map((e) => {
+                        const mine = (myReactions[r.id] ?? new Set<string>()).has(e.char);
+                        const count = reactionCounts[r.id]?.[e.char] ?? 0;
+                        const pending = !!pendingReaction[`${r.id}:${e.char}`];
+                        return (
+                          <button
+                            key={e.char}
+                            type="button"
+                            onClick={() => toggleReaction(r.id, e.char)}
+                            disabled={pending}
+                            aria-pressed={mine}
+                            aria-label={`${e.label} reaction`}
+                            title={e.label}
+                            className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs transition-all active:scale-90 hover:-translate-y-0.5 ${
+                              mine
+                                ? "border-moss/60 bg-moss/10 text-moss-deep"
+                                : "border-border bg-background text-muted-foreground hover:border-moss/40"
+                            }`}
+                          >
+                            <span className={`text-base leading-none transition-transform ${mine ? "scale-110" : ""}`}>
+                              {e.char}
+                            </span>
+                            {count > 0 && <span className="tabular-nums">{count}</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between gap-3">
                       <button
                         type="button"
                         onClick={() => toggleLike(r.id)}
@@ -849,6 +880,7 @@ const Reviews = () => {
                         </button>
                       )}
                     </div>
+
                   </article>
                 );
               })}
