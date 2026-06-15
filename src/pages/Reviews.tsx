@@ -48,6 +48,18 @@ const THUMB_SIZE = 512;
 const OWNED_KEY = "owned_reviews_v1";
 const DEVICE_KEY = "hle_device_id_v1";
 const LIKES_KEY = "hle_liked_reviews_v1";
+const REACTIONS_KEY = "hle_my_reactions_v1";
+
+const EMOJIS: { char: string; label: string }[] = [
+  { char: "❤️", label: "Love" },
+  { char: "😍", label: "Adore" },
+  { char: "🙏", label: "Grateful" },
+  { char: "🔥", label: "Fire" },
+  { char: "👏", label: "Applause" },
+  { char: "😢", label: "Touched" },
+  { char: "💪", label: "Strong" },
+];
+
 
 type OwnedMap = Record<string, string>; // reviewId -> edit_token
 
