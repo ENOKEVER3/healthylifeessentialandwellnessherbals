@@ -172,6 +172,13 @@ const Reviews = () => {
   const [likedIds, setLikedIds] = useState<Set<string>>(() => readLikedSet());
   const [pendingLike, setPendingLike] = useState<Record<string, boolean>>({});
 
+  // Emoji reactions (device-locked, no login required)
+  // reactionCounts[reviewId][emoji] = count ; myReactions[reviewId] = Set of emojis I picked
+  const [reactionCounts, setReactionCounts] = useState<Record<string, Record<string, number>>>({});
+  const [myReactions, setMyReactions] = useState<Record<string, Set<string>>>({});
+  const [pendingReaction, setPendingReaction] = useState<Record<string, boolean>>({});
+
+
   // Filters
   const [filterCountry, setFilterCountry] = useState<string>("all");
   const [filterYear, setFilterYear] = useState<string>("all");
