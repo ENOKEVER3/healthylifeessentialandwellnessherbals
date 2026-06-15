@@ -58,6 +58,35 @@ export type Database = {
           },
         ]
       }
+      review_reactions: {
+        Row: {
+          created_at: string
+          device_id: string
+          emoji: string
+          review_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          emoji: string
+          review_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          emoji?: string
+          review_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_reactions_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "site_reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_reviews: {
         Row: {
           avatar_kind: string | null

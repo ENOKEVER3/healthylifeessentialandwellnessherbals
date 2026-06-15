@@ -48,6 +48,18 @@ const THUMB_SIZE = 512;
 const OWNED_KEY = "owned_reviews_v1";
 const DEVICE_KEY = "hle_device_id_v1";
 const LIKES_KEY = "hle_liked_reviews_v1";
+const REACTIONS_KEY = "hle_my_reactions_v1";
+
+const EMOJIS: { char: string; label: string }[] = [
+  { char: "❤️", label: "Love" },
+  { char: "😍", label: "Adore" },
+  { char: "🙏", label: "Grateful" },
+  { char: "🔥", label: "Fire" },
+  { char: "👏", label: "Applause" },
+  { char: "😢", label: "Touched" },
+  { char: "💪", label: "Strong" },
+];
+
 
 type OwnedMap = Record<string, string>; // reviewId -> edit_token
 
@@ -83,6 +95,15 @@ const readLikedSet = (): Set<string> => {
 const writeLikedSet = (s: Set<string>) => {
   try { localStorage.setItem(LIKES_KEY, JSON.stringify([...s])); } catch { /* ignore */ }
 };
+
+const readMyReactions = (): Record<string, string[]> => {
+  try { return JSON.parse(localStorage.getItem(REACTIONS_KEY) || "{}"); }
+  catch { return {}; }
+};
+const writeMyReactions = (m: Record<string, string[]>) => {
+  try { localStorage.setItem(REACTIONS_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+};
+
 
 /* ---------- helpers ---------- */
 
@@ -172,6 +193,13 @@ const Reviews = () => {
   const [likedIds, setLikedIds] = useState<Set<string>>(() => readLikedSet());
   const [pendingLike, setPendingLike] = useState<Record<string, boolean>>({});
 
+  // Emoji reactions (device-locked, no login required)
+  // reactionCounts[reviewId][emoji] = count ; myReactions[reviewId] = Set of emojis I picked
+  const [reactionCounts, setReactionCounts] = useState<Record<string, Record<string, number>>>({});
+  const [myReactions, setMyReactions] = useState<Record<string, Set<string>>>({});
+  const [pendingReaction, setPendingReaction] = useState<Record<string, boolean>>({});
+
+
   // Filters
   const [filterCountry, setFilterCountry] = useState<string>("all");
   const [filterYear, setFilterYear] = useState<string>("all");
@@ -182,15 +210,17 @@ const Reviews = () => {
   const [owned, setOwned] = useState<OwnedMap>(() => readOwned());
 
   // Background music (permanent while reading reviews, paused while leaving/editing a review)
+  // Picks one of two tracks at random per page visit.
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
-    const audio = new Audio("/audio/reviews-bgm.mp3");
+    const tracks = ["/audio/reviews-bgm.mp3", "/audio/reviews-bgm-2.mp3"];
+    const pick = tracks[Math.floor(Math.random() * tracks.length)];
+    const audio = new Audio(pick);
     audio.loop = true;
     audio.volume = 0.45;
     audio.preload = "auto";
     bgmRef.current = audio;
     const tryPlay = () => { audio.play().catch(() => {}); };
-    // Autoplay attempt (will likely be blocked until first interaction)
     tryPlay();
     const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "scroll", "click"];
     const onInteract = () => { tryPlay(); };
@@ -202,6 +232,7 @@ const Reviews = () => {
       bgmRef.current = null;
     };
   }, []);
+
 
   // Edit dialog state
   const [editing, setEditing] = useState<ReviewRow | null>(null);
@@ -273,6 +304,30 @@ const Reviews = () => {
     setLikeCounts((prev) => ({ ...prev, ...tally, ...Object.fromEntries(ids.filter((i) => !(i in tally)).map((i) => [i, 0])) }));
   }, []);
 
+  // Hydrate "my reactions" from localStorage on mount
+  useEffect(() => {
+    const stored = readMyReactions();
+    const map: Record<string, Set<string>> = {};
+    Object.entries(stored).forEach(([rid, arr]) => { map[rid] = new Set(arr); });
+    setMyReactions(map);
+  }, []);
+
+  const fetchReactionCounts = useCallback(async (ids: string[]) => {
+    if (ids.length === 0) return;
+    const { data, error } = await supabase
+      .from("review_reactions")
+      .select("review_id, emoji")
+      .in("review_id", ids);
+    if (error) return;
+    const tally: Record<string, Record<string, number>> = {};
+    ids.forEach((id) => { tally[id] = {}; });
+    (data ?? []).forEach((row: { review_id: string; emoji: string }) => {
+      tally[row.review_id] = tally[row.review_id] ?? {};
+      tally[row.review_id][row.emoji] = (tally[row.review_id][row.emoji] ?? 0) + 1;
+    });
+    setReactionCounts((prev) => ({ ...prev, ...tally }));
+  }, []);
+
   const fetchFirstPage = useCallback(async () => {
     setLoading(true);
     const { data, error, count } = await buildQuery(0, PAGE_SIZE - 1);
@@ -282,8 +337,10 @@ const Reviews = () => {
     setTotalCount(count ?? list.length);
     setHasMore((count ?? list.length) > list.length);
     setLoading(false);
-    fetchLikeCounts(list.map((r) => r.id));
-  }, [buildQuery, fetchLikeCounts]);
+    const ids = list.map((r) => r.id);
+    fetchLikeCounts(ids);
+    fetchReactionCounts(ids);
+  }, [buildQuery, fetchLikeCounts, fetchReactionCounts]);
 
   const loadMore = async () => {
     if (loadingMore || !hasMore) return;
@@ -296,8 +353,68 @@ const Reviews = () => {
     setTotalCount(count ?? next.length);
     setHasMore((count ?? next.length) > next.length);
     setLoadingMore(false);
-    fetchLikeCounts(list.map((r) => r.id));
+    const ids = list.map((r) => r.id);
+    fetchLikeCounts(ids);
+    fetchReactionCounts(ids);
   };
+
+  const toggleReaction = async (reviewId: string, emoji: string) => {
+    const key = `${reviewId}:${emoji}`;
+    if (pendingReaction[key]) return;
+    const deviceId = deviceIdRef.current;
+    const mine = myReactions[reviewId] ?? new Set<string>();
+    const already = mine.has(emoji);
+
+    // Optimistic
+    setPendingReaction((p) => ({ ...p, [key]: true }));
+    setReactionCounts((prev) => {
+      const forReview = { ...(prev[reviewId] ?? {}) };
+      forReview[emoji] = Math.max(0, (forReview[emoji] ?? 0) + (already ? -1 : 1));
+      return { ...prev, [reviewId]: forReview };
+    });
+    const nextMine = new Set(mine);
+    if (already) nextMine.delete(emoji); else nextMine.add(emoji);
+    const nextMap = { ...myReactions, [reviewId]: nextMine };
+    setMyReactions(nextMap);
+    writeMyReactions(
+      Object.fromEntries(Object.entries(nextMap).map(([k, v]) => [k, [...v]])),
+    );
+
+    try {
+      if (already) {
+        const { error } = await supabase
+          .from("review_reactions")
+          .delete()
+          .eq("review_id", reviewId)
+          .eq("device_id", deviceId)
+          .eq("emoji", emoji);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("review_reactions")
+          .insert({ review_id: reviewId, device_id: deviceId, emoji });
+        if (error && !/duplicate|unique/i.test(error.message)) throw error;
+      }
+    } catch (err) {
+      // Rollback
+      console.error(err);
+      setReactionCounts((prev) => {
+        const forReview = { ...(prev[reviewId] ?? {}) };
+        forReview[emoji] = Math.max(0, (forReview[emoji] ?? 0) + (already ? 1 : -1));
+        return { ...prev, [reviewId]: forReview };
+      });
+      const rollback = new Set(mine);
+      const rollbackMap = { ...myReactions, [reviewId]: rollback };
+      setMyReactions(rollbackMap);
+      writeMyReactions(
+        Object.fromEntries(Object.entries(rollbackMap).map(([k, v]) => [k, [...v]])),
+      );
+      toast.error("Couldn't save your reaction");
+    } finally {
+      setPendingReaction((p) => ({ ...p, [key]: false }));
+    }
+  };
+
 
   const toggleLike = async (reviewId: string) => {
     if (pendingLike[reviewId]) return;
@@ -703,7 +820,38 @@ const Reviews = () => {
                       )}
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
-                    <div className="mt-4 flex items-center justify-between gap-3">
+
+                    {/* Emoji reaction bar */}
+                    <div className="mt-4 -mx-1 flex flex-wrap items-center gap-1.5">
+                      {EMOJIS.map((e) => {
+                        const mine = (myReactions[r.id] ?? new Set<string>()).has(e.char);
+                        const count = reactionCounts[r.id]?.[e.char] ?? 0;
+                        const pending = !!pendingReaction[`${r.id}:${e.char}`];
+                        return (
+                          <button
+                            key={e.char}
+                            type="button"
+                            onClick={() => toggleReaction(r.id, e.char)}
+                            disabled={pending}
+                            aria-pressed={mine}
+                            aria-label={`${e.label} reaction`}
+                            title={e.label}
+                            className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs transition-all active:scale-90 hover:-translate-y-0.5 ${
+                              mine
+                                ? "border-moss/60 bg-moss/10 text-moss-deep"
+                                : "border-border bg-background text-muted-foreground hover:border-moss/40"
+                            }`}
+                          >
+                            <span className={`text-base leading-none transition-transform ${mine ? "scale-110" : ""}`}>
+                              {e.char}
+                            </span>
+                            {count > 0 && <span className="tabular-nums">{count}</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between gap-3">
                       <button
                         type="button"
                         onClick={() => toggleLike(r.id)}
@@ -732,6 +880,7 @@ const Reviews = () => {
                         </button>
                       )}
                     </div>
+
                   </article>
                 );
               })}
