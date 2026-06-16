@@ -198,6 +198,11 @@ const Reviews = () => {
   const [reactionCounts, setReactionCounts] = useState<Record<string, Record<string, number>>>({});
   const [myReactions, setMyReactions] = useState<Record<string, Set<string>>>({});
   const [pendingReaction, setPendingReaction] = useState<Record<string, boolean>>({});
+  // Transient confirmation bubble after clicking an emoji: reviewId -> { emoji, action }
+  const [recentReaction, setRecentReaction] = useState<Record<string, { emoji: string; action: "added" | "removed" } | undefined>>({});
+  const recentReactionTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+
+
 
 
   // Filters
@@ -379,6 +384,14 @@ const Reviews = () => {
     writeMyReactions(
       Object.fromEntries(Object.entries(nextMap).map(([k, v]) => [k, [...v]])),
     );
+
+    // Show transient confirmation bubble for ~2.4s
+    setRecentReaction((prev) => ({ ...prev, [reviewId]: { emoji, action: already ? "removed" : "added" } }));
+    if (recentReactionTimers.current[reviewId]) clearTimeout(recentReactionTimers.current[reviewId]);
+    recentReactionTimers.current[reviewId] = setTimeout(() => {
+      setRecentReaction((prev) => ({ ...prev, [reviewId]: undefined }));
+    }, 2400);
+
 
     try {
       if (already) {
@@ -822,34 +835,57 @@ const Reviews = () => {
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
 
                     {/* Emoji reaction bar */}
-                    <div className="mt-4 -mx-1 flex flex-wrap items-center gap-1.5">
-                      {EMOJIS.map((e) => {
-                        const mine = (myReactions[r.id] ?? new Set<string>()).has(e.char);
-                        const count = reactionCounts[r.id]?.[e.char] ?? 0;
-                        const pending = !!pendingReaction[`${r.id}:${e.char}`];
-                        return (
-                          <button
-                            key={e.char}
-                            type="button"
-                            onClick={() => toggleReaction(r.id, e.char)}
-                            disabled={pending}
-                            aria-pressed={mine}
-                            aria-label={`${e.label} reaction`}
-                            title={e.label}
-                            className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs transition-all active:scale-90 hover:-translate-y-0.5 ${
-                              mine
-                                ? "border-moss/60 bg-moss/10 text-moss-deep"
-                                : "border-border bg-background text-muted-foreground hover:border-moss/40"
-                            }`}
-                          >
-                            <span className={`text-base leading-none transition-transform ${mine ? "scale-110" : ""}`}>
-                              {e.char}
+                    <div className="relative mt-4">
+                      {recentReaction[r.id] && (
+                        <div
+                          role="status"
+                          aria-live="polite"
+                          className="pointer-events-none absolute -top-2 left-0 z-10 -translate-y-full animate-fade-in rounded-lg border border-moss/40 bg-background/95 px-2.5 py-1.5 text-[11px] text-foreground shadow-md backdrop-blur"
+                        >
+                          <div className="flex items-center gap-1.5 font-medium">
+                            <span className="text-sm leading-none">{recentReaction[r.id]!.emoji}</span>
+                            <span>
+                              {recentReaction[r.id]!.action === "added" ? "You reacted" : "Reaction removed"}
                             </span>
-                            {count > 0 && <span className="tabular-nums">{count}</span>}
-                          </button>
-                        );
-                      })}
+                          </div>
+                          <div className="mt-1 flex items-center gap-1 text-muted-foreground">
+                            <span className="text-[10px] uppercase tracking-wider">Tap to switch:</span>
+                            <span className="text-sm leading-none">
+                              {EMOJIS.filter((x) => x.char !== recentReaction[r.id]!.emoji).map((x) => x.char).join(" ")}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      <div className="-mx-1 flex flex-wrap items-center gap-1.5">
+                        {EMOJIS.map((e) => {
+                          const mine = (myReactions[r.id] ?? new Set<string>()).has(e.char);
+                          const count = reactionCounts[r.id]?.[e.char] ?? 0;
+                          const pending = !!pendingReaction[`${r.id}:${e.char}`];
+                          return (
+                            <button
+                              key={e.char}
+                              type="button"
+                              onClick={() => toggleReaction(r.id, e.char)}
+                              disabled={pending}
+                              aria-pressed={mine}
+                              aria-label={`${e.label} reaction${mine ? " (you reacted — tap to remove)" : ""}`}
+                              title={mine ? `${e.label} — you reacted (tap to remove)` : e.label}
+                              className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs transition-all active:scale-90 hover:-translate-y-0.5 ${
+                                mine
+                                  ? "border-moss bg-moss/15 text-moss-deep ring-2 ring-moss/40 shadow-sm font-semibold"
+                                  : "border-border bg-background text-muted-foreground hover:border-moss/40"
+                              }`}
+                            >
+                              <span className={`text-base leading-none transition-transform ${mine ? "scale-125" : ""}`}>
+                                {e.char}
+                              </span>
+                              <span className={`tabular-nums ${mine ? "text-moss-deep" : "opacity-70"}`}>{count}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
+
 
                     <div className="mt-3 flex items-center justify-between gap-3">
                       <button
