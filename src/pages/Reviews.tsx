@@ -385,6 +385,14 @@ const Reviews = () => {
       Object.fromEntries(Object.entries(nextMap).map(([k, v]) => [k, [...v]])),
     );
 
+    // Show transient confirmation bubble for ~2.4s
+    setRecentReaction((prev) => ({ ...prev, [reviewId]: { emoji, action: already ? "removed" : "added" } }));
+    if (recentReactionTimers.current[reviewId]) clearTimeout(recentReactionTimers.current[reviewId]);
+    recentReactionTimers.current[reviewId] = setTimeout(() => {
+      setRecentReaction((prev) => ({ ...prev, [reviewId]: undefined }));
+    }, 2400);
+
+
     try {
       if (already) {
         const { error } = await supabase
