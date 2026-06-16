@@ -309,13 +309,33 @@ const Reviews = () => {
     setLikeCounts((prev) => ({ ...prev, ...tally, ...Object.fromEntries(ids.filter((i) => !(i in tally)).map((i) => [i, 0])) }));
   }, []);
 
-  // Hydrate "my reactions" from localStorage on mount
+  // Hydrate "my reactions" from localStorage on mount, then refresh from the server
+  // using this device's id so selections persist across sessions / cleared storage.
   useEffect(() => {
     const stored = readMyReactions();
     const map: Record<string, Set<string>> = {};
     Object.entries(stored).forEach(([rid, arr]) => { map[rid] = new Set(arr); });
     setMyReactions(map);
+
+    const deviceId = deviceIdRef.current;
+    (async () => {
+      const { data, error } = await supabase
+        .from("review_reactions")
+        .select("review_id, emoji")
+        .eq("device_id", deviceId);
+      if (error || !data) return;
+      const server: Record<string, Set<string>> = {};
+      data.forEach((row: { review_id: string; emoji: string }) => {
+        if (!server[row.review_id]) server[row.review_id] = new Set();
+        server[row.review_id].add(row.emoji);
+      });
+      setMyReactions(server);
+      writeMyReactions(
+        Object.fromEntries(Object.entries(server).map(([k, v]) => [k, [...v]])),
+      );
+    })();
   }, []);
+
 
   const fetchReactionCounts = useCallback(async (ids: string[]) => {
     if (ids.length === 0) return;
