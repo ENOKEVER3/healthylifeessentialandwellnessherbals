@@ -198,6 +198,11 @@ const Reviews = () => {
   const [reactionCounts, setReactionCounts] = useState<Record<string, Record<string, number>>>({});
   const [myReactions, setMyReactions] = useState<Record<string, Set<string>>>({});
   const [pendingReaction, setPendingReaction] = useState<Record<string, boolean>>({});
+  // Transient confirmation bubble after clicking an emoji: reviewId -> { emoji, action }
+  const [recentReaction, setRecentReaction] = useState<Record<string, { emoji: string; action: "added" | "removed" } | undefined>>({});
+  const recentReactionTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+
+
 
 
   // Filters
