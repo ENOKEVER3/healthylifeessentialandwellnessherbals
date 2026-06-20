@@ -415,13 +415,13 @@ const Reviews = () => {
 
     try {
       if (already) {
-        const { error } = await supabase
-          .from("review_reactions")
-          .delete()
-          .eq("review_id", reviewId)
-          .eq("device_id", deviceId)
-          .eq("emoji", emoji);
+        const { error } = await supabase.rpc("delete_review_reaction", {
+          p_review_id: reviewId,
+          p_device_id: deviceId,
+          p_emoji: emoji,
+        });
         if (error) throw error;
+
       } else {
         const { error } = await supabase
           .from("review_reactions")
@@ -462,12 +462,12 @@ const Reviews = () => {
     writeLikedSet(nextSet);
     try {
       if (alreadyLiked) {
-        const { error } = await supabase
-          .from("review_likes")
-          .delete()
-          .eq("review_id", reviewId)
-          .eq("device_id", deviceId);
+        const { error } = await supabase.rpc("delete_review_like", {
+          p_review_id: reviewId,
+          p_device_id: deviceId,
+        });
         if (error) throw error;
+
       } else {
         const { error } = await supabase
           .from("review_likes")
