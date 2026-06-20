@@ -153,6 +153,14 @@ export type Database = {
           id: string
         }[]
       }
+      delete_review_like: {
+        Args: { p_device_id: string; p_review_id: string }
+        Returns: boolean
+      }
+      delete_review_reaction: {
+        Args: { p_device_id: string; p_emoji: string; p_review_id: string }
+        Returns: boolean
+      }
       update_review: {
         Args: {
           p_body: string
