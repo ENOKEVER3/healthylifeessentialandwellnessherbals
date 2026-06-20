@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
+import { ProductImageCarousel } from "@/components/ProductImageCarousel";
 import { supabase } from "@/integrations/supabase/client";
 import { countryCodes, flagFor } from "@/data/countryCodes";
 import { toast } from "sonner";
@@ -715,6 +716,9 @@ const Reviews = () => {
                 )}
               </p>
             </div>
+          </div>
+          <div className="mt-10 md:mt-14">
+            <ProductImageCarousel />
           </div>
         </div>
       </section>
