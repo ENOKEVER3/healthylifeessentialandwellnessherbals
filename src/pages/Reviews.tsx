@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2 } from "lucide-react";
 import { AnimatedAvatar } from "@/components/AnimatedAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -927,12 +927,30 @@ const Reviews = () => {
                         <span className="tabular-nums">{likes}</span>
                       </button>
                       {canEdit && (
+                        <div className="flex items-center gap-3">
+                          <button
+                            type="button"
+                            onClick={() => openEdit(r)}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-moss hover:text-moss-deep"
+                          >
+                            <Pencil className="h-3.5 w-3.5" /> Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteReview(r)}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-red-600"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" /> Delete
+                          </button>
+                        </div>
+                      )}
+                      {!canEdit && !!owned[r.id] && (
                         <button
                           type="button"
-                          onClick={() => openEdit(r)}
-                          className="inline-flex items-center gap-1.5 text-xs font-medium text-moss hover:text-moss-deep"
+                          onClick={() => deleteReview(r)}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-red-600"
                         >
-                          <Pencil className="h-3.5 w-3.5" /> Edit your review
+                          <Trash2 className="h-3.5 w-3.5" /> Delete
                         </button>
                       )}
                     </div>
