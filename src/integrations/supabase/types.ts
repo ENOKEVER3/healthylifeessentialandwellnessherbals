@@ -94,6 +94,7 @@ export type Database = {
           country_code: string
           created_at: string
           display_name: string
+          edit_count: number
           edit_token: string
           edited: boolean
           id: string
@@ -108,6 +109,7 @@ export type Database = {
           country_code: string
           created_at?: string
           display_name: string
+          edit_count?: number
           edit_token?: string
           edited?: boolean
           id?: string
@@ -122,6 +124,7 @@ export type Database = {
           country_code?: string
           created_at?: string
           display_name?: string
+          edit_count?: number
           edit_token?: string
           edited?: boolean
           id?: string
