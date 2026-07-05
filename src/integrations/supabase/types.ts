@@ -156,6 +156,10 @@ export type Database = {
           id: string
         }[]
       }
+      delete_review: {
+        Args: { p_id: string; p_token: string }
+        Returns: boolean
+      }
       delete_review_like: {
         Args: { p_device_id: string; p_review_id: string }
         Returns: boolean
