@@ -40,6 +40,7 @@ type ReviewRow = {
   body: string;
   created_at: string;
   edited: boolean;
+  edit_count?: number;
 };
 
 const PAGE_SIZE = 24;
@@ -283,7 +284,7 @@ const Reviews = () => {
       let q = supabase
         .from("site_reviews")
         .select(
-          "id, display_name, is_anonymous, avatar_kind, photo_url, country_code, year, rating, body, created_at, edited",
+          "id, display_name, is_anonymous, avatar_kind, photo_url, country_code, year, rating, body, created_at, edited, edit_count",
           { count: "exact" },
         )
         .order("created_at", { ascending: false })
@@ -545,13 +546,13 @@ const Reviews = () => {
       });
       if (error) throw error;
       if (!data) {
-        toast.error("This review has already been edited.");
+        toast.error("You've reached the edit limit for this review.");
       } else {
         toast.success("Review updated");
         setRows((prev) =>
           prev.map((r) =>
             r.id === editing.id
-              ? { ...r, body: editBody.trim(), rating: editRating, country_code: editCountry, year: editYear, edited: true }
+              ? { ...r, body: editBody.trim(), rating: editRating, country_code: editCountry, year: editYear, edit_count: (r.edit_count ?? 0) + 1 }
               : r,
           ),
         );
@@ -816,7 +817,7 @@ const Reviews = () => {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {rows.map((r) => {
                 const country = countryCodes.find((c) => c.iso === r.country_code);
-                const canEdit = !!owned[r.id] && !r.edited;
+                const canEdit = !!owned[r.id] && (r.edit_count ?? 0) < 3;
                 const useAnimated = !r.photo_url && (r.avatar_kind === "male" || r.avatar_kind === "female");
                 const liked = likedIds.has(r.id);
                 const likes = likeCounts[r.id] ?? 0;
@@ -850,11 +851,6 @@ const Reviews = () => {
                     </div>
                     <div className="mt-4 flex items-center justify-between">
                       <StarsRead value={r.rating} />
-                      {r.edited && (
-                        <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                          edited
-                        </span>
-                      )}
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/80">{r.body}</p>
 
