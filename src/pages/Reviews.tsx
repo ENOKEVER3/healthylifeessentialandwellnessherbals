@@ -566,6 +566,32 @@ const Reviews = () => {
     }
   };
 
+  const deleteReview = async (r: Row) => {
+    const token = owned[r.id];
+    if (!token) return toast.error("Delete link expired on this device");
+    if (!window.confirm("Delete this review? This cannot be undone.")) return;
+    try {
+      const { data, error } = await (supabase.rpc as any)("delete_review", {
+        p_id: r.id,
+        p_token: token,
+      });
+      if (error) throw error;
+      if (!data) {
+        toast.error("Could not delete this review");
+        return;
+      }
+      setRows((prev) => prev.filter((x) => x.id !== r.id));
+      const next = { ...readOwned() };
+      delete next[r.id];
+      writeOwned(next);
+      setOwned(next);
+      toast.success("Review deleted");
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not delete review");
+    }
+  };
+
 
   const resetForm = () => {
     setMode("");
