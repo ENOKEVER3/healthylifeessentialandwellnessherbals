@@ -566,7 +566,7 @@ const Reviews = () => {
     }
   };
 
-  const deleteReview = async (r: Row) => {
+  const deleteReview = async (r: ReviewRow) => {
     const token = owned[r.id];
     if (!token) return toast.error("Delete link expired on this device");
     if (!window.confirm("Delete this review? This cannot be undone.")) return;
