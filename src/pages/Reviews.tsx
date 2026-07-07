@@ -746,6 +746,18 @@ const Reviews = () => {
 
   return (
     <div className="bg-background">
+      {bgmReady && (
+        <button
+          type="button"
+          onClick={toggleMuted}
+          aria-label={muted ? "Unmute background music" : "Mute background music"}
+          aria-pressed={!muted}
+          className="fixed bottom-4 left-4 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/80 text-moss-deep shadow-md backdrop-blur transition hover:bg-background sm:h-10 sm:w-10"
+        >
+          {muted ? <VolumeX className="h-4 w-4" strokeWidth={1.6} /> : <Volume2 className="h-4 w-4" strokeWidth={1.6} />}
+        </button>
+      )}
+
       <Seo
         title="Customer Reviews — Healthy Life Essentials"
         description="Real stories from people who trust Healthy Life Essentials & Wellness Herbals. Read reviews and share your own."
