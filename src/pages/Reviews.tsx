@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2 } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2, Volume2, VolumeX } from "lucide-react";
 import { AnimatedAvatar } from "@/components/AnimatedAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -216,28 +216,73 @@ const Reviews = () => {
   // Owned reviews (id -> edit_token) for one-time edit capability
   const [owned, setOwned] = useState<OwnedMap>(() => readOwned());
 
-  // Background music (permanent while reading reviews, paused while leaving/editing a review)
-  // Picks one of two tracks at random per page visit.
+  // Background music — responsive & mobile-friendly:
+  // • metadata-only preload (no big download on mobile / Save-Data)
+  // • skipped entirely on slow networks or when the user prefers reduced motion
+  // • lower volume on small screens, pauses when tab is hidden
+  // • user-controllable via a floating mute toggle (no layout impact)
   const bgmRef = useRef<HTMLAudioElement | null>(null);
-  useEffect(() => {
-    const audio = new Audio("/audio/reviews-bgm.mp3");
+  const [bgmReady, setBgmReady] = useState(false);
+  const [muted, setMuted] = useState<boolean>(() => {
+    try { return localStorage.getItem("hle_bgm_muted") === "1"; } catch { return false; }
+  });
 
+  useEffect(() => {
+    // Respect user & network preferences
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    // @ts-expect-error - connection is non-standard
+    const conn = navigator.connection as { saveData?: boolean; effectiveType?: string } | undefined;
+    const slowNetwork = !!conn && (conn.saveData || conn.effectiveType === "2g" || conn.effectiveType === "slow-2g");
+    if (prefersReducedMotion || slowNetwork) return;
+
+    const isSmall = window.matchMedia("(max-width: 640px)").matches;
+    const audio = new Audio();
+    audio.src = "/audio/reviews-bgm.mp3";
     audio.loop = true;
-    audio.volume = 0.45;
-    audio.preload = "auto";
+    audio.volume = isSmall ? 0.3 : 0.45;
+    audio.preload = "metadata";
+    audio.crossOrigin = "anonymous";
     bgmRef.current = audio;
-    const tryPlay = () => { audio.play().catch(() => {}); };
+
+    const onReady = () => setBgmReady(true);
+    audio.addEventListener("canplay", onReady, { once: true });
+
+    const tryPlay = () => { if (!muted) audio.play().catch(() => {}); };
     tryPlay();
-    const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "scroll", "click"];
+    const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "click"];
     const onInteract = () => { tryPlay(); };
-    events.forEach((e) => window.addEventListener(e, onInteract, { passive: true }));
+    events.forEach((e) => window.addEventListener(e, onInteract, { passive: true, once: false }));
+
+    const onVisibility = () => {
+      if (document.hidden) audio.pause();
+      else if (!muted) audio.play().catch(() => {});
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
       events.forEach((e) => window.removeEventListener(e, onInteract));
+      document.removeEventListener("visibilitychange", onVisibility);
+      audio.removeEventListener("canplay", onReady);
       audio.pause();
       audio.src = "";
       bgmRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const toggleMuted = () => {
+    setMuted((prev) => {
+      const next = !prev;
+      try { localStorage.setItem("hle_bgm_muted", next ? "1" : "0"); } catch { /* ignore */ }
+      const audio = bgmRef.current;
+      if (audio) {
+        if (next) audio.pause();
+        else audio.play().catch(() => {});
+      }
+      return next;
+    });
+  };
+
 
 
   // Edit dialog state
@@ -247,12 +292,13 @@ const Reviews = () => {
   useEffect(() => {
     const audio = bgmRef.current;
     if (!audio) return;
-    if (open || !!editing) {
+    if (open || !!editing || muted) {
       audio.pause();
     } else {
       audio.play().catch(() => {});
     }
-  }, [open, editing]);
+  }, [open, editing, muted]);
+
 
   const [editBody, setEditBody] = useState("");
   const [editRating, setEditRating] = useState(5);
@@ -700,6 +746,18 @@ const Reviews = () => {
 
   return (
     <div className="bg-background">
+      {bgmReady && (
+        <button
+          type="button"
+          onClick={toggleMuted}
+          aria-label={muted ? "Unmute background music" : "Mute background music"}
+          aria-pressed={!muted}
+          className="fixed bottom-4 left-4 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/80 text-moss-deep shadow-md backdrop-blur transition hover:bg-background sm:h-10 sm:w-10"
+        >
+          {muted ? <VolumeX className="h-4 w-4" strokeWidth={1.6} /> : <Volume2 className="h-4 w-4" strokeWidth={1.6} />}
+        </button>
+      )}
+
       <Seo
         title="Customer Reviews — Healthy Life Essentials"
         description="Real stories from people who trust Healthy Life Essentials & Wellness Herbals. Read reviews and share your own."
