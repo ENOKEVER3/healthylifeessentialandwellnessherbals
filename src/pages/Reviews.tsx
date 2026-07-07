@@ -292,12 +292,13 @@ const Reviews = () => {
   useEffect(() => {
     const audio = bgmRef.current;
     if (!audio) return;
-    if (open || !!editing) {
+    if (open || !!editing || muted) {
       audio.pause();
     } else {
       audio.play().catch(() => {});
     }
-  }, [open, editing]);
+  }, [open, editing, muted]);
+
 
   const [editBody, setEditBody] = useState("");
   const [editRating, setEditRating] = useState(5);
