@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2 } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2, Volume2, VolumeX } from "lucide-react";
 import { AnimatedAvatar } from "@/components/AnimatedAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
