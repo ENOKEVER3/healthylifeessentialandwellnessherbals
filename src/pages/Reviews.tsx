@@ -220,9 +220,8 @@ const Reviews = () => {
   // Picks one of two tracks at random per page visit.
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
-    const tracks = ["/audio/reviews-bgm.mp3", "/audio/reviews-bgm-2.mp3"];
-    const pick = tracks[Math.floor(Math.random() * tracks.length)];
-    const audio = new Audio(pick);
+    const audio = new Audio("/audio/reviews-bgm.mp3");
+
     audio.loop = true;
     audio.volume = 0.45;
     audio.preload = "auto";
