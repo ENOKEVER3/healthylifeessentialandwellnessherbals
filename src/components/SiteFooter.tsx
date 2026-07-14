@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Phone, MapPin } from "lucide-react";
+import { openCookieConsent } from "@/components/CookieConsent";
 import logo from "@/assets/logo.png";
 import { productGroups } from "@/data/products";
 import { useLanguage } from "@/i18n/LanguageContext";
