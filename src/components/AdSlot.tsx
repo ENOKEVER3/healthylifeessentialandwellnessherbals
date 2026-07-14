@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ADSENSE_CLIENT_ID, getConsent, subscribeConsent, loadAdsScript } from "@/lib/consent";
 import { trackAdEvent } from "@/lib/adAnalytics";
+import { removeAdSlot, reportAdSlot } from "@/lib/adDebug";
 
 type AdSlotProps = {
   /** AdSense ad slot ID (from your AdSense dashboard). */
@@ -52,6 +53,12 @@ export const AdSlot = ({
 
   useEffect(() => subscribeConsent(setConsentState), []);
 
+  // Register with the admin debug store on mount; clean up on unmount.
+  useEffect(() => {
+    reportAdSlot(placement, { slot, inView: false, pushed: false, filled: false });
+    return () => removeAdSlot(placement);
+  }, [placement, slot]);
+
   // Lazy reveal + one-time "view" event when the slot enters the viewport.
   useEffect(() => {
     const el = wrapRef.current;
@@ -61,6 +68,7 @@ export const AdSlot = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setInView(true);
+            reportAdSlot(placement, { inView: true });
             if (!viewLoggedRef.current && consent === "accepted") {
               viewLoggedRef.current = true;
               trackAdEvent(placement, "view");
@@ -84,12 +92,36 @@ export const AdSlot = ({
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
         pushedRef.current = true;
-      } catch {
-        /* ignore adsbygoogle errors */
+        reportAdSlot(placement, { pushed: true });
+
+        // Watch for Google to actually fill the slot (iframe appears).
+        const wrap = wrapRef.current;
+        if (wrap) {
+          const check = () => {
+            const filled = !!wrap.querySelector("ins.adsbygoogle iframe");
+            if (filled) {
+              reportAdSlot(placement, { filled: true });
+              return true;
+            }
+            return false;
+          };
+          if (!check()) {
+            const started = Date.now();
+            const iv = window.setInterval(() => {
+              if (check() || Date.now() - started > 8000) {
+                window.clearInterval(iv);
+              }
+            }, 500);
+          }
+        }
+      } catch (e) {
+        reportAdSlot(placement, {
+          error: e instanceof Error ? e.message : String(e),
+        });
       }
     });
     return () => { cancelled = true; };
-  }, [consent, inView]);
+  }, [consent, inView, placement]);
 
   // Track clicks on the outer container (never the iframe itself).
   // De-duped per mount so a user rage-click doesn't inflate numbers.
