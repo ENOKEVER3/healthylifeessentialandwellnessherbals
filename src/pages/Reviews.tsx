@@ -828,7 +828,7 @@ const Reviews = () => {
 
       {/* Ad slot — top of page, after banner. Replace slot ID with your AdSense unit. */}
       <div className="container-narrow">
-        <AdSlot slot="1234567890" label="Sponsored content, top of reviews" />
+        <AdSlot slot="1234567890" placement="reviews-top" label="Sponsored content, top of reviews" />
       </div>
 
       {/* Filters */}
