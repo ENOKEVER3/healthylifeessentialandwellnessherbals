@@ -163,6 +163,7 @@ export const AdSlot = ({
             data-ad-slot={slot}
             data-ad-format={format}
             {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
+            {...(layout ? { "data-ad-layout": layout } : {})}
             data-full-width-responsive={responsive ? "true" : "false"}
           />
         ) : (
