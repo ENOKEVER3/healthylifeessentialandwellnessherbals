@@ -22,6 +22,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
 import { ReviewPromoBanner } from "@/components/ReviewPromoBanner";
+import { AdSlot } from "@/components/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
 import { countryCodes, flagFor } from "@/data/countryCodes";
 import { toast } from "sonner";
