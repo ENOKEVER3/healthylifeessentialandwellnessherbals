@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ADSENSE_CLIENT_ID, getConsent, subscribeConsent, loadAdsScript } from "@/lib/consent";
 import { trackAdEvent } from "@/lib/adAnalytics";
+import { removeAdSlot, reportAdSlot } from "@/lib/adDebug";
 
 type AdSlotProps = {
   /** AdSense ad slot ID (from your AdSense dashboard). */
