@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { CookieConsent } from "@/components/CookieConsent";
 
 const Layout = () => (
   <div className="flex min-h-screen flex-col">
@@ -13,6 +14,7 @@ const Layout = () => (
     <SiteFooter />
     <CartDrawer />
     <WhatsAppFloat />
+    <CookieConsent />
   </div>
 );
 

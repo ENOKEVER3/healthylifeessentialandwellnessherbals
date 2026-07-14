@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Phone, MapPin } from "lucide-react";
+import { openCookieConsent } from "@/components/CookieConsent";
 import logo from "@/assets/logo.png";
 import { productGroups } from "@/data/products";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -62,8 +63,15 @@ export const SiteFooter = () => {
           </ul>
         </div>
       </div>
-      <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Healthy Life Essentials & Wellness Herbals.
+      <div className="flex flex-col items-center gap-2 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
+        <p>© {new Date().getFullYear()} Healthy Life Essentials & Wellness Herbals.</p>
+        <button
+          type="button"
+          onClick={openCookieConsent}
+          className="underline underline-offset-2 hover:text-moss"
+        >
+          Cookie preferences
+        </button>
       </div>
     </footer>
   );

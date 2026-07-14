@@ -22,6 +22,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
 import { ReviewPromoBanner } from "@/components/ReviewPromoBanner";
+import { AdSlot } from "@/components/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
 import { countryCodes, flagFor } from "@/data/countryCodes";
 import { toast } from "sonner";
@@ -825,6 +826,11 @@ const Reviews = () => {
         </div>
       </section>
 
+      {/* Ad slot — top of page, after banner. Replace slot ID with your AdSense unit. */}
+      <div className="container-narrow">
+        <AdSlot slot="1234567890" label="Sponsored content, top of reviews" />
+      </div>
+
       {/* Filters */}
       <section className="container-narrow pt-10">
         <div className="flex flex-wrap items-center gap-2">
@@ -1060,6 +1066,9 @@ const Reviews = () => {
                 );
               })}
             </div>
+
+            {/* Ad slot — between reviews grid and pagination. */}
+            <AdSlot slot="2345678901" label="Sponsored content, between reviews" className="mt-10" />
 
             {hasMore && (
               <div className="mt-10 flex justify-center">
