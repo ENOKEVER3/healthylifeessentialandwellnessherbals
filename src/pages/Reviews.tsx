@@ -826,6 +826,11 @@ const Reviews = () => {
         </div>
       </section>
 
+      {/* Ad slot — top of page, after banner. Replace slot ID with your AdSense unit. */}
+      <div className="container-narrow">
+        <AdSlot slot="1234567890" label="Sponsored content, top of reviews" />
+      </div>
+
       {/* Filters */}
       <section className="container-narrow pt-10">
         <div className="flex flex-wrap items-center gap-2">
