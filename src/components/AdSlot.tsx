@@ -18,6 +18,8 @@ type AdSlotProps = {
   minHeight?: number;
   /** Placement key used for engagement analytics (e.g. "reviews-top"). */
   placement: string;
+  /** In-feed layout key from AdSense (required when format="fluid"). */
+  layoutKey?: string;
 };
 
 declare global {
@@ -43,6 +45,7 @@ export const AdSlot = ({
   label = "Advertisement",
   minHeight = 120,
   placement,
+  layoutKey,
 }: AdSlotProps) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const pushedRef = useRef(false);
@@ -156,6 +159,7 @@ export const AdSlot = ({
             data-ad-client={ADSENSE_CLIENT_ID}
             data-ad-slot={slot}
             data-ad-format={format}
+            {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
             data-full-width-responsive={responsive ? "true" : "false"}
           />
         ) : (

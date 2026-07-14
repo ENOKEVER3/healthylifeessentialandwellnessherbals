@@ -1068,7 +1068,14 @@ const Reviews = () => {
             </div>
 
             {/* Ad slot — between reviews grid and pagination. */}
-            <AdSlot slot="2345678901" placement="reviews-mid" label="Sponsored content, between reviews" className="mt-10" />
+            <AdSlot
+              slot="1338357730"
+              format="fluid"
+              layoutKey="+28+sb-1s-4v+fo"
+              placement="reviews-mid"
+              label="Sponsored content, between reviews"
+              className="mt-10"
+            />
 
             {hasMore && (
               <div className="mt-10 flex justify-center">
