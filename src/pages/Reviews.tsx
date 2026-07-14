@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
-import { ProductImageCarousel } from "@/components/ProductImageCarousel";
+import { ReviewPromoBanner } from "@/components/ReviewPromoBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { countryCodes, flagFor } from "@/data/countryCodes";
 import { toast } from "sonner";
@@ -820,7 +820,7 @@ const Reviews = () => {
             </div>
           </div>
           <div className="mt-10 md:mt-14">
-            <ProductImageCarousel />
+            <ReviewPromoBanner />
           </div>
         </div>
       </section>
