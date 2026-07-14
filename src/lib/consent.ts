@@ -39,16 +39,34 @@ export const loadAdsScript = (): Promise<void> => {
   if (adsScriptPromise) return adsScriptPromise;
 
   adsScriptPromise = new Promise((resolve) => {
+    const enableAutoAds = () => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const w = window as any;
+        w.adsbygoogle = w.adsbygoogle || [];
+        // Auto ads fallback — lets Google place ads automatically even if
+        // no explicit <ins> slot is on the page (or slot IDs are missing).
+        w.adsbygoogle.push({
+          google_ad_client: ADSENSE_CLIENT,
+          enable_page_level_ads: true,
+          overlays: { bottom: true },
+        });
+      } catch { /* ignore */ }
+    };
+
     const existing = document.querySelector<HTMLScriptElement>(
       'script[data-adsense="hle"]',
     );
-    if (existing) return resolve();
+    if (existing) {
+      enableAutoAds();
+      return resolve();
+    }
     const s = document.createElement("script");
     s.async = true;
     s.crossOrigin = "anonymous";
     s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
     s.dataset.adsense = "hle";
-    s.onload = () => resolve();
+    s.onload = () => { enableAutoAds(); resolve(); };
     s.onerror = () => resolve();
     document.head.appendChild(s);
   });
