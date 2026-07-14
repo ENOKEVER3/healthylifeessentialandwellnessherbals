@@ -18,8 +18,10 @@ type AdSlotProps = {
   minHeight?: number;
   /** Placement key used for engagement analytics (e.g. "reviews-top"). */
   placement: string;
-  /** In-feed layout key from AdSense (required when format="fluid"). */
+  /** In-feed layout key from AdSense (required when format="fluid" for in-feed). */
   layoutKey?: string;
+  /** Layout preset — e.g. "in-article" for in-article fluid ads. */
+  layout?: string;
 };
 
 declare global {
