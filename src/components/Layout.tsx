@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { CookieConsent } from "@/components/CookieConsent";
+import { AdDebugPanel } from "@/components/AdDebugPanel";
 
 const Layout = () => (
   <div className="flex min-h-screen flex-col">
@@ -15,6 +16,7 @@ const Layout = () => (
     <CartDrawer />
     <WhatsAppFloat />
     <CookieConsent />
+    <AdDebugPanel />
   </div>
 );
 
