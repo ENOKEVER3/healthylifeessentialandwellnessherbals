@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ADSENSE_CLIENT_ID, getConsent, subscribeConsent, loadAdsScript } from "@/lib/consent";
+import { trackAdEvent } from "@/lib/adAnalytics";
 
 type AdSlotProps = {
   /** AdSense ad slot ID (from your AdSense dashboard). */
@@ -14,6 +15,8 @@ type AdSlotProps = {
   label?: string;
   /** Fixed min height to reserve space and avoid CLS. */
   minHeight?: number;
+  /** Placement key used for engagement analytics (e.g. "reviews-top"). */
+  placement: string;
 };
 
 declare global {
@@ -23,11 +26,13 @@ declare global {
 }
 
 /**
- * Accessible, consent-gated, lazily loaded AdSense slot.
- * - Only mounts the ad when the container scrolls into view (IntersectionObserver).
- * - Requires "accepted" cookie consent — otherwise renders nothing (no focus trap, no aria noise).
- * - Uses aria-label + role="complementary" so screen reader users can skip past it.
- * - Marks the ad container aria-hidden so keyboard/screen-reader focus is never trapped inside third-party iframes.
+ * Accessible, consent-gated, lazily loaded AdSense slot with engagement tracking.
+ * - Mounts the ad only when the container scrolls into view (IntersectionObserver).
+ * - Requires "accepted" cookie consent — otherwise renders nothing.
+ * - Logs a "view" event on first in-view and a "click" event on pointerdown, per placement,
+ *   so you can compare which section drives the most engagement. Never tracks anything
+ *   inside the AdSense iframe itself (Google policy) — only the outer container region.
+ * - aria-hidden on the ad container prevents keyboard focus traps for screen reader users.
  */
 export const AdSlot = ({
   slot,
@@ -36,15 +41,18 @@ export const AdSlot = ({
   className = "",
   label = "Advertisement",
   minHeight = 120,
+  placement,
 }: AdSlotProps) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const pushedRef = useRef(false);
+  const viewLoggedRef = useRef(false);
+  const clickLoggedRef = useRef(false);
   const [consent, setConsentState] = useState(getConsent());
   const [inView, setInView] = useState(false);
 
   useEffect(() => subscribeConsent(setConsentState), []);
 
-  // Lazy: only reveal when the placeholder enters the viewport.
+  // Lazy reveal + one-time "view" event when the slot enters the viewport.
   useEffect(() => {
     const el = wrapRef.current;
     if (!el || inView) return;
@@ -53,6 +61,10 @@ export const AdSlot = ({
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setInView(true);
+            if (!viewLoggedRef.current && consent === "accepted") {
+              viewLoggedRef.current = true;
+              trackAdEvent(placement, "view");
+            }
             io.disconnect();
           }
         });
@@ -61,7 +73,7 @@ export const AdSlot = ({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [inView]);
+  }, [inView, consent, placement]);
 
   // Push the ad request once script + consent + in-view are all true.
   useEffect(() => {
@@ -73,30 +85,37 @@ export const AdSlot = ({
         (window.adsbygoogle = window.adsbygoogle || []).push({});
         pushedRef.current = true;
       } catch {
-        /* ignore adsbygoogle errors — fail silently, don't break the page */
+        /* ignore adsbygoogle errors */
       }
     });
     return () => { cancelled = true; };
   }, [consent, inView]);
 
-  if (consent !== "accepted") {
-    // Render nothing until consent is granted — no placeholder, no iframe, no tracker.
-    return null;
-  }
+  // Track clicks on the outer container (never the iframe itself).
+  // De-duped per mount so a user rage-click doesn't inflate numbers.
+  const handlePointerDown = () => {
+    if (clickLoggedRef.current || consent !== "accepted") return;
+    clickLoggedRef.current = true;
+    trackAdEvent(placement, "click");
+    // allow re-tracking after a cool-down so a return visit can log again
+    window.setTimeout(() => { clickLoggedRef.current = false; }, 30_000);
+  };
+
+  if (consent !== "accepted") return null;
 
   return (
     <aside
       ref={wrapRef}
       role="complementary"
       aria-label={label}
+      data-ad-placement={placement}
       className={`my-8 flex w-full justify-center ${className}`}
       style={{ minHeight }}
+      onPointerDown={handlePointerDown}
     >
       <div
         aria-hidden="true"
         className="w-full max-w-3xl overflow-hidden rounded-lg border border-dashed border-border/60 bg-cream/20"
-        // aria-hidden + tabIndex removed = ad iframe cannot receive keyboard focus from tab order,
-        // preventing focus traps for screen reader users.
       >
         {inView && slot ? (
           <ins
