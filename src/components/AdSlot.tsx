@@ -48,6 +48,7 @@ export const AdSlot = ({
   minHeight = 120,
   placement,
   layoutKey,
+  layout,
 }: AdSlotProps) => {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const pushedRef = useRef(false);
