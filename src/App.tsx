@@ -17,6 +17,12 @@ import Consultation from "./pages/Consultation";
 import Advisor from "./pages/Advisor";
 import Reviews from "./pages/Reviews";
 import Track from "./pages/Track";
+import Journal from "./pages/Journal";
+import FAQ from "./pages/FAQ";
+import Shipping from "./pages/Shipping";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
