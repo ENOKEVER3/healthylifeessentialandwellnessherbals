@@ -17,6 +17,12 @@ import Consultation from "./pages/Consultation";
 import Advisor from "./pages/Advisor";
 import Reviews from "./pages/Reviews";
 import Track from "./pages/Track";
+import Journal from "./pages/Journal";
+import FAQ from "./pages/FAQ";
+import Shipping from "./pages/Shipping";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -42,6 +48,12 @@ const App = () => (
                 <Route path="/advisor" element={<Advisor />} />
                 <Route path="/reviews" element={<Reviews />} />
                 <Route path="/track" element={<Track />} />
+                <Route path="/journal" element={<Journal />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/shipping" element={<Shipping />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/contact" element={<Contact />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
