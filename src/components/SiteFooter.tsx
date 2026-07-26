@@ -57,13 +57,22 @@ export const SiteFooter = () => {
             <li><Link to="/ceo" className="hover:text-moss">{t("footer_about_ceo")}</Link></li>
             <li><Link to="/consultation" className="hover:text-moss">{t("footer_consultation")}</Link></li>
             <li><Link to="/about" className="hover:text-moss">{t("footer_about")}</Link></li>
+            <li><Link to="/journal" className="hover:text-moss">Journal</Link></li>
             <li><Link to="/reviews" className="hover:text-moss">Reviews</Link></li>
             <li><Link to="/track" className="hover:text-moss">Track Package</Link></li>
+            <li><Link to="/contact" className="hover:text-moss">Contact</Link></li>
             <li><Link to="/reviews" className="font-medium text-moss hover:text-moss-deep">Leave a Review →</Link></li>
           </ul>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-2 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
+      <div className="flex flex-col items-center gap-3 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
+        <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+          <Link to="/faq" className="hover:text-moss">FAQ</Link>
+          <Link to="/shipping" className="hover:text-moss">Shipping & Returns</Link>
+          <Link to="/privacy" className="hover:text-moss">Privacy</Link>
+          <Link to="/terms" className="hover:text-moss">Terms</Link>
+          <Link to="/contact" className="hover:text-moss">Contact</Link>
+        </nav>
         <p>© {new Date().getFullYear()} Healthy Life Essentials & Wellness Herbals.</p>
         <button
           type="button"
