@@ -48,6 +48,12 @@ const App = () => (
                 <Route path="/advisor" element={<Advisor />} />
                 <Route path="/reviews" element={<Reviews />} />
                 <Route path="/track" element={<Track />} />
+                <Route path="/journal" element={<Journal />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/shipping" element={<Shipping />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/contact" element={<Contact />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
