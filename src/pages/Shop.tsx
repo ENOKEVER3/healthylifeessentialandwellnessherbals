@@ -160,7 +160,7 @@ const Shop = () => {
             {filtered.length} {filtered.length === 1 ? t("shop_product") : t("shop_products")}
             {query && <> · {t("shop_matching")} “{query}”</>}
           </p>
-          <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-14 lg:grid-cols-3">
             {filtered.map((p) => <ProductCard key={p.id} product={p} />)}
           </div>
         </>

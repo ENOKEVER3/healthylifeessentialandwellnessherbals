@@ -81,7 +81,7 @@ const Home = () => {
 
       {/* Pillars */}
       <section className="container-narrow py-20">
-        <div className="grid gap-10 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           {[
             { icon: Stethoscope, title: t("pillar1_title"), body: t("pillar1_body") },
             { icon: Sprout, title: t("pillar2_title"), body: t("pillar2_body") },
@@ -124,7 +124,7 @@ const Home = () => {
                 {t("home_see_all")} {g.toLowerCase()} →
               </Link>
             </div>
-            <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 md:grid-cols-3">
               {items.map((p) => <ProductCard key={p.id} product={p} />)}
             </div>
           </section>
@@ -133,7 +133,7 @@ const Home = () => {
 
       {/* CEO teaser */}
       <section className="bg-moss-deep py-20 text-cream">
-        <div className="container-narrow grid items-center gap-12 md:grid-cols-[1fr,1.2fr]">
+        <div className="container-narrow grid grid-cols-1 items-center gap-12 md:grid-cols-[1fr,1.2fr]">
           <div className="aspect-[4/5] overflow-hidden">
             <img
               src={ceoPortrait}
