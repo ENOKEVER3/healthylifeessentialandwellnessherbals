@@ -13,7 +13,7 @@ export const CartDrawer = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
-      <SheetContent side="right" className="flex w-full flex-col bg-background sm:max-w-md">
+      <SheetContent side="right" data-scroll-panel className="flex w-full flex-col bg-background safe-top safe-bottom sm:max-w-md">
         <SheetHeader className="border-b border-border pb-4 text-left">
           <SheetTitle className="font-display text-2xl text-moss-deep">
             {t("cart_title")} {count > 0 && <span className="text-muted-foreground">· {count}</span>}

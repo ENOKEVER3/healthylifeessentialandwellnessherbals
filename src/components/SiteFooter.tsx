@@ -8,8 +8,8 @@ import { useLanguage } from "@/i18n/LanguageContext";
 export const SiteFooter = () => {
   const { t } = useLanguage();
   return (
-    <footer className="mt-24 border-t border-border/60 bg-cream/40">
-      <div className="container-narrow grid gap-10 py-14 md:grid-cols-4">
+    <footer className="mt-16 safe-x border-t border-border/60 bg-cream/40 md:mt-24">
+      <div className="container-narrow grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 md:grid-cols-4 md:py-14">
         <div className="md:col-span-2">
           <img src={logo} alt="Healthy Life Essentials & Wellness Herbals" className="h-14 w-auto" />
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
@@ -65,7 +65,7 @@ export const SiteFooter = () => {
           </ul>
         </div>
       </div>
-      <div className="flex flex-col items-center gap-3 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
+      <div className="safe-bottom flex flex-col items-center gap-3 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
         <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1">
           <Link to="/faq" className="hover:text-moss">FAQ</Link>
           <Link to="/shipping" className="hover:text-moss">Shipping & Returns</Link>

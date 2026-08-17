@@ -34,7 +34,7 @@ export const SiteHeader = () => {
   const closeMobile = () => setMobileOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 safe-top safe-x border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="container-narrow flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
         <Link to="/" className="flex items-center gap-3" aria-label="Healthy Life Essentials & Wellness Herbals — Home">
           <img src={logo} alt="Healthy Life Essentials & Wellness Herbals logo" className="h-10 w-auto md:h-14" />
@@ -79,7 +79,7 @@ export const SiteHeader = () => {
             variant="ghost"
             size="sm"
             onClick={() => setOpen(true)}
-            className="relative gap-2 text-foreground hover:bg-muted"
+            className="relative tap-target gap-2 text-foreground hover:bg-muted"
             aria-label={`${t("cart")}, ${count}`}
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={1.5} />
@@ -94,11 +94,11 @@ export const SiteHeader = () => {
           {/* Mobile menu trigger */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden" aria-label="Open menu">
+              <Button variant="ghost" size="sm" className="tap-target lg:hidden" aria-label="Open menu">
                 <Menu className="h-5 w-5" strokeWidth={1.5} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-sm overflow-y-auto">
+            <SheetContent side="right" data-scroll-panel className="w-[88vw] max-w-sm overflow-y-auto safe-top safe-bottom">
               <SheetHeader>
                 <SheetTitle className="font-display text-xl text-moss-deep">Menu</SheetTitle>
               </SheetHeader>
