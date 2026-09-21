@@ -33,6 +33,7 @@ Healthy Life Essentials & Wellness Herbals is a Nigerian herbal wellness brand f
 - [Track Package](/track): Track an order with GIG, NIPOST, DHL, FedEx, UPS, Aramex, or Red Star Express.
 - [Contact](/contact): Contact the Ado-Ekiti headquarters or Lagos dispatch hub.
 - [Reviews](/reviews): Customer reviews and wellness experiences.
+- [Package Stories](/reviews#package-stories): Approved customer photos and videos showing packages received, labeled with country and state or region; customers can submit their own media for review.
 
 ## Product topics
 

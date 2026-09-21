@@ -921,7 +921,7 @@ const Reviews = () => {
         />
       </div>
 
-      <div className="mt-12 md:mt-16">
+      <div id="package-stories" className="mt-12 scroll-mt-24 md:mt-16">
         <PackageReviewMedia />
       </div>
 
