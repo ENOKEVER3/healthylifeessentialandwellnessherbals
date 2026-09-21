@@ -1,6 +1,6 @@
 - [x] Audit all public routes at phone and tablet widths
 - [x] Fix shared and route-specific mobile layout issues
 - [x] Verify navigation, cart, forms, and key interactive screens without overflow
-- [ ] Improve SEO content, metadata, structured data, and location signals
-- [ ] Expand AI-readable search topics and social discovery phrases
-- [ ] Verify the SEO update and preview build
+- [x] Improve SEO content, metadata, structured data, and location signals
+- [x] Expand AI-readable search topics and social discovery phrases
+- [x] Verify the SEO update and preview build
