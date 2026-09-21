@@ -18,6 +18,7 @@ import Advisor from "./pages/Advisor";
 import Reviews from "./pages/Reviews";
 import Track from "./pages/Track";
 import Journal from "./pages/Journal";
+import PidGuide from "./pages/PidGuide";
 import FAQ from "./pages/FAQ";
 import Shipping from "./pages/Shipping";
 import Privacy from "./pages/Privacy";
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="/reviews" element={<Reviews />} />
                 <Route path="/track" element={<Track />} />
                 <Route path="/journal" element={<Journal />} />
+                <Route path="/pid-guide" element={<PidGuide />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/shipping" element={<Shipping />} />
                 <Route path="/privacy" element={<Privacy />} />

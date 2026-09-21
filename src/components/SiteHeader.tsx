@@ -68,6 +68,7 @@ export const SiteHeader = () => {
           <NavLink to="/ceo" className={navLinkClass}>{t("nav_ceo")}</NavLink>
           <NavLink to="/reviews" className={navLinkClass}>Reviews</NavLink>
           <NavLink to="/track" className={navLinkClass}>Track</NavLink>
+          <NavLink to="/pid-guide" className={navLinkClass}>PID Guide</NavLink>
         </nav>
 
         <div className="flex items-center gap-1">
@@ -123,6 +124,7 @@ export const SiteHeader = () => {
                 <NavLink to="/ceo" onClick={closeMobile} className={({ isActive }) => `rounded-md px-3 py-3 transition-colors ${isActive ? "bg-moss/10 text-moss" : "text-foreground hover:bg-muted"}`}>{t("nav_ceo")}</NavLink>
                 <NavLink to="/reviews" onClick={closeMobile} className={({ isActive }) => `rounded-md px-3 py-3 transition-colors ${isActive ? "bg-moss/10 text-moss" : "text-foreground hover:bg-muted"}`}>Reviews</NavLink>
                 <NavLink to="/track" onClick={closeMobile} className={({ isActive }) => `rounded-md px-3 py-3 transition-colors ${isActive ? "bg-moss/10 text-moss" : "text-foreground hover:bg-muted"}`}>Track Package</NavLink>
+                <NavLink to="/pid-guide" onClick={closeMobile} className={({ isActive }) => `rounded-md px-3 py-3 transition-colors ${isActive ? "bg-moss/10 text-moss" : "text-foreground hover:bg-muted"}`}>PID Guide</NavLink>
               </nav>
 
               <div className="mt-6 flex items-center gap-2 border-t border-border pt-5 sm:hidden">
