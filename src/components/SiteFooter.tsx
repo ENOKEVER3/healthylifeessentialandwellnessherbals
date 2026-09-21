@@ -8,14 +8,15 @@ import { useLanguage } from "@/i18n/LanguageContext";
 export const SiteFooter = () => {
   const { t } = useLanguage();
   return (
-    <footer className="mt-16 safe-x border-t border-border/60 bg-cream/40 md:mt-24">
-      <div className="container-narrow grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 md:grid-cols-4 md:py-14">
-        <div className="md:col-span-2">
+    <footer className="mt-16 safe-x border-t border-border/70 bg-secondary/25 md:mt-24">
+      <div className="container-narrow grid grid-cols-1 gap-10 py-12 md:grid-cols-12 md:gap-8 md:py-16">
+        <div className="md:col-span-5">
+          <p className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-ochre">Healthy Life Essentials</p>
           <img src={logo} alt="Healthy Life Essentials & Wellness Herbals" className="h-14 w-auto" />
-          <p className="mt-4 max-w-sm text-sm text-muted-foreground">
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
             {t("footer_tagline")}
           </p>
-          <div className="mt-5 space-y-1.5 text-sm text-muted-foreground">
+          <div className="mt-6 space-y-2 text-sm text-muted-foreground">
             <p className="flex items-center gap-2"><Phone className="h-3.5 w-3.5 text-moss" /> +234 706 296 6893</p>
             <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-moss" /> <span><strong className="font-medium text-foreground">Headquarters:</strong> Ado-Ekiti, Ekiti State, Nigeria</span></p>
             <p className="flex items-start gap-2"><Globe2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-moss" /> <span><strong className="font-medium text-foreground">Dispatch hub:</strong> Lagos, Nigeria · Worldwide delivery</span></p>
@@ -41,8 +42,8 @@ export const SiteFooter = () => {
             </a>
           </div>
         </div>
-        <div>
-          <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-moss">{t("footer_shop")}</p>
+        <div className="md:col-span-3">
+          <p className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-ochre">{t("footer_shop")}</p>
           <ul className="space-y-2 text-sm text-muted-foreground">
             {productGroups.map((g) => (
               <li key={g}>
@@ -52,8 +53,8 @@ export const SiteFooter = () => {
             <li><Link to="/shop" className="hover:text-moss">{t("nav_all_products")}</Link></li>
           </ul>
         </div>
-        <div>
-          <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-moss">{t("footer_company")}</p>
+        <div className="md:col-span-2">
+          <p className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-ochre">{t("footer_company")}</p>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/ceo" className="hover:text-moss">{t("footer_about_ceo")}</Link></li>
             <li><Link to="/consultation" className="hover:text-moss">{t("footer_consultation")}</Link></li>
@@ -64,6 +65,11 @@ export const SiteFooter = () => {
             <li><Link to="/contact" className="hover:text-moss">Contact</Link></li>
             <li><Link to="/reviews" className="font-medium text-moss hover:text-moss-deep">Leave a Review →</Link></li>
           </ul>
+        </div>
+        <div className="md:col-span-2">
+          <p className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-ochre">Visit & care</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">Ado-Ekiti headquarters, Lagos dispatch hub, and worldwide delivery.</p>
+          <Link to="/shipping" className="mt-4 inline-flex text-sm font-medium text-moss transition-colors hover:text-ochre">Delivery details <span aria-hidden="true" className="ml-2">↗</span></Link>
         </div>
       </div>
       <div className="safe-bottom flex flex-col items-center gap-3 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">

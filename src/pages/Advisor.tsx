@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Loader2, AlertTriangle, RefreshCw, MessageCircle } from "lucide-react";
+import { Sparkles, Loader2, AlertTriangle, RefreshCw, MessageCircle, ArrowUp, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
@@ -92,21 +92,54 @@ const Advisor = () => {
   );
 
   return (
-    <div className="container-narrow py-14 md:py-20">
+    <div className="relative overflow-hidden py-10 md:py-16">
       <Seo
         title="AI Herbal Advisor — Personalised Wellness Guidance"
         description="Describe your symptoms and get gentle, herbal-focused guidance from our Naturopathic AI Advisor. Not a replacement for medical care."
         path="/advisor"
       />
-      <header className="max-w-2xl">
-        <p className="text-xs uppercase tracking-[0.24em] text-ochre">{t("advisor_eyebrow")}</p>
-        <h1 className="mt-3 font-display text-4xl text-moss-deep md:text-5xl">{t("advisor_title")}</h1>
-        <p className="mt-4 text-muted-foreground">{t("advisor_subtitle")}</p>
-      </header>
+      <div className="container-narrow">
+        <header className="mb-8 flex flex-col gap-6 border-b border-border/70 pb-8 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-ochre">{t("advisor_eyebrow")}</p>
+            <h1 className="mt-3 font-display text-5xl leading-[0.98] text-moss-deep md:text-7xl">{t("advisor_title")}</h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">{t("advisor_subtitle")}</p>
+          </div>
+          <div className="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="h-2.5 w-2.5 rounded-full bg-ochre" /> Ready when you are
+          </div>
+        </header>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1.1fr,1fr]">
-        <section>
-          <div className="relative" ref={wrapperRef}>
+        <div className="grid overflow-hidden rounded-xl border border-border/70 bg-card/70 shadow-soft lg:grid-cols-12">
+          <aside className="border-b border-border/70 bg-secondary/25 p-6 lg:col-span-4 lg:border-b-0 lg:border-r lg:p-8">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-ochre">Wellness intake</p>
+            <div className="mt-8 flex items-end justify-between border-b border-border/70 pb-6">
+              <span className="font-display text-7xl leading-none text-moss-deep">01</span>
+              <span className="pb-1 text-right text-xs uppercase tracking-[0.18em] text-muted-foreground">Your<br />context</span>
+            </div>
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">Start with what you are noticing. The advisor will organize your concerns into gentle, herbal-focused guidance.</p>
+            <div className="mt-8 space-y-4 border-t border-border/70 pt-6">
+              <div className="flex gap-3">
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-ochre" strokeWidth={1.6} />
+                <p className="text-sm leading-relaxed text-muted-foreground">Doctor-informed wellness perspective, never a diagnosis.</p>
+              </div>
+              <div className="flex gap-3">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-moss" />
+                <p className="text-sm leading-relaxed text-muted-foreground">From our Ado-Ekiti headquarters to your wellness journey worldwide.</p>
+              </div>
+            </div>
+          </aside>
+
+          <section className="flex min-h-[34rem] flex-col p-6 md:p-8 lg:col-span-8">
+            <div className="mb-8 flex items-start justify-between gap-4 border-b border-border/70 pb-5">
+              <div>
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-muted-foreground">Personal AI health concierge</p>
+                <h2 className="mt-2 font-display text-3xl text-moss-deep md:text-4xl">Tell us how you feel</h2>
+              </div>
+              <span className="hidden text-xs text-muted-foreground sm:block">Secure wellness prompt</span>
+            </div>
+
+            <div className="flex-1" ref={wrapperRef}>
             <Textarea
               value={symptoms}
               onChange={(e) => {
@@ -117,7 +150,7 @@ const Advisor = () => {
               placeholder={t("advisor_placeholder")}
               rows={6}
               maxLength={2000}
-              className="resize-none border-moss/30 focus-visible:ring-moss"
+              className="min-h-40 resize-none rounded-lg border-border bg-background/60 p-5 text-base leading-relaxed focus-visible:ring-ochre"
               disabled={loading}
             />
             {showSuggest && filteredSuggestions.length > 0 && (
@@ -133,7 +166,7 @@ const Advisor = () => {
                         setSymptoms(s);
                         setShowSuggest(false);
                       }}
-                      className="block w-full px-3 py-2 text-left text-sm text-foreground transition hover:bg-cream/60"
+                      className="block w-full px-4 py-3 text-left text-sm text-foreground transition hover:bg-secondary/40"
                     >
                       {s}
                     </button>
@@ -143,11 +176,11 @@ const Advisor = () => {
             )}
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
             <Button
               onClick={() => ask(symptoms)}
               disabled={loading || symptoms.trim().length < 3}
-              className="bg-moss text-primary-foreground hover:bg-moss-deep"
+              className="bg-primary text-primary-foreground hover:bg-moss-deep"
               size="lg"
             >
               {loading ? (
@@ -156,7 +189,7 @@ const Advisor = () => {
                 </>
               ) : (
                 <>
-                  <Sparkles className="h-4 w-4" /> {t("advisor_submit")}
+                  <ArrowUp className="h-4 w-4" /> {t("advisor_submit")}
                 </>
               )}
             </Button>
@@ -167,7 +200,7 @@ const Advisor = () => {
             )}
           </div>
 
-          <div className="mt-8">
+            <div className="mt-8">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
               {t("advisor_examples_title")}
             </p>
@@ -180,17 +213,18 @@ const Advisor = () => {
                     ask(ex);
                   }}
                   disabled={loading}
-                  className="rounded-full border border-moss/30 bg-cream/40 px-3 py-1.5 text-xs text-moss-deep transition hover:border-moss hover:bg-cream disabled:opacity-50"
+                className="rounded-full border border-border bg-background/50 px-3 py-1.5 text-xs text-moss-deep transition hover:border-ochre hover:bg-secondary/35 disabled:opacity-50"
                 >
                   {ex}
                 </button>
               ))}
             </div>
           </div>
-        </section>
+            </div>
+          </div>
 
-        <aside className="space-y-5">
-          <div className="rounded-lg border border-ochre/40 bg-ochre/10 p-5">
+            <aside className="mt-8 border-t border-border/70 pt-5">
+          <div className="border-l-2 border-ochre bg-secondary/25 p-5">
             <div className="flex items-start gap-3">
               <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-ochre" strokeWidth={1.6} />
               <div>
@@ -199,21 +233,22 @@ const Advisor = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <Button asChild variant="outline">
+          <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+            <Button asChild variant="outline" className="border-border bg-transparent hover:bg-secondary/35">
               <Link to="/consultation">{t("advisor_book_consult")}</Link>
             </Button>
-            <Button asChild className="bg-[#25D366] text-white hover:bg-[#25D366]/90">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-moss-deep">
               <a href={waLink} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-4 w-4" /> {t("wa_chat_expert")}
               </a>
             </Button>
           </div>
-        </aside>
-      </div>
+            </aside>
+          </section>
+        </div>
 
       {answer && (
-        <section className="mt-14 rounded-lg border border-border bg-cream/30 p-6 md:p-10">
+        <section className="mt-8 rounded-xl border border-border/70 bg-card/70 p-6 shadow-card md:p-10">
           <div className="prose prose-sm max-w-none prose-headings:font-display prose-headings:text-moss-deep prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-2 prose-strong:text-moss-deep prose-blockquote:border-l-ochre prose-blockquote:text-muted-foreground prose-li:my-1">
             <ReactMarkdown>{answer}</ReactMarkdown>
           </div>

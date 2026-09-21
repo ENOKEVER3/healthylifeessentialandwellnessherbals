@@ -71,8 +71,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ['"DM Serif Display"', "Georgia", "serif"],
+        sans: ["Fira Sans", "system-ui", "sans-serif"],
       },
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
