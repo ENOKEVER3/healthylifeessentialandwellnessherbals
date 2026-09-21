@@ -59,6 +59,42 @@ export type Database = {
         }
         Relationships: []
       }
+      package_reviews: {
+        Row: {
+          caption: string | null
+          country_code: string
+          created_at: string
+          display_name: string
+          id: string
+          media_path: string
+          media_type: string
+          state_region: string
+          status: string
+        }
+        Insert: {
+          caption?: string | null
+          country_code: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          media_path: string
+          media_type: string
+          state_region: string
+          status?: string
+        }
+        Update: {
+          caption?: string | null
+          country_code?: string
+          created_at?: string
+          display_name?: string
+          id?: string
+          media_path?: string
+          media_type?: string
+          state_region?: string
+          status?: string
+        }
+        Relationships: []
+      }
       review_likes: {
         Row: {
           created_at: string
