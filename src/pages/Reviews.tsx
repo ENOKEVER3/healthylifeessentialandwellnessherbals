@@ -28,6 +28,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
 import { ReviewPromoBanner } from "@/components/ReviewPromoBanner";
+import PackageReviewMedia from "@/components/PackageReviewMedia";
 import reviewsBgm from "@/assets/reviews-bgm.mp3.asset.json";
 import { AdSlot } from "@/components/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
@@ -918,6 +919,10 @@ const Reviews = () => {
           placement="reviews-top"
           label="Sponsored content, top of reviews"
         />
+      </div>
+
+      <div id="package-stories" className="mt-12 scroll-mt-24 md:mt-16">
+        <PackageReviewMedia />
       </div>
 
       {/* Filters */}
