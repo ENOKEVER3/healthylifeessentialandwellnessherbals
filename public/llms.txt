@@ -27,6 +27,7 @@ Healthy Life Essentials & Wellness Herbals is a Nigerian herbal wellness brand f
 - [Medical Consultation](/consultation): Request a private consultation for personalized wellness guidance.
 - [AI Symptom Advisor](/advisor): Receive structured educational herbal and lifestyle guidance.
 - [Journal](/journal): Educational articles about herbal wellness, women's health, fertility, hormones, and safe use.
+- [PID Guide](/pid-guide): A medically careful guide to PID symptoms, diagnosis, treatment questions, prevention, urgent warning signs, and reading customer stories responsibly.
 - [FAQ](/faq): Product safety, consultations, results timelines, storage, and international shipping answers.
 - [Shipping & Returns](/shipping): Nigerian and worldwide delivery timelines, rates, courier information, and returns.
 - [Track Package](/track): Track an order with GIG, NIPOST, DHL, FedEx, UPS, Aramex, or Red Star Express.
