@@ -62,7 +62,7 @@ const ProductDetail = () => {
         <ArrowLeft className="h-4 w-4" /> {t("product_back")}
       </Link>
 
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+      <div className="grid min-w-0 gap-12 md:grid-cols-2 md:gap-16">
         <div className="aspect-[4/5] overflow-hidden bg-muted">
           <img
             src={product.image}
@@ -73,7 +73,7 @@ const ProductDetail = () => {
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex min-w-0 flex-col">
           <p className="text-xs uppercase tracking-[0.24em] text-ochre">{product.category}</p>
           <h1 className="mt-3 font-display text-4xl leading-tight text-moss-deep md:text-5xl">
             {product.name}
@@ -115,7 +115,7 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <div className="mt-8 flex items-stretch gap-3">
+          <div className="mt-8 flex min-w-0 items-stretch gap-3">
             <div className="flex items-center border border-border">
               <button
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -139,7 +139,7 @@ const ProductDetail = () => {
                 add(product.id, qty);
                 toast.success(`${product.name} ${t("toast_added_to_basket")}`);
               }}
-              className="flex-1 bg-moss text-primary-foreground hover:bg-moss-deep"
+              className="min-w-0 flex-1 whitespace-normal px-3 text-center leading-tight bg-moss text-primary-foreground hover:bg-moss-deep sm:px-8"
             >
               {t("product_add_to_basket")} — {formatNGN(product.price * qty)}
             </Button>
