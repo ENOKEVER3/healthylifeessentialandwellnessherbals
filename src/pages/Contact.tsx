@@ -5,7 +5,7 @@ const Contact = () => (
   <div className="container-narrow py-16 md:py-24">
     <Seo
       title="Contact Us | Healthy Life Essentials"
-      description="Get in touch with Healthy Life Essentials & Wellness Herbals — WhatsApp, email, Instagram, and our Ado-Ekiti and Lagos clinics."
+      description="Contact Healthy Life Essentials & Wellness Herbals in Ado-Ekiti, Nigeria, or reach our Lagos dispatch hub for herbal product orders and worldwide delivery."
       path="/contact"
     />
     <header className="max-w-2xl">
@@ -63,10 +63,11 @@ const Contact = () => (
       <div className="rounded-2xl border border-border bg-cream/40 p-8">
         <MapPin className="h-6 w-6 text-moss" />
         <h2 className="mt-4 font-display text-2xl text-moss-deep">Clinics</h2>
-        <p className="mt-2 text-muted-foreground">Ado-Ekiti (main office & production)</p>
-        <p className="text-muted-foreground">Lagos (consultation, by appointment)</p>
+        <p className="mt-2 text-muted-foreground">Ado-Ekiti (headquarters, formulation & production)</p>
+        <p className="text-muted-foreground">Lagos (dispatch hub and consultation, by appointment)</p>
         <p className="mt-3 text-sm text-muted-foreground">
-          Consultations are by appointment only. Please book through our consultation page.
+          We dispatch Nigerian and worldwide orders through Lagos. Consultations are by appointment
+          only; please book through our consultation page.
         </p>
       </div>
     </div>

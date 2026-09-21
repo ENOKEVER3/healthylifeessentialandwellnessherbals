@@ -81,7 +81,7 @@ const Track = () => {
     <>
       <Seo
         title="Track Your Package | Healthy Life Essentials"
-        description="Track your Healthy Life Essentials & Wellness Herbals order in real time using your courier's tracking number."
+        description="Track herbal wellness orders dispatched from Ado-Ekiti through Lagos using GIG, DHL, FedEx, UPS, NIPOST, or another courier's tracking number."
         path="/track"
       />
       <section className="container-narrow py-14 md:py-20">
