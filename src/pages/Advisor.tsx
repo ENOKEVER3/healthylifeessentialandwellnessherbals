@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Loader2, AlertTriangle, RefreshCw, MessageCircle, ArrowUp, ShieldCheck } from "lucide-react";
+import { Loader2, AlertTriangle, RefreshCw, MessageCircle, ArrowUp, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
@@ -139,120 +139,77 @@ const Advisor = () => {
               <span className="hidden text-xs text-muted-foreground sm:block">Secure wellness prompt</span>
             </div>
 
-            <div className="flex-1" ref={wrapperRef}>
-            <Textarea
-              value={symptoms}
-              onChange={(e) => {
-                setSymptoms(e.target.value);
-                setShowSuggest(true);
-              }}
-              onFocus={() => setShowSuggest(true)}
-              placeholder={t("advisor_placeholder")}
-              rows={6}
-              maxLength={2000}
-              className="min-h-40 resize-none rounded-lg border-border bg-background/60 p-5 text-base leading-relaxed focus-visible:ring-ochre"
-              disabled={loading}
-            />
-            {showSuggest && filteredSuggestions.length > 0 && (
-              <ul
-                role="listbox"
-                className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-moss/30 bg-background shadow-lg"
-              >
-                {filteredSuggestions.map((s) => (
-                  <li key={s}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSymptoms(s);
-                        setShowSuggest(false);
-                      }}
-                      className="block w-full px-4 py-3 text-left text-sm text-foreground transition hover:bg-secondary/40"
-                    >
-                      {s}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+            <div ref={wrapperRef} className="relative flex-1">
+              <Textarea
+                value={symptoms}
+                onChange={(e) => {
+                  setSymptoms(e.target.value);
+                  setShowSuggest(true);
+                }}
+                onFocus={() => setShowSuggest(true)}
+                placeholder={t("advisor_placeholder")}
+                rows={6}
+                maxLength={2000}
+                className="min-h-40 resize-none rounded-lg border-border bg-background/60 p-5 text-base leading-relaxed focus-visible:ring-ochre"
+                disabled={loading}
+              />
+              {showSuggest && filteredSuggestions.length > 0 && (
+                <ul role="listbox" className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-auto rounded-md border border-border bg-background shadow-lg">
+                  {filteredSuggestions.map((s) => (
+                    <li key={s}>
+                      <button type="button" onClick={() => { setSymptoms(s); setShowSuggest(false); }} className="block w-full px-4 py-3 text-left text-sm text-foreground transition hover:bg-secondary/40">
+                        {s}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <div className="mt-4 flex flex-wrap gap-3">
-            <Button
-              onClick={() => ask(symptoms)}
-              disabled={loading || symptoms.trim().length < 3}
-              className="bg-primary text-primary-foreground hover:bg-moss-deep"
-              size="lg"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> {t("advisor_thinking")}
-                </>
-              ) : (
-                <>
-                  <ArrowUp className="h-4 w-4" /> {t("advisor_submit")}
-                </>
-              )}
-            </Button>
-            {answer && (
-              <Button variant="outline" onClick={reset} size="lg">
-                <RefreshCw className="h-4 w-4" /> {t("advisor_clear")}
+              <Button onClick={() => ask(symptoms)} disabled={loading || symptoms.trim().length < 3} className="bg-primary text-primary-foreground hover:bg-moss-deep" size="lg">
+                {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> {t("advisor_thinking")}</> : <><ArrowUp className="h-4 w-4" /> {t("advisor_submit")}</>}
               </Button>
-            )}
-          </div>
+              {answer && <Button variant="outline" onClick={reset} size="lg"><RefreshCw className="h-4 w-4" /> {t("advisor_clear")}</Button>}
+            </div>
 
             <div className="mt-8">
-            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {t("advisor_examples_title")}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {examples.map((ex) => (
-                <button
-                  key={ex}
-                  onClick={() => {
-                    setSymptoms(ex);
-                    ask(ex);
-                  }}
-                  disabled={loading}
-                className="rounded-full border border-border bg-background/50 px-3 py-1.5 text-xs text-moss-deep transition hover:border-ochre hover:bg-secondary/35 disabled:opacity-50"
-                >
-                  {ex}
-                </button>
-              ))}
-            </div>
-          </div>
+              <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">{t("advisor_examples_title")}</p>
+              <div className="flex flex-wrap gap-2">
+                {examples.map((ex) => (
+                  <button key={ex} onClick={() => { setSymptoms(ex); ask(ex); }} disabled={loading} className="rounded-full border border-border bg-background/50 px-3 py-1.5 text-xs text-moss-deep transition hover:border-ochre hover:bg-secondary/35 disabled:opacity-50">
+                    {ex}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <aside className="mt-8 border-t border-border/70 pt-5">
-          <div className="border-l-2 border-ochre bg-secondary/25 p-5">
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-ochre" strokeWidth={1.6} />
-              <div>
-                <p className="font-display text-base text-moss-deep">{t("advisor_disclaimer_title")}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{t("advisor_disclaimer_body")}</p>
+              <div className="border-l-2 border-ochre bg-secondary/25 p-5">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-ochre" strokeWidth={1.6} />
+                  <div>
+                    <p className="font-display text-base text-moss-deep">{t("advisor_disclaimer_title")}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{t("advisor_disclaimer_body")}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-            <Button asChild variant="outline" className="border-border bg-transparent hover:bg-secondary/35">
-              <Link to="/consultation">{t("advisor_book_consult")}</Link>
-            </Button>
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-moss-deep">
-              <a href={waLink} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-4 w-4" /> {t("wa_chat_expert")}
-              </a>
-            </Button>
-          </div>
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                <Button asChild variant="outline" className="border-border bg-transparent hover:bg-secondary/35"><Link to="/consultation">{t("advisor_book_consult")}</Link></Button>
+                <Button asChild className="bg-primary text-primary-foreground hover:bg-moss-deep"><a href={waLink} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-4 w-4" /> {t("wa_chat_expert")}</a></Button>
+              </div>
             </aside>
           </section>
         </div>
 
-      {answer && (
-        <section className="mt-8 rounded-xl border border-border/70 bg-card/70 p-6 shadow-card md:p-10">
-          <div className="prose prose-sm max-w-none prose-headings:font-display prose-headings:text-moss-deep prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-2 prose-strong:text-moss-deep prose-blockquote:border-l-ochre prose-blockquote:text-muted-foreground prose-li:my-1">
-            <ReactMarkdown>{answer}</ReactMarkdown>
-          </div>
-        </section>
-      )}
+        {answer && (
+          <section className="mt-8 rounded-xl border border-border/70 bg-card/70 p-6 shadow-card md:p-10">
+            <div className="prose prose-sm max-w-none prose-headings:font-display prose-headings:text-moss-deep prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-2 prose-strong:text-moss-deep prose-blockquote:border-l-ochre prose-blockquote:text-muted-foreground prose-li:my-1">
+              <ReactMarkdown>{answer}</ReactMarkdown>
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   );
 };
