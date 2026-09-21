@@ -28,6 +28,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
 import { ReviewPromoBanner } from "@/components/ReviewPromoBanner";
+import reviewsBgm from "@/assets/reviews-bgm.mp3.asset.json";
 import { AdSlot } from "@/components/AdSlot";
 import { supabase } from "@/integrations/supabase/client";
 import { countryCodes, flagFor } from "@/data/countryCodes";
@@ -248,7 +249,7 @@ const Reviews = () => {
 
     const isSmall = window.matchMedia("(max-width: 640px)").matches;
     const audio = new Audio();
-    audio.src = "/audio/reviews-bgm.mp3";
+    audio.src = reviewsBgm.url;
     // Handle the loop ourselves so the next play cycle begins three seconds
     // before the current track would naturally end.
     audio.loop = false;
