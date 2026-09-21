@@ -10,7 +10,6 @@ import { countryCodes, flagFor } from "@/data/countryCodes";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const featuredReviewVideo = "/patient-package-review.mp4";
 const featuredReviewPoster = "/patient-package-review-poster.jpg";
 
 type MediaReview = {
@@ -184,14 +183,10 @@ const PackageReviewMedia = () => {
         <div className="mt-10 grid gap-5 lg:grid-cols-[1.15fr,0.85fr]">
           <article className="overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
             <div className="relative aspect-[9/14] max-h-[680px] bg-foreground/5 sm:aspect-video lg:aspect-[9/12]">
-              <video
-                className="h-full w-full object-cover"
-                controls
-                playsInline
-                preload="metadata"
-                poster={featuredReviewPoster}
-                src={featuredReviewVideo}
-              />
+              <video className="h-full w-full object-cover" controls playsInline preload="metadata" poster={featuredReviewPoster}>
+                <source src="/patient-package-review.webm" type="video/webm" />
+                <source src="/patient-package-review.mp4" type="video/mp4" />
+              </video>
               <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/85 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur">
                 <Play className="h-3.5 w-3.5 fill-current text-moss" /> Featured video review
               </div>
