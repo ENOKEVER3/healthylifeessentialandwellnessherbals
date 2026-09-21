@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Phone, MapPin } from "lucide-react";
+import { Instagram, Phone, MapPin, Globe2 } from "lucide-react";
 import { openCookieConsent } from "@/components/CookieConsent";
 import logo from "@/assets/logo.png";
 import { productGroups } from "@/data/products";
@@ -17,7 +17,8 @@ export const SiteFooter = () => {
           </p>
           <div className="mt-5 space-y-1.5 text-sm text-muted-foreground">
             <p className="flex items-center gap-2"><Phone className="h-3.5 w-3.5 text-moss" /> +234 706 296 6893</p>
-            <p className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5 text-moss" /> Ado Ekiti & Lagos, Nigeria</p>
+            <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-moss" /> <span><strong className="font-medium text-foreground">Headquarters:</strong> Ado-Ekiti, Ekiti State, Nigeria</span></p>
+            <p className="flex items-start gap-2"><Globe2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-moss" /> <span><strong className="font-medium text-foreground">Dispatch hub:</strong> Lagos, Nigeria · Worldwide delivery</span></p>
             <a
               href="https://instagram.com/healthylifeessentials_herbals"
               target="_blank"
