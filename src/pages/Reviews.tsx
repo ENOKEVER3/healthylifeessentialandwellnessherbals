@@ -260,11 +260,35 @@ const Reviews = () => {
     const onInteract = () => { tryPlay(); };
     events.forEach((e) => window.addEventListener(e, onInteract, { passive: true, once: false }));
 
+    // Safety net: some browsers ignore `loop`. Restart just before the end,
+    // and also if the track ever ends or stalls out.
+    const onTimeUpdate = () => {
+      if (!audio.duration || Number.isNaN(audio.duration)) return;
+      if (audio.duration - audio.currentTime <= 0.25) {
+        audio.currentTime = 0;
+        if (!muted) audio.play().catch(() => {});
+      }
+    };
+    const onEnded = () => {
+      audio.currentTime = 0;
+      if (!muted) audio.play().catch(() => {});
+    };
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    audio.addEventListener("ended", onEnded);
+
+    // Periodic watchdog: if it stopped for any reason while unmuted, resume.
+    const watchdog = window.setInterval(() => {
+      if (!muted && !document.hidden && audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, 3000);
+
     const onVisibility = () => {
       if (document.hidden) audio.pause();
       else if (!muted) audio.play().catch(() => {});
     };
     document.addEventListener("visibilitychange", onVisibility);
+
 
     return () => {
       events.forEach((e) => window.removeEventListener(e, onInteract));
