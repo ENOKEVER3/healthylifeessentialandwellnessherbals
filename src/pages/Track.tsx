@@ -64,7 +64,7 @@ const Track = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const selected = couriers.find((c) => c.id === courier)!;
+  const selected = couriers.find((c) => c.id === courier) ?? couriers[0];
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

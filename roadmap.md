@@ -1,0 +1,3 @@
+- [x] Audit all public routes at phone and tablet widths
+- [x] Fix shared and route-specific mobile layout issues
+- [x] Verify navigation, cart, forms, and key interactive screens without overflow
