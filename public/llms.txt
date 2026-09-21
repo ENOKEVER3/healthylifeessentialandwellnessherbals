@@ -1,28 +1,65 @@
 # Healthy Life Essentials & Wellness Herbals
 
-> Hand-formulated herbal tinctures, teas, capsules, and balms. Small-batch, plant-grown, made with care. A Nigerian wellness brand founded by Naturopathic Dr. Kolawole Oluwatomisin Esther.
+> Doctor-formulated herbal remedies, teas, tinctures, capsules, feminine wellness products, and natural wellness kits made in Nigeria.
 
-Healthy Life Essentials & Wellness Herbals is a natural wellness company that crafts herbal remedies for hormonal balance, fertility, reproductive health, infections, diabetes, hypertension, rheumatism, liver health, and general wellbeing. Products include brewed herbal tonics, organic teabags, vegan capsules, feminine care washes, and skincare kits. The brand also offers private medical consultations and an AI-powered symptom advisor.
+## Brand and locations
+
+Healthy Life Essentials & Wellness Herbals is a Nigerian herbal wellness brand founded by Dr. Kolawole Oluwatomisin Esther. The headquarters are in Ado-Ekiti, Ekiti State, where products are formulated and packed. Lagos is the dispatch hub for courier handoff, consultations by appointment, and international shipping coordination. Orders are delivered across Nigeria and worldwide through courier partners.
+
+## Main topics
+
+- Herbal remedies and natural wellness products in Nigeria
+- Herbal teas, tinctures, brewed tonics, capsules, and supplements
+- Women's health, feminine wellness, hormonal balance, PMS, PCOS, fertility support, and reproductive health
+- PID support, fibroid wellness, ovarian cyst wellness, fallopian tube wellness, and menstrual care
+- Men's vitality, libido, fertility support, sperm health, and intimate wellness
+- Blood sugar support, blood pressure wellness, liver and lung wellness, rheumatism care, and digestive wellness
+- Plant-based skincare, feminine washes, body care, dark inner thigh care, and genital wellness
+- Private naturopathic consultations and symptom guidance
+- Nigerian delivery, Lagos dispatch, international delivery, package tracking, waybill estimates, and returns
 
 ## Pages
 
-- [Home](/): Browse herbal remedies, wellness kits, and book consultations.
-- [Shop](/shop): Full product catalog of herbal teas, tonics, capsules, and wellness kits.
-- [About](/about): Our story, sourcing philosophy, and small-batch production process.
-- [CEO](/ceo): Meet Dr. Kolawole Oluwatomisin Esther — naturopathic doctor and founder.
-- [Medical Consultation](/consultation): Book a private consultation and upload test results for personalized herbal protocols.
-- [AI Symptom Advisor](/advisor): Describe symptoms and receive structured herbal guidance and lifestyle advice.
+- [Home](/): Doctor-formulated herbal remedies from Ado-Ekiti, Nigeria, with Lagos dispatch and worldwide delivery.
+- [Shop](/shop): Herbal teas, tonics, tinctures, capsules, supplements, skincare, feminine care, and wellness kits.
+- [About](/about): The brand story, sourcing approach, Ado-Ekiti headquarters, and Lagos dispatch operations.
+- [CEO](/ceo): Meet Dr. Kolawole Oluwatomisin Esther, naturopathic doctor and founder.
+- [Medical Consultation](/consultation): Request a private consultation for personalized wellness guidance.
+- [AI Symptom Advisor](/advisor): Receive structured educational herbal and lifestyle guidance.
+- [Journal](/journal): Educational articles about herbal wellness, women's health, fertility, hormones, and safe use.
+- [FAQ](/faq): Product safety, consultations, results timelines, storage, and international shipping answers.
+- [Shipping & Returns](/shipping): Nigerian and worldwide delivery timelines, rates, courier information, and returns.
+- [Track Package](/track): Track an order with GIG, NIPOST, DHL, FedEx, UPS, Aramex, or Red Star Express.
+- [Contact](/contact): Contact the Ado-Ekiti headquarters or Lagos dispatch hub.
+- [Reviews](/reviews): Customer reviews and wellness experiences.
 
-## Products
+## Product topics
 
-- [Hormonal Imbalance Tea](/product/hormonal-imbalance-tea): Cycle, fertility, and PMS relief herbal tea blend.
-- [Spearmint Hormone Balanced Capsule](/product/spearmint-hormone-balanced-capsule): PCOS, acne, and facial hair support.
-- [Fibroid Treatment Herbs](/product/fibroid-treatment-herbs): 3L brewed tonic to naturally shrink fibroids and balance hormones.
-- [PID Treatment Kit](/product/pid-treatment-kit): Complete 4-step protocol for Pelvic Inflammatory Disease.
-- [Anti-Diabetes Herbal Tea](/product/anti-diabetes-herbal-tea): Blood sugar and insulin support tea.
-- [Anti-Hypertension Regulating Tea](/product/anti-hypertension-regulating-tea): Blood pressure balance herbal tea.
+- Hormonal balance tea and menstrual wellness tea
+- PCOS and spearmint hormone support capsules
+- Fertility and reproductive wellness herbs
+- PID treatment kit and pelvic wellness support
+- Fibroid wellness herbs and brewed tonic
+- Ovarian cyst and fallopian tube wellness herbs
+- Herbal infection support capsules, drinks, and tonics
+- Feminine wellness tea and plant-based feminine wash
+- Boric acid feminine care products
+- Diabetes and blood sugar support herbal tea
+- Hypertension and blood pressure support herbal tea
+- Liver and lung detox tea and capsules
+- Ulcer care capsules and herbal remedies
+- Rheumatism and arthritis herbal tea
+- Libido, men's vitality, sperm booster, and fertility support herbs
+- Dark thighs skincare kit and body care
 
-## Optional
+Search phrases and social discovery topics
 
-- [Dark Thighs Kit](/product/dark-thighs-kit): Exfoliate, brighten, and soothe dark inner thighs and razor bumps.
-- [Cookie Cleanser Feminine Wash](/product/cookie-cleanser-feminine-wash): pH-balanced, plant-based daily feminine wash.
+herbal remedies Nigeria, herbal medicine Nigeria, natural remedies Nigeria, herbal store Nigeria, buy herbal tea Nigeria, buy herbal supplements Nigeria, herbal products in Lagos, herbal products in Ado-Ekiti, herbal remedies in Ekiti State, naturopathic doctor Nigeria, natural wellness Nigeria, women's health herbs Nigeria, fertility herbs Nigeria, hormonal balance herbs, PCOS herbal support, PID herbal support, fibroid herbal support, menstrual wellness tea, feminine care Nigeria, men's fertility herbs, international herbal delivery from Nigeria, worldwide shipping Nigerian herbal products, Lagos dispatch hub, Ado-Ekiti herbal headquarters, doctor-formulated herbal products, plant-based wellness products, natural health consultation Nigeria.
+
+## Social hashtags
+
+#HealthyLifeEssentials #WellnessHerbals #HerbalRemedies #HerbalMedicine #NaturalWellness #NigerianHerbals #MadeInNigeria #AdoEkiti #EkitiState #LagosNigeria #WorldwideDelivery #HerbalTea #HerbalSupplements #WomensWellness #WomensHealth #HormonalBalance #FertilitySupport #FeminineWellness #MensWellness #NaturalSkincare #PlantBasedWellness #NaturopathicCare #WellnessJourney #HolisticHealth #NaturalRemedies
+
+## Safety
+
+Product pages and consultations should be reviewed before use. Herbal products are not a substitute for emergency care or a diagnosis from a qualified healthcare professional. Customers should disclose medications, pregnancy, breastfeeding, allergies, and medical conditions before starting a therapeutic protocol.

@@ -20,6 +20,11 @@ const About = () => {
           <p className="mt-8 text-lg leading-relaxed text-muted-foreground">
             {t("about_intro")}
           </p>
+          <p className="mt-5 leading-relaxed text-muted-foreground">
+            Healthy Life Essentials &amp; Wellness Herbals is headquartered in Ado-Ekiti, Ekiti State,
+            Nigeria. Our Lagos hub supports courier dispatch for Nigerian orders and worldwide
+            delivery of our herbal teas, tinctures, capsules, and wellness kits.
+          </p>
         </div>
       </section>
 

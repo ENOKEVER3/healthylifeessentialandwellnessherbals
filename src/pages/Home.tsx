@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sprout, ShieldCheck, HeartPulse, Stethoscope } from "lucide-react";
+import { ArrowRight, Sprout, ShieldCheck, HeartPulse, Stethoscope, MapPin, Globe2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { products, productGroups } from "@/data/products";
@@ -35,8 +35,8 @@ const Home = () => {
   return (
     <>
       <Seo
-        title="Healthy Life Essentials & Wellness Herbals"
-        description="Hand-formulated herbal tinctures, teas, capsules, and balms from Naturopathic Dr. Oluwatomisin. Small-batch, plant-grown, made in Nigeria."
+        title="Herbal Remedies in Nigeria | Healthy Life Essentials"
+        description="Doctor-formulated herbal teas, tinctures, capsules, and wellness kits from our Ado-Ekiti headquarters, dispatched through Lagos and shipped worldwide."
         path="/"
       />
       {/* Hero */}
@@ -75,6 +75,21 @@ const Home = () => {
                 <Link to="/consultation">{t("hero_cta_book")}</Link>
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-cream/40">
+        <div className="container-narrow grid gap-8 py-12 md:grid-cols-[1fr,1.4fr] md:items-center md:py-16">
+          <div>
+            <p className="text-xs uppercase tracking-[0.28em] text-ochre">From Nigeria to the world</p>
+            <h2 className="mt-3 font-display text-3xl text-moss-deep md:text-4xl">
+              Rooted in Ado-Ekiti. Dispatching through Lagos.
+            </h2>
+          </div>
+          <div className="grid gap-5 text-sm leading-relaxed text-muted-foreground sm:grid-cols-2">
+            <div className="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 text-moss" strokeWidth={1.5} /><p><strong className="font-medium text-foreground">Headquarters:</strong> Our herbal wellness products are formulated and packed in Ado-Ekiti, Ekiti State, Nigeria.</p></div>
+            <div className="flex gap-3"><Globe2 className="mt-0.5 h-5 w-5 shrink-0 text-moss" strokeWidth={1.5} /><p><strong className="font-medium text-foreground">Worldwide delivery:</strong> Orders move through our Lagos dispatch hub for delivery across Nigeria and to customers around the world.</p></div>
           </div>
         </div>
       </section>

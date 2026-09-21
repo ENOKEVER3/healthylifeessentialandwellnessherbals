@@ -4,7 +4,7 @@ const Shipping = () => (
   <div className="container-narrow py-16 md:py-24">
     <Seo
       title="Shipping & Returns | Healthy Life Essentials"
-      description="Nigerian and international shipping rates, delivery timelines, and our returns policy for herbal wellness products."
+      description="Delivery from our Ado-Ekiti headquarters through Lagos: Nigerian and worldwide shipping rates, timelines, courier tracking, and returns for herbal wellness products."
       path="/shipping"
     />
     <header className="max-w-2xl">
@@ -18,10 +18,10 @@ const Shipping = () => (
       <section>
         <h2 className="font-display text-2xl text-moss-deep">Processing time</h2>
         <p className="mt-3">
-          All orders are hand-packed in our Ado-Ekiti facility. Standard processing takes 1–3
+          All orders are hand-packed at our Ado-Ekiti headquarters. Standard processing takes 1–3
           business days. Brewed tonics (like the Fibroid Treatment Herbs) are brewed to order and
           take up to 5 business days. You will receive a courier tracking number as soon as your
-          parcel leaves us.
+          parcel leaves us. Orders may move through our Lagos dispatch hub before courier collection.
         </p>
       </section>
 
@@ -38,7 +38,7 @@ const Shipping = () => (
       <section>
         <h2 className="font-display text-2xl text-moss-deep">International delivery</h2>
         <p className="mt-3">
-          We ship worldwide via DHL Express and FedEx International Priority. International
+          We ship worldwide from Nigeria via DHL Express and FedEx International Priority. International
           shipping starts at ₦20,000 and is calculated by weight. Example rates: United States
           ₦120,000 per kg; United Kingdom ₦95,000 per kg; Canada ₦110,000 per kg; South Africa
           ₦65,000 per kg. Delivery is typically 4–8 business days. Customers are responsible for
