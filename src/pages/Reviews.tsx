@@ -233,6 +233,10 @@ const Reviews = () => {
   const [muted, setMuted] = useState<boolean>(() => {
     try { return localStorage.getItem("hle_bgm_muted") === "1"; } catch { return false; }
   });
+  const mutedRef = useRef(muted);
+  useEffect(() => { mutedRef.current = muted; }, [muted]);
+
+
 
   useEffect(() => {
     // Respect user & network preferences
