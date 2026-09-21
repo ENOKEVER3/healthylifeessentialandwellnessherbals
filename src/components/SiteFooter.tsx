@@ -60,6 +60,7 @@ export const SiteFooter = () => {
             <li><Link to="/consultation" className="hover:text-moss">{t("footer_consultation")}</Link></li>
             <li><Link to="/about" className="hover:text-moss">{t("footer_about")}</Link></li>
             <li><Link to="/journal" className="hover:text-moss">Journal</Link></li>
+            <li><Link to="/pid-guide" className="hover:text-moss">PID Guide</Link></li>
             <li><Link to="/reviews" className="hover:text-moss">Reviews</Link></li>
             <li><Link to="/track" className="hover:text-moss">Track Package</Link></li>
             <li><Link to="/contact" className="hover:text-moss">Contact</Link></li>
