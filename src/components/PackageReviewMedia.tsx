@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, ImagePlus, Loader2, MapPin, Play, Send, Video, X } from "lucide-react";
+import { CheckCircle2, ImagePlus, Loader2, MapPin, Play, Send, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { countryCodes, flagFor } from "@/data/countryCodes";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import featuredReviewVideo from "@/assets/reviews/patient-package-review.mp4.asset.json";
-import featuredReviewPoster from "@/assets/reviews/patient-package-review-poster.jpg.asset.json";
+
+const featuredReviewVideo = "/patient-package-review.mp4";
+const featuredReviewPoster = "/patient-package-review-poster.jpg";
 
 type MediaReview = {
   id: string;
@@ -188,8 +189,8 @@ const PackageReviewMedia = () => {
                 controls
                 playsInline
                 preload="metadata"
-                poster={featuredReviewPoster.url}
-                src={featuredReviewVideo.url}
+                poster={featuredReviewPoster}
+                src={featuredReviewVideo}
               />
               <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/85 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur">
                 <Play className="h-3.5 w-3.5 fill-current text-moss" /> Featured video review
