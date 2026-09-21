@@ -291,9 +291,13 @@ const Reviews = () => {
 
 
     return () => {
+      window.clearInterval(watchdog);
       events.forEach((e) => window.removeEventListener(e, onInteract));
       document.removeEventListener("visibilitychange", onVisibility);
+      audio.removeEventListener("timeupdate", onTimeUpdate);
+      audio.removeEventListener("ended", onEnded);
       audio.removeEventListener("canplay", onReady);
+
       audio.pause();
       audio.src = "";
       bgmRef.current = null;
