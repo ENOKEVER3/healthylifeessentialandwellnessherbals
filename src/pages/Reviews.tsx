@@ -258,7 +258,7 @@ const Reviews = () => {
     const onReady = () => setBgmReady(true);
     audio.addEventListener("canplay", onReady, { once: true });
 
-    const tryPlay = () => { if (!muted) audio.play().catch(() => {}); };
+    const tryPlay = () => { if (!mutedRef.current) audio.play().catch(() => {}); };
     tryPlay();
     const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "click"];
     const onInteract = () => { tryPlay(); };
@@ -270,26 +270,26 @@ const Reviews = () => {
       if (!audio.duration || Number.isNaN(audio.duration)) return;
       if (audio.duration - audio.currentTime <= 0.25) {
         audio.currentTime = 0;
-        if (!muted) audio.play().catch(() => {});
+        if (!mutedRef.current) audio.play().catch(() => {});
       }
     };
     const onEnded = () => {
       audio.currentTime = 0;
-      if (!muted) audio.play().catch(() => {});
+      if (!mutedRef.current) audio.play().catch(() => {});
     };
     audio.addEventListener("timeupdate", onTimeUpdate);
     audio.addEventListener("ended", onEnded);
 
     // Periodic watchdog: if it stopped for any reason while unmuted, resume.
     const watchdog = window.setInterval(() => {
-      if (!muted && !document.hidden && audio.paused) {
+      if (!mutedRef.current && !document.hidden && audio.paused) {
         audio.play().catch(() => {});
       }
     }, 3000);
 
     const onVisibility = () => {
       if (document.hidden) audio.pause();
-      else if (!muted) audio.play().catch(() => {});
+      else if (!mutedRef.current) audio.play().catch(() => {});
     };
     document.addEventListener("visibilitychange", onVisibility);
 
