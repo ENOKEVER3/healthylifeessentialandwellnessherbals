@@ -221,7 +221,6 @@ const Advisor = () => {
             </div>
           </div>
             </div>
-          </div>
 
             <aside className="mt-8 border-t border-border/70 pt-5">
           <div className="border-l-2 border-ochre bg-secondary/25 p-5">
