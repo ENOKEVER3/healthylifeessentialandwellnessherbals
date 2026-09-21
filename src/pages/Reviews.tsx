@@ -233,6 +233,10 @@ const Reviews = () => {
   const [muted, setMuted] = useState<boolean>(() => {
     try { return localStorage.getItem("hle_bgm_muted") === "1"; } catch { return false; }
   });
+  const mutedRef = useRef(muted);
+  useEffect(() => { mutedRef.current = muted; }, [muted]);
+
+
 
   useEffect(() => {
     // Respect user & network preferences
@@ -254,22 +258,50 @@ const Reviews = () => {
     const onReady = () => setBgmReady(true);
     audio.addEventListener("canplay", onReady, { once: true });
 
-    const tryPlay = () => { if (!muted) audio.play().catch(() => {}); };
+    const tryPlay = () => { if (!mutedRef.current) audio.play().catch(() => {}); };
     tryPlay();
     const events: Array<keyof WindowEventMap> = ["pointerdown", "touchstart", "keydown", "click"];
     const onInteract = () => { tryPlay(); };
     events.forEach((e) => window.addEventListener(e, onInteract, { passive: true, once: false }));
 
+    // Safety net: some browsers ignore `loop`. Restart just before the end,
+    // and also if the track ever ends or stalls out.
+    const onTimeUpdate = () => {
+      if (!audio.duration || Number.isNaN(audio.duration)) return;
+      if (audio.duration - audio.currentTime <= 0.25) {
+        audio.currentTime = 0;
+        if (!mutedRef.current) audio.play().catch(() => {});
+      }
+    };
+    const onEnded = () => {
+      audio.currentTime = 0;
+      if (!mutedRef.current) audio.play().catch(() => {});
+    };
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    audio.addEventListener("ended", onEnded);
+
+    // Periodic watchdog: if it stopped for any reason while unmuted, resume.
+    const watchdog = window.setInterval(() => {
+      if (!mutedRef.current && !document.hidden && audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }, 3000);
+
     const onVisibility = () => {
       if (document.hidden) audio.pause();
-      else if (!muted) audio.play().catch(() => {});
+      else if (!mutedRef.current) audio.play().catch(() => {});
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+
     return () => {
+      window.clearInterval(watchdog);
       events.forEach((e) => window.removeEventListener(e, onInteract));
       document.removeEventListener("visibilitychange", onVisibility);
+      audio.removeEventListener("timeupdate", onTimeUpdate);
+      audio.removeEventListener("ended", onEnded);
       audio.removeEventListener("canplay", onReady);
+
       audio.pause();
       audio.src = "";
       bgmRef.current = null;
