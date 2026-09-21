@@ -249,7 +249,9 @@ const Reviews = () => {
     const isSmall = window.matchMedia("(max-width: 640px)").matches;
     const audio = new Audio();
     audio.src = "/audio/reviews-bgm.mp3";
-    audio.loop = true;
+    // Handle the loop ourselves so the next play cycle begins three seconds
+    // before the current track would naturally end.
+    audio.loop = false;
     audio.volume = isSmall ? 0.3 : 0.45;
     audio.preload = "metadata";
     audio.crossOrigin = "anonymous";
@@ -264,11 +266,11 @@ const Reviews = () => {
     const onInteract = () => { tryPlay(); };
     events.forEach((e) => window.addEventListener(e, onInteract, { passive: true, once: false }));
 
-    // Safety net: some browsers ignore `loop`. Restart just before the end,
-    // and also if the track ever ends or stalls out.
+    // Restart three seconds before the end, and also if the track ever ends
+    // or stalls out before the browser emits another timeupdate event.
     const onTimeUpdate = () => {
       if (!audio.duration || Number.isNaN(audio.duration)) return;
-      if (audio.duration - audio.currentTime <= 0.25) {
+      if (audio.duration > 3 && audio.duration - audio.currentTime <= 3) {
         audio.currentTime = 0;
         if (!mutedRef.current) audio.play().catch(() => {});
       }
