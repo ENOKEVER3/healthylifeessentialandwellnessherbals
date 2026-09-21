@@ -34,14 +34,14 @@ export const SiteHeader = () => {
   const closeMobile = () => setMobileOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 safe-top safe-x border-b border-border/60 bg-background/85 backdrop-blur-md">
-      <div className="container-narrow flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
+    <header className="sticky top-0 z-40 safe-top safe-x border-b border-border/70 bg-background/90 backdrop-blur-md">
+      <div className="container-narrow flex h-16 items-center justify-between gap-3 md:h-[4.75rem] md:gap-4">
         <Link to="/" className="flex items-center gap-3" aria-label="Healthy Life Essentials & Wellness Herbals — Home">
           <img src={logo} alt="Healthy Life Essentials & Wellness Herbals logo" className="h-10 w-auto md:h-14" />
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 text-sm lg:flex">
+        <nav className="hidden items-center gap-5 text-[0.8rem] xl:gap-6 xl:text-sm lg:flex">
           <NavLink to="/" end className={navLinkClass}>{t("nav_home")}</NavLink>
           <NavLink to="/consultation" className={navLinkClass}>{t("nav_consultation")}</NavLink>
           <NavLink to="/advisor" className={navLinkClass}>{t("nav_advisor")}</NavLink>
@@ -79,7 +79,7 @@ export const SiteHeader = () => {
             variant="ghost"
             size="sm"
             onClick={() => setOpen(true)}
-            className="relative tap-target gap-2 text-foreground hover:bg-muted"
+            className="relative tap-target gap-2 text-foreground hover:bg-secondary/60"
             aria-label={`${t("cart")}, ${count}`}
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={1.5} />
