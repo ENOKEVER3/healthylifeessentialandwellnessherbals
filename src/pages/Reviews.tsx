@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2, Volume2, VolumeX } from "lucide-react";
+import { Star, Upload, Loader2, CheckCircle2, MessageSquarePlus, ImagePlus, Filter, X, Pencil, Heart, Trash2, Volume2, VolumeX, Share2, MessageCircle, Smartphone, Copy } from "lucide-react";
 import { AnimatedAvatar } from "@/components/AnimatedAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Slider } from "@/components/ui/slider";
 import { Seo } from "@/components/Seo";
 import { ReviewPromoBanner } from "@/components/ReviewPromoBanner";
@@ -552,6 +558,48 @@ const Reviews = () => {
     }
   };
 
+  const shareReview = async (review: ReviewRow, destination: "native" | "whatsapp" | "sms" | "copy") => {
+    const reviewUrl = `${window.location.origin}/reviews#review-${review.id}`;
+    const shareText = `${review.display_name} shared their Healthy Life Essential & Wellness experience:\n\n${review.body}`;
+    const encodedText = encodeURIComponent(`${shareText}\n\n${reviewUrl}`);
+
+    if (destination === "whatsapp") {
+      window.open(`https://wa.me/?text=${encodedText}`, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    if (destination === "sms") {
+      window.location.href = `sms:?&body=${encodedText}`;
+      return;
+    }
+
+    if (destination === "copy") {
+      try {
+        await navigator.clipboard.writeText(`${shareText}\n\n${reviewUrl}`);
+        toast.success("Review link copied");
+      } catch {
+        toast.error("Could not copy the review link");
+      }
+      return;
+    }
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Healthy Life Essential & Wellness review", text: shareText, url: reviewUrl });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        toast.error("Could not open sharing options");
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(`${shareText}\n\n${reviewUrl}`);
+        toast.success("Review link copied — ready to share anywhere");
+      } catch {
+        toast.error("Sharing is not available on this device");
+      }
+    }
+  };
+
   useEffect(() => {
     fetchFirstPage();
   }, [fetchFirstPage]);
@@ -937,6 +985,7 @@ const Reviews = () => {
                 return (
                   <article
                     key={r.id}
+                    id={`review-${r.id}`}
                     className="group relative flex flex-col rounded-2xl border border-border bg-background p-6 transition-all hover:-translate-y-0.5 hover:border-moss/40 hover:shadow-lg"
                   >
                     <div className="flex items-center gap-3">
@@ -1039,6 +1088,35 @@ const Reviews = () => {
                         />
                         <span className="tabular-nums">{likes}</span>
                       </button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-9 gap-1.5 px-2.5 text-xs text-muted-foreground"
+                            aria-label={`Share ${r.display_name}'s review`}
+                            title="Share this review"
+                          >
+                            <Share2 className="h-3.5 w-3.5" />
+                            <span>Share</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-52">
+                          <DropdownMenuItem onSelect={() => void shareReview(r, "native")}>
+                            <Smartphone className="mr-2 h-4 w-4" /> TikTok & more apps
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onSelect={() => void shareReview(r, "whatsapp")}>
+                            <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onSelect={() => void shareReview(r, "sms")}>
+                            <Smartphone className="mr-2 h-4 w-4" /> Text message
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onSelect={() => void shareReview(r, "copy")}>
+                            <Copy className="mr-2 h-4 w-4" /> Copy link
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                       {canEdit && (
                         <div className="flex items-center gap-3">
                           <button
