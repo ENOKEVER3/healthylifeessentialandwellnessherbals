@@ -861,7 +861,7 @@ const Reviews = () => {
 
       <Seo
         title="Customer Reviews — Healthy Life Essentials"
-        description="Real stories from people who trust Healthy Life Essentials & Wellness Herbals. Read reviews and share your own."
+        description="Read customer reviews of Healthy Life Essentials herbal remedies, wellness teas, supplements, and feminine care products shipped from Nigeria worldwide."
         path="/reviews"
       />
 

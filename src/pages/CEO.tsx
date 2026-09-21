@@ -19,7 +19,7 @@ const CEO = () => {
     <div>
       <Seo
         title="Meet Dr. Oluwatomisin — Naturopathic Founder"
-        description="Dr. Kolawole Oluwatomisin Esther — the naturopathic doctor behind Healthy Life Essentials & Wellness Herbals. Credentials, story, and clinical approach."
+        description="Meet Dr. Kolawole Oluwatomisin Esther, the naturopathic doctor and Nigerian herbal wellness founder behind Healthy Life Essentials in Ado-Ekiti and Lagos."
         path="/ceo"
       />
       <section className="container-narrow grid items-center gap-12 py-16 md:grid-cols-[1fr,1.1fr] md:py-24">

@@ -39,7 +39,7 @@ const FAQ = () => (
   <div className="container-narrow py-16 md:py-24">
     <Seo
       title="Frequently Asked Questions | Healthy Life Essentials"
-      description="Answers to the most common questions about our herbal products, safety, shipping, and consultations."
+      description="Answers about Nigerian herbal remedies, product safety, consultations, Ado-Ekiti production, Lagos dispatch, worldwide shipping, and herbal wellness products."
       path="/faq"
     />
     <header className="max-w-2xl">
