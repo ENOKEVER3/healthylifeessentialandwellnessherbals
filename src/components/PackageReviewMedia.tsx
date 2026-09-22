@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, ImagePlus, Loader2, MapPin, Play, Send, X } from "lucide-react";
+import { CheckCircle2, Copy, ImagePlus, Loader2, MapPin, MessageCircle, Play, Send, Share2, Smartphone, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { countryCodes, flagFor } from "@/data/countryCodes";
+import { countryCodes, countryLocations, flagFor } from "@/data/countryCodes";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const featuredReviewPoster = "/patient-package-review-poster.jpg";
 
@@ -25,9 +31,9 @@ type MediaReview = {
 };
 
 const uploadSchema = z.object({
-  displayName: z.string().trim().max(80).default("Anonymous"),
+  displayName: z.string().trim().min(1, "Choose a name or select Anonymous.").max(80),
   country: z.string().regex(/^[A-Z]{2}$/),
-  stateRegion: z.string().trim().min(1, "Add your state, region, or city.").max(120),
+  stateRegion: z.string().trim().min(1, "Choose your state, region, or city.").max(120),
   caption: z.string().trim().max(600),
 });
 
@@ -44,6 +50,7 @@ const PackageReviewMedia = () => {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [appearance, setAppearance] = useState<"name" | "anonymous">("anonymous");
   const [displayName, setDisplayName] = useState("");
   const [country, setCountry] = useState("NG");
   const [stateRegion, setStateRegion] = useState("");
@@ -51,6 +58,7 @@ const PackageReviewMedia = () => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  const locationOptions = countryLocations[country] ?? ["Other city or region"];
 
   const loadApprovedReviews = async () => {
     setLoading(true);
@@ -122,6 +130,7 @@ const PackageReviewMedia = () => {
   };
 
   const resetForm = () => {
+    setAppearance("anonymous");
     setDisplayName("");
     setCountry("NG");
     setStateRegion("");
@@ -129,10 +138,52 @@ const PackageReviewMedia = () => {
     clearFile();
   };
 
+  const sharePackageStory = async (
+    review: Pick<MediaReview, "id" | "display_name" | "caption">,
+    destination: "native" | "whatsapp" | "sms" | "copy",
+  ) => {
+    const storyUrl = `${window.location.origin}/reviews#package-story-${review.id}`;
+    const shareText = `${review.display_name} shared a Healthy Life Essential & Wellness package story.${review.caption ? `\n\n${review.caption}` : ""}`;
+    const encodedText = encodeURIComponent(`${shareText}\n\n${storyUrl}`);
+
+    if (destination === "whatsapp") {
+      window.open(`https://wa.me/?text=${encodedText}`, "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (destination === "sms") {
+      window.location.href = `sms:?&body=${encodedText}`;
+      return;
+    }
+    if (destination === "copy") {
+      try {
+        await navigator.clipboard.writeText(`${shareText}\n\n${storyUrl}`);
+        toast.success("Package story link copied");
+      } catch {
+        toast.error("Could not copy the package story link");
+      }
+      return;
+    }
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Healthy Life Essential & Wellness package story", text: shareText, url: storyUrl });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        toast.error("Could not open sharing options");
+      }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(`${shareText}\n\n${storyUrl}`);
+      toast.success("Package story link copied — ready to share anywhere");
+    } catch {
+      toast.error("Sharing is not available on this device");
+    }
+  };
+
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!file) return toast.error("Add a photo or video of your package first.");
-    const parsed = uploadSchema.safeParse({ displayName: displayName || "Anonymous", country, stateRegion, caption });
+    const parsed = uploadSchema.safeParse({ displayName: appearance === "anonymous" ? "Anonymous" : displayName, country, stateRegion, caption });
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? "Check the location details.");
       return;
@@ -155,11 +206,22 @@ const PackageReviewMedia = () => {
         country_code: parsed.data.country,
         state_region: parsed.data.stateRegion,
         caption: parsed.data.caption || null,
-        status: "pending",
+         status: "approved",
       });
       if (error) throw error;
 
-      setSubmitted(true);
+       setReviews((current) => [{
+         id: crypto.randomUUID(),
+         display_name: parsed.data.displayName,
+         media_path: path,
+         media_type: mediaType,
+         country_code: parsed.data.country,
+         state_region: parsed.data.stateRegion,
+         caption: parsed.data.caption || null,
+         created_at: new Date().toISOString(),
+         media_url: previewUrl ?? "",
+       }, ...current]);
+       setSubmitted(true);
       resetForm();
     } catch (error) {
       console.error("Package review upload failed", error);
@@ -212,14 +274,14 @@ const PackageReviewMedia = () => {
                   <CheckCircle2 className="h-8 w-8 text-moss" />
                 </div>
                 <h3 className="mt-5 font-display text-3xl text-moss-deep">Thank you for sharing.</h3>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">Your photo or video is waiting for a quick review before it appears publicly.</p>
+                 <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">Your package story is now live in Package Stories.</p>
                 <Button type="button" variant="outline" className="mt-7" onClick={() => setSubmitted(false)}>Share another</Button>
               </div>
             ) : (
               <form onSubmit={submit} className="space-y-5">
                 <div>
                   <p className="font-display text-2xl text-moss-deep">Show what arrived</p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Uploads are checked before publication. Please avoid showing private addresses or personal documents.</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Your story appears immediately. Please avoid showing private addresses or personal documents.</p>
                 </div>
 
                 <input
@@ -248,10 +310,16 @@ const PackageReviewMedia = () => {
                   </button>
                 )}
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor="package-review-name" className="text-xs uppercase tracking-[0.18em] text-moss">Name (optional)</Label>
-                    <Input id="package-review-name" value={displayName} onChange={(event) => setDisplayName(event.target.value)} placeholder="Anonymous" maxLength={80} className="mt-2" />
+                     <Label htmlFor="package-review-appearance" className="text-xs uppercase tracking-[0.18em] text-moss">Show me as</Label>
+                     <Select value={appearance} onValueChange={(value) => setAppearance(value as "name" | "anonymous")}>
+                       <SelectTrigger id="package-review-appearance" className="mt-2"><SelectValue /></SelectTrigger>
+                       <SelectContent>
+                         <SelectItem value="anonymous">Anonymous</SelectItem>
+                         <SelectItem value="name">Write my name</SelectItem>
+                       </SelectContent>
+                     </Select>
                   </div>
                   <div>
                     <Label htmlFor="package-review-country" className="text-xs uppercase tracking-[0.18em] text-moss">Country</Label>
@@ -264,9 +332,21 @@ const PackageReviewMedia = () => {
                   </div>
                 </div>
 
+                 {appearance === "name" && (
+                   <div>
+                     <Label htmlFor="package-review-name" className="text-xs uppercase tracking-[0.18em] text-moss">Your name</Label>
+                     <Input id="package-review-name" value={displayName} onChange={(event) => setDisplayName(event.target.value)} placeholder="Your name" maxLength={80} className="mt-2" required />
+                   </div>
+                 )}
+
                 <div>
                   <Label htmlFor="package-review-region" className="text-xs uppercase tracking-[0.18em] text-moss">State, region, or city</Label>
-                  <Input id="package-review-region" value={stateRegion} onChange={(event) => setStateRegion(event.target.value)} placeholder="e.g. Lagos or Sunderland" maxLength={120} className="mt-2" required />
+                   <Select value={stateRegion} onValueChange={setStateRegion}>
+                     <SelectTrigger id="package-review-region" className="mt-2"><SelectValue placeholder={`Choose a location in ${countryCodes.find((item) => item.iso === country)?.name ?? "your country"}`} /></SelectTrigger>
+                     <SelectContent className="max-h-72">
+                       {locationOptions.map((location) => <SelectItem key={location} value={location}>{location}</SelectItem>)}
+                     </SelectContent>
+                   </Select>
                 </div>
 
                 <div>
@@ -284,14 +364,31 @@ const PackageReviewMedia = () => {
 
         {!loading && reviews.length > 0 && (
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {reviews.map((review) => (
-              <article key={review.id} className="overflow-hidden rounded-2xl border border-border bg-background">
+             {reviews.map((review) => (
+              <article key={review.id} id={`package-story-${review.id}`} className="overflow-hidden rounded-2xl border border-border bg-background">
                 <div className="aspect-[4/3] bg-secondary/20">
                   {review.media_type === "video" ? <video className="h-full w-full object-cover" controls playsInline preload="metadata" src={review.media_url} /> : <img className="h-full w-full object-cover" src={review.media_url} alt={`${review.display_name}'s package review`} loading="lazy" />}
                 </div>
-                <div className="p-4">
-                  <p className="text-sm font-medium text-moss-deep">{review.display_name}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{locationLabel(review.country_code, review.state_region)}</p>
+                 <div className="p-4">
+                   <div className="flex items-start justify-between gap-3">
+                     <div>
+                       <p className="text-sm font-medium text-moss-deep">{review.display_name}</p>
+                       <p className="mt-1 text-xs text-muted-foreground">{locationLabel(review.country_code, review.state_region)}</p>
+                     </div>
+                     <DropdownMenu>
+                       <DropdownMenuTrigger asChild>
+                         <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 px-2.5 text-xs text-muted-foreground" aria-label={`Share ${review.display_name}'s package story`} title="Share this package story">
+                           <Share2 className="h-3.5 w-3.5" /><span>Share</span>
+                         </Button>
+                       </DropdownMenuTrigger>
+                       <DropdownMenuContent align="end" className="w-52">
+                         <DropdownMenuItem onSelect={() => void sharePackageStory(review, "native")}><Smartphone className="mr-2 h-4 w-4" /> TikTok & more apps</DropdownMenuItem>
+                         <DropdownMenuItem onSelect={() => void sharePackageStory(review, "whatsapp")}><MessageCircle className="mr-2 h-4 w-4" /> WhatsApp</DropdownMenuItem>
+                         <DropdownMenuItem onSelect={() => void sharePackageStory(review, "sms")}><Smartphone className="mr-2 h-4 w-4" /> Text message</DropdownMenuItem>
+                         <DropdownMenuItem onSelect={() => void sharePackageStory(review, "copy")}><Copy className="mr-2 h-4 w-4" /> Copy link</DropdownMenuItem>
+                       </DropdownMenuContent>
+                     </DropdownMenu>
+                   </div>
                   {review.caption && <p className="mt-3 text-sm leading-relaxed text-foreground/80">{review.caption}</p>}
                 </div>
               </article>

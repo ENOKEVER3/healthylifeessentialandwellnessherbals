@@ -5,6 +5,8 @@
 - [x] Expand AI-readable search topics and social discovery phrases
 - [x] Verify the SEO update and preview build
 - [x] Add featured patient package video with verified location label
-- [x] Add moderated customer photo and video package-review submissions
+- [x] Add immediate customer photo and video package-story publishing
 - [x] Add secure signed links for approved private review media
 - [x] Verify package stories on desktop and mobile
+- [x] Add anonymous/name and country-to-location dropdowns to package stories
+- [x] Add sharing controls to package story media
