@@ -210,18 +210,8 @@ const PackageReviewMedia = () => {
       });
       if (error) throw error;
 
-       setReviews((current) => [{
-         id: crypto.randomUUID(),
-         display_name: parsed.data.displayName,
-         media_path: path,
-         media_type: mediaType,
-         country_code: parsed.data.country,
-         state_region: parsed.data.stateRegion,
-         caption: parsed.data.caption || null,
-         created_at: new Date().toISOString(),
-         media_url: previewUrl ?? "",
-       }, ...current]);
-       setSubmitted(true);
+      await loadApprovedReviews();
+      setSubmitted(true);
       resetForm();
     } catch (error) {
       console.error("Package review upload failed", error);
@@ -255,13 +245,28 @@ const PackageReviewMedia = () => {
             </div>
             <div className="p-5 md:p-6">
               <div className="flex items-start justify-between gap-4">
-                <div>
+                 <div>
                   <p className="font-display text-xl text-moss-deep">Package received in the UK</p>
                   <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
                     <MapPin className="h-3.5 w-3.5 text-moss" /> {locationLabel("GB", "Hendon, Sunderland")}
                   </p>
                 </div>
-                <span className="shrink-0 rounded-full bg-moss/10 px-2.5 py-1 text-xs font-medium text-moss-deep">Customer video</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button type="button" variant="outline" size="sm" className="h-9 gap-1.5 px-2.5 text-xs text-muted-foreground" aria-label="Share the featured package video" title="Share this package video">
+                        <Share2 className="h-3.5 w-3.5" /><span>Share</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-52">
+                      <DropdownMenuItem onSelect={() => void sharePackageStory({ id: "featured-patient-video", display_name: "A customer", caption: "Package received in Hendon, Sunderland, UK." }, "native")}><Smartphone className="mr-2 h-4 w-4" /> TikTok & more apps</DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => void sharePackageStory({ id: "featured-patient-video", display_name: "A customer", caption: "Package received in Hendon, Sunderland, UK." }, "whatsapp")}><MessageCircle className="mr-2 h-4 w-4" /> WhatsApp</DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => void sharePackageStory({ id: "featured-patient-video", display_name: "A customer", caption: "Package received in Hendon, Sunderland, UK." }, "sms")}><Smartphone className="mr-2 h-4 w-4" /> Text message</DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => void sharePackageStory({ id: "featured-patient-video", display_name: "A customer", caption: "Package received in Hendon, Sunderland, UK." }, "copy")}><Copy className="mr-2 h-4 w-4" /> Copy link</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <span className="hidden rounded-full bg-moss/10 px-2.5 py-1 text-xs font-medium text-moss-deep sm:inline-flex">Customer video</span>
+                </div>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">A customer shared their Healthy Life Essentials package after delivery.</p>
             </div>
@@ -323,7 +328,7 @@ const PackageReviewMedia = () => {
                   </div>
                   <div>
                     <Label htmlFor="package-review-country" className="text-xs uppercase tracking-[0.18em] text-moss">Country</Label>
-                    <Select value={country} onValueChange={setCountry}>
+                     <Select value={country} onValueChange={(value) => { setCountry(value); setStateRegion(""); }}>
                       <SelectTrigger id="package-review-country" className="mt-2"><SelectValue /></SelectTrigger>
                       <SelectContent className="max-h-72">
                         {countryCodes.map((item) => <SelectItem key={item.iso} value={item.iso}><span className="mr-2">{flagFor(item.iso)}</span>{item.name}</SelectItem>)}
