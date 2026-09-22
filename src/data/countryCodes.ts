@@ -5,6 +5,40 @@ export type CountryCode = {
   dial: string;
 };
 
+export const countryLocations: Record<string, string[]> = {
+  NG: ["Abuja", "Lagos", "Ekiti", "Kano", "Rivers", "Oyo", "Kaduna", "Other city or state"],
+  GH: ["Accra", "Kumasi", "Ashanti", "Greater Accra", "Tamale", "Other city or region"],
+  KE: ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Kiambu", "Other city or county"],
+  ZA: ["Gauteng", "Western Cape", "KwaZulu-Natal", "Cape Town", "Johannesburg", "Other city or province"],
+  EG: ["Cairo", "Alexandria", "Giza", "Luxor", "Aswan", "Other city or governorate"],
+  MA: ["Casablanca", "Rabat", "Marrakesh", "Fes", "Tangier", "Other city or region"],
+  GB: ["England", "Scotland", "Wales", "Northern Ireland", "London", "Sunderland", "Other city or region"],
+  IE: ["Dublin", "Cork", "Galway", "Limerick", "Other city or county"],
+  US: ["California", "Texas", "Florida", "New York", "Georgia", "Washington", "Other state or city"],
+  CA: ["Ontario", "Quebec", "British Columbia", "Alberta", "Toronto", "Other province or city"],
+  FR: ["Île-de-France", "Provence-Alpes-Côte d’Azur", "Auvergne-Rhône-Alpes", "Paris", "Lyon", "Other city or region"],
+  DE: ["Berlin", "Bavaria", "North Rhine-Westphalia", "Hamburg", "Hesse", "Other city or state"],
+  ES: ["Madrid", "Catalonia", "Andalusia", "Valencia", "Basque Country", "Other city or region"],
+  IT: ["Lazio", "Lombardy", "Campania", "Sicily", "Rome", "Other city or region"],
+  PT: ["Lisbon", "Porto", "Braga", "Algarve", "Other city or region"],
+  NL: ["North Holland", "South Holland", "Utrecht", "Amsterdam", "Rotterdam", "Other city or province"],
+  BE: ["Brussels", "Flanders", "Wallonia", "Antwerp", "Other city or region"],
+  CH: ["Zurich", "Geneva", "Bern", "Vaud", "Other city or canton"],
+  SE: ["Stockholm", "Västra Götaland", "Skåne", "Gothenburg", "Other city or county"],
+  NO: ["Oslo", "Vestland", "Rogaland", "Trøndelag", "Other city or county"],
+  DK: ["Capital Region", "Central Denmark", "North Denmark", "Copenhagen", "Other city or region"],
+  AE: ["Abu Dhabi", "Dubai", "Sharjah", "Ajman", "Other emirate or city"],
+  SA: ["Riyadh", "Makkah", "Madinah", "Eastern Province", "Jeddah", "Other city or region"],
+  IN: ["Maharashtra", "Delhi", "Karnataka", "Tamil Nadu", "Kerala", "Other state or city"],
+  PK: ["Punjab", "Sindh", "Khyber Pakhtunkhwa", "Balochistan", "Islamabad", "Other city or province"],
+  CN: ["Beijing", "Shanghai", "Guangdong", "Sichuan", "Zhejiang", "Other city or province"],
+  JP: ["Tokyo", "Osaka", "Hokkaido", "Kyoto", "Aichi", "Other city or prefecture"],
+  KR: ["Seoul", "Busan", "Incheon", "Gyeonggi", "Daegu", "Other city or province"],
+  AU: ["New South Wales", "Victoria", "Queensland", "Western Australia", "Sydney", "Other city or state"],
+  BR: ["São Paulo", "Rio de Janeiro", "Minas Gerais", "Bahia", "Paraná", "Other city or state"],
+  MX: ["Mexico City", "Jalisco", "Nuevo León", "Yucatán", "Puebla", "Other city or state"],
+};
+
 const flag = (iso: string) =>
   iso
     .toUpperCase()
