@@ -22,6 +22,13 @@
       "when": 1790155224151,
       "tag": "0002_bind_storage_block_rules_to_owner",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790155281982,
+      "tag": "0003_bind_storage_update_and_select_block_rules",
+      "breakpoints": true
     }
   ]
 }
