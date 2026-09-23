@@ -10,3 +10,4 @@
 - [x] Verify package stories on desktop and mobile
 - [x] Add anonymous/name and country-to-location dropdowns to package stories
 - [x] Add sharing controls to package story media
+- [ ] Verify package-story identity/location dropdowns, sharing menu, and live video display
