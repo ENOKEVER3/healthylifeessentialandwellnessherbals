@@ -11,3 +11,6 @@
 - [x] Add anonymous/name and country-to-location dropdowns to package stories
 - [x] Add sharing controls to package story media
 - [x] Verify package-story identity/location dropdowns, sharing menu, and live video display
+- [x] Ensure route-specific title and description tags replace sitewide defaults
+- [x] Remove the invalid fragment URL from the sitemap and verify all product URLs
+- [x] Bind blocked review-photo update and delete rules to the file owner
