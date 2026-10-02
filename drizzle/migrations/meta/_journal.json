@@ -29,6 +29,13 @@
       "when": 1790155281982,
       "tag": "0003_bind_storage_update_and_select_block_rules",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790926222699,
+      "tag": "0004_bind_review_photo_block_rules_to_owner",
+      "breakpoints": true
     }
   ]
 }
