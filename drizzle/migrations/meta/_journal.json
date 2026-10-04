@@ -36,6 +36,13 @@
       "when": 1790926222699,
       "tag": "0004_bind_review_photo_block_rules_to_owner",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791151805470,
+      "tag": "0005_create_orders_table",
+      "breakpoints": true
     }
   ]
 }
