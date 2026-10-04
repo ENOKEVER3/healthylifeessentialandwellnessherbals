@@ -29,7 +29,11 @@ const About = () => {
       </section>
 
       <section className="relative h-[60vh] min-h-[420px] w-full overflow-hidden">
-        <img src={hero} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={hero}
+          alt="Fresh medicinal herbs and botanical apothecary ingredients"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
       </section>
 
       <section className="container-narrow grid gap-14 py-20 md:grid-cols-2 md:py-28">

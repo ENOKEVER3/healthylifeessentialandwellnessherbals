@@ -83,7 +83,6 @@ const en = {
   consult_received_body_a: "Your consultation request",
   consult_received_body_b:
     "has been received. Dr. Oluwatomisin's team will reach out within 24 hours via your preferred channel.",
-  consult_received_demo: "(This is a demo form — no information has been transmitted.)",
   consult_submit_another: "Submit another request",
 
   // CEO page
@@ -352,7 +351,6 @@ const fr: Record<TranslationKey, string> = {
   consult_received_body_a: "Votre demande de consultation",
   consult_received_body_b:
     "a été reçue. L'équipe de la Dre Oluwatomisin vous contactera sous 24 heures sur le canal de votre choix.",
-  consult_received_demo: "(Ceci est un formulaire de démonstration — aucune information n'a été transmise.)",
   consult_submit_another: "Envoyer une autre demande",
 
   ceo_eyebrow: "Le visage derrière la marque",
@@ -607,7 +605,6 @@ const de: Record<TranslationKey, string> = {
   consult_received_body_a: "Ihre Beratungsanfrage",
   consult_received_body_b:
     "wurde empfangen. Dr. Oluwatomisins Team meldet sich innerhalb von 24 Stunden über Ihren bevorzugten Kanal.",
-  consult_received_demo: "(Dies ist ein Demo-Formular — es wurden keine Daten übermittelt.)",
   consult_submit_another: "Weitere Anfrage senden",
 
   ceo_eyebrow: "Das Gesicht hinter der Marke",
@@ -861,7 +858,6 @@ const zh: Record<TranslationKey, string> = {
   consult_received_body_a: "您的咨询请求",
   consult_received_body_b:
     "已收到。Oluwatomisin 医师团队将在 24 小时内通过您选择的方式与您联系。",
-  consult_received_demo: "(这是一个演示表单——并未传输任何信息。)",
   consult_submit_another: "提交另一份请求",
 
   ceo_eyebrow: "品牌背后的面孔",
@@ -1114,7 +1110,6 @@ const pt: Record<TranslationKey, string> = {
   consult_received_body_a: "O seu pedido de consulta",
   consult_received_body_b:
     "foi recebido. A equipa da Dra. Oluwatomisin entrará em contacto em 24 horas pelo canal preferido.",
-  consult_received_demo: "(Este é um formulário de demonstração — nenhuma informação foi transmitida.)",
   consult_submit_another: "Enviar outro pedido",
 
   ceo_eyebrow: "O rosto por trás da marca",
