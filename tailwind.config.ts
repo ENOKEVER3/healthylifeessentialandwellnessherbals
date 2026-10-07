@@ -54,6 +54,8 @@ export default {
         "amber-deep": "hsl(var(--amber-deep))",
         linen: "hsl(var(--linen))",
         cream: "hsl(var(--cream))",
+        gold: "hsl(var(--gold))",
+        leaf: "hsl(var(--leaf))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
