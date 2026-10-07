@@ -159,18 +159,18 @@ const Home = () => {
         const items = products.filter((p) => p.group === g);
         if (items.length === 0) return null;
         return (
-          <section key={g} className="container-narrow pb-20">
+          <section key={g} className="container-narrow pb-14">
             <div className="mb-6 flex items-baseline justify-between border-b border-border pb-3">
               <h3 className="font-display text-2xl text-moss-deep">{g}</h3>
               <Link
                 to={`/shop?group=${encodeURIComponent(g)}`}
                 className="text-xs uppercase tracking-[0.18em] text-moss hover:underline"
               >
-                {t("home_see_all")} {g.toLowerCase()} →
+                {t("home_see_all")} {items.length} {g.toLowerCase()} →
               </Link>
             </div>
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 md:grid-cols-3">
-              {items.map((p) => <ProductCard key={p.id} product={p} />)}
+              {items.slice(0, 3).map((p) => <ProductCard key={p.id} product={p} />)}
             </div>
           </section>
         );
