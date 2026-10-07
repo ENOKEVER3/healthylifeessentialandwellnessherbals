@@ -39,78 +39,108 @@ const Home = () => {
         description="Doctor-formulated herbal teas, tinctures, capsules, and wellness kits from our Ado-Ekiti headquarters, dispatched through Lagos and shipped worldwide."
         path="/"
       />
-      {/* Hero */}
-      <section className="relative">
-        <div className="relative h-[78vh] min-h-[560px] w-full overflow-hidden">
-          {heroSlides.map((s, i) => (
-            <img
-              key={s.src}
-              src={s.src}
-              alt={s.alt}
-              width={1920}
-              height={1080}
-              fetchPriority={i === 0 ? "high" : "low"}
-              loading={i === 0 ? "eager" : "lazy"}
-              decoding={i === 0 ? "sync" : "async"}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${i === slide ? "opacity-100" : "opacity-0"}`}
-            />
-          ))}
-          <div className="absolute inset-0 bg-gradient-hero" />
-          <div className="absolute inset-0 bg-gradient-sun mix-blend-soft-light" />
-          <div className="container-narrow relative flex h-full flex-col justify-end pb-20 md:justify-center md:pb-0">
-            <p className="mb-5 text-xs uppercase tracking-[0.32em] text-cream/90">
-              {t("hero_eyebrow")}
-            </p>
-            <h1 className="max-w-2xl font-display text-5xl leading-[1.05] text-cream text-balance md:text-7xl">
-              {t("hero_title")}
-            </h1>
-            <p className="mt-6 max-w-lg text-base text-cream/85 md:text-lg">
-              {t("hero_subtitle")}
-            </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="bg-cream text-moss-deep hover:bg-background">
-                <Link to="/shop">{t("hero_cta_shop")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-cream/40 bg-transparent text-cream hover:bg-cream/10 hover:text-cream">
-                <Link to="/consultation">{t("hero_cta_book")}</Link>
-              </Button>
+      {/* Bento hero */}
+      <section className="bg-cream/40">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-3 p-4 sm:p-6 md:grid-cols-12 md:gap-5 md:p-8">
+          {/* Main hero tile */}
+          <div className="group relative flex flex-col justify-center overflow-hidden rounded-3xl bg-moss-deep p-7 sm:p-10 col-span-2 md:col-span-8 md:p-14">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-leaf/30 blur-[110px]" />
+            <div className="pointer-events-none absolute -bottom-32 left-10 h-64 w-64 rounded-full bg-gold/15 blur-[110px]" />
+            <div className="relative z-10">
+              <p className="mb-5 text-xs font-medium uppercase tracking-[0.28em] text-gold">
+                {t("hero_eyebrow")}
+              </p>
+              <h1 className="max-w-2xl font-display text-4xl leading-[1.05] text-cream text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+                {t("hero_title")}
+              </h1>
+              <p className="mt-6 max-w-lg text-base font-light leading-relaxed text-cream/80 md:text-lg">
+                {t("hero_subtitle")}
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Button asChild size="lg" className="rounded-full bg-gold px-8 text-moss-deep transition-transform hover:-translate-y-0.5 hover:bg-gold/90">
+                  <Link to="/shop">{t("hero_cta_shop")} <ArrowRight className="ml-1.5 h-4 w-4" /></Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="rounded-full border-cream/30 bg-transparent px-8 text-cream hover:bg-cream/10 hover:text-cream">
+                  <Link to="/consultation">{t("hero_cta_book")}</Link>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="border-b border-border bg-cream/40">
-        <div className="container-narrow grid gap-8 py-12 md:grid-cols-[1fr,1.4fr] md:items-center md:py-16">
-          <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-ochre">From Nigeria to the world</p>
-            <h2 className="mt-3 font-display text-3xl text-moss-deep md:text-4xl">
-              Rooted in Ado-Ekiti. Dispatching through Lagos.
-            </h2>
+          {/* Image showcase tile */}
+          <div className="relative min-h-[320px] overflow-hidden rounded-3xl bg-leaf col-span-2 md:col-span-4 md:min-h-0">
+            {heroSlides.map((s, i) => (
+              <img
+                key={s.src}
+                src={s.src}
+                alt={s.alt}
+                width={800}
+                height={1000}
+                fetchPriority={i === 0 ? "high" : "low"}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding={i === 0 ? "sync" : "async"}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${i === slide ? "opacity-100" : "opacity-0"}`}
+              />
+            ))}
+            <div className="absolute inset-0 bg-gradient-to-t from-moss-deep/70 via-transparent to-transparent" />
+            <span className="absolute bottom-6 left-6 text-sm font-medium uppercase tracking-wider text-cream">
+              {t("pillar2_title")}
+            </span>
           </div>
-          <div className="grid gap-5 text-sm leading-relaxed text-muted-foreground sm:grid-cols-2">
-            <div className="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 text-moss" strokeWidth={1.5} /><p><strong className="font-medium text-foreground">Headquarters:</strong> Our herbal wellness products are formulated and packed in Ado-Ekiti, Ekiti State, Nigeria.</p></div>
-            <div className="flex gap-3"><Globe2 className="mt-0.5 h-5 w-5 shrink-0 text-moss" strokeWidth={1.5} /><p><strong className="font-medium text-foreground">Worldwide delivery:</strong> Orders move through our Lagos dispatch hub for delivery across Nigeria and to customers around the world.</p></div>
-          </div>
-        </div>
-      </section>
 
-      {/* Pillars */}
-      <section className="container-narrow py-20">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+          {/* Pillar tiles */}
           {[
-            { icon: Stethoscope, title: t("pillar1_title"), body: t("pillar1_body") },
-            { icon: Sprout, title: t("pillar2_title"), body: t("pillar2_body") },
-            { icon: ShieldCheck, title: t("pillar3_title"), body: t("pillar3_body") },
-            { icon: HeartPulse, title: t("pillar4_title"), body: t("pillar4_body") },
-          ].map(({ icon: Icon, title, body }) => (
-            <div key={title} className="flex flex-col items-start">
-              <Icon className="mb-4 h-6 w-6 text-ochre" strokeWidth={1.3} />
-              <h3 className="font-display text-xl text-moss-deep">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+            { icon: Stethoscope, title: t("pillar1_title"), body: t("pillar1_body"), tone: "bg-card border border-gold/25 text-moss-deep" },
+            { icon: Sprout, title: t("pillar2_title"), body: t("pillar2_body"), tone: "bg-leaf text-moss-deep" },
+            { icon: ShieldCheck, title: t("pillar3_title"), body: t("pillar3_body"), tone: "bg-card border border-gold/25 text-moss-deep" },
+            { icon: HeartPulse, title: t("pillar4_title"), body: t("pillar4_body"), tone: "bg-cream border-2 border-moss-deep text-moss-deep" },
+          ].map(({ icon: Icon, title, body, tone }) => (
+            <div
+              key={title}
+              className={`flex flex-col justify-between gap-6 rounded-3xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:gap-8 sm:p-7 md:col-span-3 ${tone}`}
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cream/70">
+                <Icon className="h-6 w-6 text-moss-deep" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="font-display text-xl sm:text-2xl">{title}</h3>
+                <p className="mt-2 text-xs leading-relaxed opacity-75 sm:text-sm">{body}</p>
+              </div>
             </div>
           ))}
+
+          {/* Location tiles */}
+          <div className="flex items-start gap-4 rounded-3xl border-2 border-moss-deep bg-cream p-6 col-span-2 md:p-7 md:col-span-6">
+            <MapPin className="mt-1 h-6 w-6 shrink-0 text-moss-deep" strokeWidth={1.5} />
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.24em] text-gold">From Nigeria to the world</p>
+              <h2 className="mt-2 font-display text-2xl text-moss-deep md:text-3xl">Rooted in Ado-Ekiti. Dispatching through Lagos.</h2>
+              <p className="mt-2 text-sm leading-relaxed text-moss-deep/70">
+                Our herbal wellness products are formulated and packed at our Ado-Ekiti, Ekiti State headquarters.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/shipping"
+            className="group flex items-center justify-between gap-4 rounded-3xl bg-gold p-6 col-span-2 text-moss-deep transition-transform hover:-translate-y-1 md:p-7 md:col-span-6"
+          >
+            <div className="flex items-start gap-4">
+              <Globe2 className="mt-1 h-6 w-6 shrink-0" strokeWidth={1.5} />
+              <div>
+                <h3 className="font-display text-2xl md:text-3xl">Worldwide delivery</h3>
+                <p className="mt-2 text-sm leading-relaxed text-moss-deep/80">
+                  Orders move through our Lagos dispatch hub across Nigeria and to customers around the world.
+                </p>
+              </div>
+            </div>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-moss-deep text-cream transition-transform group-hover:translate-x-1">
+              <ArrowRight className="h-5 w-5" />
+            </span>
+          </Link>
         </div>
       </section>
+
+      <div className="h-16" />
 
       {/* All products by category */}
       <section className="container-narrow pb-10">
