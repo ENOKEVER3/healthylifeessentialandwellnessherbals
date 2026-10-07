@@ -41,9 +41,9 @@ const Home = () => {
       />
       {/* Bento hero */}
       <section className="bg-cream/40">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 p-4 sm:p-6 md:grid-cols-12 md:gap-5 md:p-8">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-3 p-4 sm:p-6 md:grid-cols-12 md:gap-5 md:p-8">
           {/* Main hero tile */}
-          <div className="group relative flex flex-col justify-center overflow-hidden rounded-3xl bg-moss-deep p-7 sm:p-10 md:col-span-8 md:p-14">
+          <div className="group relative flex flex-col justify-center overflow-hidden rounded-3xl bg-moss-deep p-7 sm:p-10 col-span-2 md:col-span-8 md:p-14">
             <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-leaf/30 blur-[110px]" />
             <div className="pointer-events-none absolute -bottom-32 left-10 h-64 w-64 rounded-full bg-gold/15 blur-[110px]" />
             <div className="relative z-10">
@@ -68,7 +68,7 @@ const Home = () => {
           </div>
 
           {/* Image showcase tile */}
-          <div className="relative min-h-[320px] overflow-hidden rounded-3xl bg-leaf md:col-span-4 md:min-h-0">
+          <div className="relative min-h-[320px] overflow-hidden rounded-3xl bg-leaf col-span-2 md:col-span-4 md:min-h-0">
             {heroSlides.map((s, i) => (
               <img
                 key={s.src}
@@ -97,20 +97,20 @@ const Home = () => {
           ].map(({ icon: Icon, title, body, tone }) => (
             <div
               key={title}
-              className={`flex flex-col justify-between gap-8 rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:col-span-3 ${tone}`}
+              className={`flex flex-col justify-between gap-6 rounded-3xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:gap-8 sm:p-7 md:col-span-3 ${tone}`}
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cream/70">
                 <Icon className="h-6 w-6 text-moss-deep" strokeWidth={1.5} />
               </div>
               <div>
-                <h3 className="font-display text-2xl">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed opacity-75">{body}</p>
+                <h3 className="font-display text-xl sm:text-2xl">{title}</h3>
+                <p className="mt-2 text-xs leading-relaxed opacity-75 sm:text-sm">{body}</p>
               </div>
             </div>
           ))}
 
           {/* Location tiles */}
-          <div className="flex items-start gap-4 rounded-3xl border-2 border-moss-deep bg-cream p-7 md:col-span-6">
+          <div className="flex items-start gap-4 rounded-3xl border-2 border-moss-deep bg-cream p-6 col-span-2 md:p-7 md:col-span-6">
             <MapPin className="mt-1 h-6 w-6 shrink-0 text-moss-deep" strokeWidth={1.5} />
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.24em] text-gold">From Nigeria to the world</p>
@@ -122,7 +122,7 @@ const Home = () => {
           </div>
           <Link
             to="/shipping"
-            className="group flex items-center justify-between gap-4 rounded-3xl bg-gold p-7 text-moss-deep transition-transform hover:-translate-y-1 md:col-span-6"
+            className="group flex items-center justify-between gap-4 rounded-3xl bg-gold p-6 col-span-2 text-moss-deep transition-transform hover:-translate-y-1 md:p-7 md:col-span-6"
           >
             <div className="flex items-start gap-4">
               <Globe2 className="mt-1 h-6 w-6 shrink-0" strokeWidth={1.5} />
